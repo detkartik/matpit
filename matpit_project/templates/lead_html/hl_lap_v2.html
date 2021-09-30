@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
+    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>HL/LAP</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
+    <link rel="stylesheet" href="{% static '/monster/src/assets/extra-libs/custom-switch/bootstrap4-toggle.min.css' %}">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+    <link href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet">
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/steps.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+
+
+    <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
+    <style>
+        .custom-switch.custom-switch-lg {
+padding-bottom: 1rem;
+padding-left: 2.25rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label {
+padding-left: 0.75rem;
+padding-top: 0.15rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::before {
+border-radius: 1rem;
+height: 1.5rem;
+width: 2.5rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::after {
+border-radius: 0.65rem;
+height: calc(1.5rem - 4px);
+width: calc(1.5rem - 4px);
+}
+.custom-switch.custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+transform: translateX(1rem);
+}
+    </style>
+    <style>
+        .input {
+            margin-bottom: 20px;
+        }
+        select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+
+  
+
+
+  background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: grey;
+  cursor: pointer;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #eaebec;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+  color: rgb(161, 161, 230);
+}
+
+    </style>
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#009efb" stroke-width="2"></path>
+          <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34" stroke="#009efb" stroke-width="2"></path>
+          <path id="teabag" fill="#009efb" fill-rule="evenodd" clip-rule="evenodd" d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+          <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#009efb"></path>
+          <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#009efb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+
+
+    
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin1" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+
+        
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% include 'static_template/top_nav.html' %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% include 'static_template/sidebar_v2.html' %}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="border-bottom title-part-padding">
+                                <h4 class="card-title mb-0">HL/LAP</h4>
+                            </div>
+                            <div class="card-body wizard-content">
+                                <h6 class="card-subtitle mb-3"></h6>
+                                <form action="#" id='hl_lap' method='POST' enctype="multipart/form-data" class="tab-wizard wizard-circle">
+                                    {% csrf_token %}
+                                    <!-- Step 1 -->
+                                    <h6>Loan Type</h6>
+                                    <section>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align">Loan Type</label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            <select class="select2-selection__rendered" name="loan_type" id="loan_type">
+                                            <option value="ch1">Choose option</option>
+                                            <option value="fresh_loan">Fresh Loan</option>
+                                            <option value="balance">Balance Transfer</option>
+                                            </select>
+                                            </div>
+                                            </div>
+                                            <script>
+                                            $(document).ready(function(){
+                                            $('#div_fresh_loan').hide();
+                                            $('#div_balance').hide();
+                                            $('#div_required_loan_amount').hide();
+                                            $('#loan_type').on('change', function() {  
+                                            if ( this.value == 'fresh_loan')
+                                            {
+                                            $('#div_fresh_loan').show();
+                                            $('#div_required_loan_amount').show();
+                                            $('#div_balance').hide();
+                                            
+                                            }
+                                            if (this.value == 'balance')
+                                            {
+                                            $('#div_required_loan_amount').hide();
+                                            $('#div_fresh_loan').hide();
+                                            $('#div_balance').show();
+                                            }
+                                            else{
+                                            
+                                            }
+                                            });
+                                            });
+                                            </script>
+                                            <div class="form-group row" id="div_fresh_loan">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align">Fresh Loan Type</label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            <select class="select2-selection__rendered" name="fresh_loan_type" id="fresh_loan_type">
+                                            <option value="ch1">Choose option</option>
+                                            <option value="construction">Self Construction</option>
+                                            <option value="Purchase">Purchase</option>
+                                            <option value="LAP">Loan Against Property</option>
+                                            </select>
+                                            </div>
+                                            </div>
+                                            <div class="form-group row" id="div_required_loan_amount">
+                                                <label for="" class="col-form-label col-md-3 col-sm-3 label-align"> Required Loan Amount </label>
+                                            <div class="col-md-6 col-sm-6 input">
+                                                <input type="text" class="form-control" name="required_loan_amount">
+                                            </div>
+                                            </div>
+                                            
+                                            <script>
+                                            $(document).ready(function(){
+                                            $('#fresh_loan_type').on('change', function() {  
+                                            if ( this.value == 'Purchase')
+                                            {
+                                            $('#div_purchase').show();
+                                            }
+                                            else
+                                            {
+                                            $('#div_purchase').hide();
+                                            }
+                                            });
+                                            });
+                                            </script>
+                                            
+                                            <div class="form-group row" id="div_purchase">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align">Purchase Type</label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            <select class="select2-selection__rendered" name="purchase_type" id="purchase_type">
+                                            <option value="ch2">Choose option</option>
+                                            <option value="plot">Plot</option>
+                                            <option value="ih">Individual House</option>
+                                            <option value="flat">Flat</option>
+                                            <option value="composit_loan">Composit Loan</option>
+                                            </select>
+                                            </div>
+                                            </div>
+                                            <div class="form-group row" id="div_balance">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align">Balance Transfer</label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            <select class="select2-selection__rendered" name="balance_transfer" id="balance_transfer">
+                                            <option value="ch2">Choose option</option>
+                                            <option value="house_loan">Housing Loan</option>
+                                            <option value="h_lap">Loan Against Property</option>
+                                            <option value="plot_loan">Plot Loan</option>
+                                            </select>
+                                            </div>
+                                            </div>
+                                            <script>
+                                            $(document).ready(function(){
+                                            $('#div_balance_transfer_bank').hide();
+                                            $('#div_other_loan_1').hide();
+                                            $('#div_topup').hide();
+                                            $('#balance_transfer').on('change', function() {  
+                                            if ( this.value == 'house_loan'|| this.value =='h_lap' || this.value ==  'plot_loan' )
+                                            {
+                                            $('#div_balance_transfer_bank').show();
+                                            $('#div_other_loan_1').show();
+                                            $('#div_topup').show();
+                                            
+                                            }
+                                            else
+                                            {
+                                            $('#div_balance_transfer_bank').hide();
+                                            $('#div_loan_amount').hide();
+                                            $('#div_topup').hide()
+                                            }
+                                            });
+                                            });
+                                            </script>
+                                            
+                                            <div class="form-group row" id="div_balance_transfer_bank">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="div_balace_transfer">Balance Transfer from Bank 
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            
+                                            <select class="select2-selection__rendered" name="balance_transfer_bank" id="balance_transfer_bank">
+                                            <option value="ch3">Choose option</option>
+                                            {% for balance_transfer_bank in balance_transfer_banks %}
+                                            <option value="{{balance_transfer_bank}}">{{balance_transfer_bank}}</option>
+                                            {% endfor  %}
+                                            </select>
+                                            </div>
+                                            </div>
+                                            <br>
+                                            <div class="form-group row" id="div_other_loan_1">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="balace_transfer">Loan Amount 1 </label>
+                                            <div class="row col-md-9 col-sm-9">
+                                                <div class="col">
+                                                    <div class="input">
+                                                        <input type="text" id="field1" class="form-control" placeholder="Loan 1 Amount" name="loan1" />
+                                                    </div>  
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="form-group select" id="div_transfer_bank1">
+                                                        <select class="select2-selection__rendered" name="transfer_bank1" id="transfer_bank1">
+                                                        <option value="ch3">Select Bank</option>
+                                                        {% for transfer_bank in transfer_banks %}
+                                                        <option value="{{transfer_bank}}">{{transfer_bank}}</option>
+                                                        {% endfor %}
+                                                        </select>
+                                                    </div>        
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3">
+                                                            <button type="button" id="other_loan_1_add" class="btn btn-secondary text-uppercase">Add</button>        
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3">
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            
+                                            </div>
+                                            <script>
+                                            $(document).ready(function(){
+                                            $('#div_other_loan_2').hide();
+                                            $('#div_other_loan_3').hide();
+                                            $('#div_other_loan_4').hide();
+                                            $('#div_other_loan_5').hide();
+                                            $('#other_loan_1_add').on('click', function() {  
+                                                $('#div_other_loan_2').show();
+                                                $('#other_loan_1_add').hide();
+                                            });
+                                            });
+                                            </script>
+                                            <div class="form-group row" id="div_other_loan_2" style="display: none;">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="balace_transfer">Loan Amount 2 
+                                                </label>
+                                            <div class="row col-md-9 col-sm-9">
+                                                <div class="col">
+                                                    <div class="input">
+                                                <input type="text" id="field2" class="form-control" placeholder="Loan 2 Amount" name="loan2" />
+                                                    </div>  
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="form-group select" id="div_transfer_bank2">
+                                                        <select class="select2-selection__rendered" name="transfer_bank2" id="transfer_bank2">
+                                                        <option value="ch3">Select Bank</option>
+                                                        {% for transfer_bank in transfer_banks %}
+                                                        <option value="{{transfer_bank}}">{{transfer_bank}}</option>
+                                                        {% endfor %}
+                                                        </select>
+                                                    </div>        
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3">
+                                                            <button type="button" id="other_loan_2_add" class="btn btn-secondary text-uppercase">Add</button>        
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3">
+                                                                <button type="button" id="other_loan_2_remove" class="btn btn-secondary text-uppercase">Remove</button>
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            </div>
+                                            <script>
+                                                $(document).ready(function(){
+                                                $('#div_other_loan_3').hide();
+                                                $('#div_other_loan_4').hide();
+                                                $('#div_other_loan_5').hide();
+                                                $('#other_loan_2_add').on('click', function() {  
+                                                    $('#div_other_loan_3').show();
+                                                    $('#other_loan_2_add').hide();
+                                                    $('#other_loan_2_remove').hide();
+                                                });
+                                                $('#other_loan_2_remove').on('click', function() {  
+                                                    $('#div_other_loan_2').hide();
+                                                    $('#other_loan_1_remove').show();
+                                                    $('#other_loan_1_add').show();
+                                                });
+                                                });
+                                            </script>
+                                            <div class="form-group row" id="div_other_loan_3" style="display: none;">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="balace_transfer">Loan Amount 3 
+                                                </label>
+                                            <div class="row col-md-9 col-sm-9">
+                                                <div class="col">
+                                                    <div class="input">
+                                                <input type="text" id="field3" class="form-control" placeholder="Loan 3 Amount" name="loan3" />
+                                                    </div>  
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="form-group select" id="div_transfer_bank3">
+                                                        <select class="select2-selection__rendered" name="transfer_bank3" id="transfer_bank3">
+                                                        <option value="ch3">Select Bank</option>
+                                                        {% for transfer_bank in transfer_banks %}
+                                                        <option value="{{transfer_bank}}">{{transfer_bank}}</option>
+                                                        {% endfor %}
+                                                        </select>
+                                                    </div>        
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3">
+                                                            <button type="button" id="other_loan_3_add" class="btn btn-secondary text-uppercase">Add</button>        
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3">
+                                                                <button type="button" id="other_loan_3_remove" class="btn btn-secondary text-uppercase">Remove</button>
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            
+                                            </div>
+                                            <script>
+                                                $(document).ready(function(){
+                                                $('#div_other_loan_4').hide();
+                                                $('#div_other_loan_5').hide();
+                                                $('#other_loan_3_add').on('click', function() {  
+                                                    $('#div_other_loan_4').show();
+                                                    $('#other_loan_3_add').hide();
+                                                    $('#other_loan_3_remove').hide();
+                                                });
+                                                $('#other_loan_3_remove').on('click', function() {  
+                                                    $('#div_other_loan_3').hide();
+                                                    $('#other_loan_2_remove').show();
+                                                    $('#other_loan_2_add').show();
+                                                });
+                                                });
+                                            </script>
+                                            <div class="form-group row" id="div_other_loan_4" style="display: none;">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="balace_transfer">Loan Amount 4 
+                                                </label>
+                                            <div class="row col-md-9 col-sm-9">
+                                                <div class="col">
+                                                    <div class="input">
+                                                <input type="text" id="field4" class="form-control" placeholder="Loan 4 Amount" name="loan4" />
+                                                    </div>  
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="form-group select" id="div_transfer_bank4">
+                                                        <select class="select2-selection__rendered" name="transfer_bank4" id="transfer_bank4">
+                                                        <option value="ch3">Select Bank</option>
+                                                        {% for transfer_bank in transfer_banks %}
+                                                        <option value="{{transfer_bank}}">{{transfer_bank}}</option>
+                                                        {% endfor %}
+                                                        </select>
+                                                    </div>        
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3">
+                                                            <button type="button" id="other_loan_4_add" class="btn btn-secondary text-uppercase">Add</button>        
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3">
+                                                                <button type="button" id="other_loan_4_remove" class="btn btn-secondary text-uppercase">Remove</button>
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            
+                                            </div>
+                                            <script>
+                                                $(document).ready(function(){
+                                                $('#div_other_loan_5').hide();
+                                                $('#other_loan_4_add').on('click', function() {  
+                                                    $('#div_other_loan_5').show();
+                                                    $('#other_loan_4_add').hide()
+                                                    $('#other_loan_4_remove').hide()
+                                                });
+                                                $('#other_loan_4_remove').on('click', function() {  
+                                                    $('#div_other_loan_4').hide();
+                                                    $('#other_loan_3_remove').show();
+                                                    $('#other_loan_3_add').show();
+                                            
+                                                });
+                                                });
+                                            </script>
+                                            <div class="form-group row" id="div_other_loan_5" style="display: none;">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="balace_transfer">Loan Amount 5 
+                                                </label>
+                                            <div class="row col-md-9 col-sm-9">
+                                                <div class="col">
+                                                    <div class="input">
+                                                <input type="text" id="field5" class="form-control" placeholder="Loan 5 Amount" name="loan5" />
+                                                    </div>  
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="form-group select" id="div_transfer_bank5">
+                                                        <select class="select2-selection__rendered" name="transfer_bank5" id="transfer_bank5">
+                                                        <option value="ch3">Select Bank</option>
+                                                        {% for transfer_bank in transfer_banks %}
+                                                        <option value="{{transfer_bank}}">{{transfer_bank}}</option>
+                                                        {% endfor %}
+                                                        </select>
+                                                    </div>        
+                                                </div>    
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3">
+                                                            <button type="button" id="other_loan_5_remove" class="btn btn-secondary text-uppercase">Remove</button>      
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3">
+                                                                
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            
+                                            </div>
+                                            <script>
+                                                $(document).ready(function(){
+                                                $('#other_loan_5_remove').on('click', function() {  
+                                                    $('#div_other_loan_5').hide();
+                                                    $('#other_loan_4_remove').show()
+                                                    $('#other_loan_4_add').show()
+                                            
+                                                });
+                                                });
+                                            </script>
+                                            <div class="form-group row" id="div_topup">
+                                            <label
+                                            class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="job-location"
+                                            >Apply for Topup 
+                                            </label>
+                                            <div class="col-md-6 col-sm-6">
+                                            <div class="custom-control custom-switch  custom-switch-lg">
+                                            <input type="checkbox" class="custom-control-input apply_topup" class="form-control" id="customSwitch1" onchange="applyTopUp()" name="apply_topup">
+                                            <label class="custom-control-label" for="customSwitch1">Yes</label>
+                                            </div>
+                                            </div>
+                                            <script type="text/javascript">
+                                            function applyTopUp()
+                                            {
+                                            if($('.apply_topup').is(":checked")) {
+                                            $(".required_topup").show();
+                                            $(".reason_topup").show();
+                                            }
+                                            else{
+                                            $(".required_topup").hide();
+                                            $(".reason_topup").hide();
+                                            }
+                                            }
+                                            </script>
+                                            </div>
+                                            <div class="form-group row required_topup" style="display: none;">
+                                            <label
+                                            class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="job-location"
+                                            >Required Topup
+                                            </label>
+                                            <div class="col-md-6 col-sm-6">
+                                            <input  type="text" name="required_topup" class="form-control"/>
+                                            </div>
+                                            </div>
+                                            <div class="form-group row reason_topup" style="display: none;">
+                                            <label
+                                            class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="job-location"
+                                            >Reason for Taking topup
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                                <select class="select2-selection__rendered" name="reason_for_topup" id="reason_topup">
+                                                    <option value="ch3">Select Bank</option>
+                                                    {% for reason_for_topup in topup_reasons %}
+                                                    <option value="{{reason_for_topup}}">{{reason_for_topup}}</option>
+                                                    {% endfor %}
+                                                    <option value="other">Others</option>
+                                                </select>
+                                            </div>
+                                            </div>
+                                            <script>
+                                            $(document).ready(function(){
+                                            $('#div_other_reason_topup').hide();
+                                            $('#reason_topup').on('change', function() {  
+                                            if ( this.value == 'other' )
+                                            {
+                                            $('#div_other_reason_topup').show();
+                                            
+                                            }
+                                            else
+                                            {
+                                            $('#div_other_reason_topup').hide();
+                                            }
+                                            });
+                                            });
+                                            </script>
+                                            <div class="form-group row" style="display: none;" id="div_other_reason_topup">
+                                                <label
+                                                class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="job-location"
+                                                >Specify Reason For Taking Topup
+                                                </label>
+                                            <div class="col-md-6 col-sm-6" >
+                                                <input type="text" name="other_reason_topup" class="form-control">
+                                            </div>
+                                            </div>  
+                                    </section>
+                                    <!-- Step 2 -->
+                                    <h6>KYC Details</h6>
+                                    <section>
+                                        <div class="form-group row applicant">
+                                            <label
+                                            class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="job-location"
+                                            >Applicant
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                                <select class="select2-selection__rendered" name="kyc_select_applicant" id="kyc_select_applicant">
+                                                    <option value="ch5">Select Applicant</option>
+                                                    <option value="Individual">Individual</option>
+                                                    <option value="NRI">NRI</option>
+                                                    <option value="Company">Company</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function(){
+                                        
+                                            $('#kyc_individual_nri').hide();
+                                            $('#kyc_company').hide();
+                                            $('#kyc_select_applicant').on('change', function() {  
+                                                
+                                            if (this.value =='Individual' || this.value =='NRI' )
+                                            {
+                                                console.log('abcd')
+                                                $('#kyc_individual_nri').show();
+                                                $('#kyc_company').hide();
+                                            
+                                            }
+                                            if (this.value =='Company')
+                                            {
+                                            $('#kyc_company').show();
+                                            $('#kyc_individual_nri').hide();
+                                            }
+                                            
+                                            });
+                                            });
+                                        </script>
+                                        
+                                        <div id="kyc_individual_nri">
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                <input type="text" id="first-name" name="applicant_first_name"  class="form-control">
+                                                </div>
+                                            </div>
+                                                <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                <input type="text" id="last-name" name="applicant_last_name"  class="form-control">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="official_email">Offical Email
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                <input type="email" id="official_email" name="applicant_official_email"  class="form-control">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="personal_email">Personal Email 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                <input type="email" id="personal_email" name="applicant_personal_email"  class="form-control">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Phone 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                <input type="tel" id="applicant_phone" name="applicant_phone" data-validate-length-range="10,15"  class="form-control" onblur="phonenumbervalidation()">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="adhaar-image"> Adhaar Pic 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="file" name="applicant_adhaar_image" id="applicant_adhaar_image">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="pancard_image"
+                                                >Pan Card 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="file" name="applicant_pancard_image" id="applicant_pancard_image">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row current_address_proof">
+                                                    <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Current Address Proof
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 select">
+                                                        <select class="select2-selection__rendered" name="applicant_current_address_proof" id="kyc_address_proof">
+                                                            <option value="ch5">Select Address Proof</option>
+                                                            {% for address_proof in address_proofs  %}
+                                                            <option value="{{address_proof}}">{{address_proof}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="adhaar-image"> KYC Address Proof Image
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input class="form-control" type="file" name="kyc_address_proof_image" id="kyc_address_proof_image">
+                                                    </div>
+                                                   
+                                                </div>
+                                        </div>
+                                        <div id="kyc_company">
+                                                <div class="form-group row div_company_name">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="company-name">Company Name 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                <input type="text" id="company-name" name="company_name"  class="form-control">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row div_poc_name">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="poc-name">Point Of Contact Name
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="text" id="poc_name" name="poc_name"  class="form-control">
+                                                    </div>
+                                                    </div>
+                                                <div class="form-group row div_poc_phone">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="poc-phonenumber">Point of Contact Phone Number 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                <input type="tel" id="poc_phone" name="poc_phone" data-validate-length-range="10,15"  class="form-control" onblur="phonenumbervalidation()">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row div_company_type">
+                                                    <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="company-type"
+                                                    >Company Type
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 select">
+                                                        <select class="select2-selection__rendered" name="company_type" id="company_type">
+                                                            <option value="ch5">Choose Company Type</option>
+                                                            {% for comapany_type in company_types %}
+                                                            <option value="{{comapany_type}}">{{comapany_type}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row div_company_pancard">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="company_pancard_image"
+                                                >Company Pan Card 
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="file" name="   " id="company_pancard_image">
+                                                </div>
+                                                </div>
+                                                <div class="form-group row div_nature_of_business">
+                                                    <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="nature_of_business"
+                                                    >Nature of Business
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 select">
+                                                        <select class="select2-selection__rendered" name="nature_of_business" id="nature_of_business">
+                                                            <option value="ch5">Choose Nature of Business</option>
+                                                            {% for business in businesses %}
+                                                            <option value="{{business}}">{{business}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row div_business_proof">
+                                                    <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Business Proof
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 select">
+                                                        <select class="select2-selection__rendered" name="kyc_business_proof" id="kyc_business_proof">
+                                                            <option value="ch5">Select Business Proof</option>
+                                                            {% for business_proof in business_proofs  %}
+                                                            <option value="{{business_proof}}">{{business_proof}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="business_proof-images"> Business Proof Image
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input class="form-control" type="file" name="business_proof_image" id="business_proof_image">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </section>
+                                    <!-- Step 3 -->
+                                    <h6>Co Applicant Details</h6>
+                                    <section>
+                                        <div class="form-group row div_co_applicant_yes_no" id="div_co_applicant_details_yes_no">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="co-applicant"> Co-Applicant</label>
+                                            <div class="col-md-6 col-sm-6">
+                                            <div class="custom-control custom-switch  custom-switch-lg">
+                                            <input type="checkbox" class="custom-control-input co_applicant_yes" class="form-control" id="customSwitch2" onchange="coApplicant()" name="co_applicant_yes">
+                                            <label class="custom-control-label" for="customSwitch2">Yes</label>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            function coApplicant()
+                                            {
+                                            if($('.co_applicant_yes').is(":checked")) {
+                                            $(".div_co_applicant_relation").show();
+                                            $(".div_co_applicant").show();
+                                            }
+                                            else{
+                                            $(".div_co_applicant_relation").hide();
+                                            $(".div_co_applicant").hide();
+                                            $('#kyc_co_applicant_individual_nri').hide();
+                                            $('#kyc_co_applicant_company').hide();
+                                            $('#kyc_select_co_applicant').val("ch5").change();
+                                            }
+                                            }
+                                        </script>
+                                        
+                                            <div class="form-group row div_co_applicant_relation" style="display: none;">
+                                                <label
+                                                class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="job-location"
+                                                >Relationship with Applicant
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 select">
+                                                    <select class="select2-selection__rendered" name="kyc_select_co_applicant_relation" id="kyc_select_co_applicant_relation">
+                                                        <option value="ch5">Select Relationship with Applicant</option>
+                                                        {% for relation  in relationship_applicats %}
+                                                        <option value="{{relation}}">{{relation}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="form-group row div_co_applicant" style="display: none;">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="co-applicant">Co-Applicant</label>
+                                                <div class="col-md-6 col-sm-6 select">
+                                                    <select class="select2-selection__rendered" name="kyc_select_co_applicant" id="kyc_select_co_applicant">
+                                                        <option value="ch5">Select Co-Applicant</option>
+                                                        <option value="Individual">Individual</option>
+                                                        <option value="NRI">NRI</option>
+                                                        <option value="Company">Company</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <script>
+                                                $(document).ready(function(){
+                                        
+                                                $('#kyc_co_applicant_individual_nri').hide();
+                                                $('#kyc_co_applicant_company').hide();
+                                                $('#kyc_select_co_applicant').on('change', function() {  
+                                                    
+                                                if (this.value =='Individual' || this.value =='NRI' )
+                                                {
+                                                    console.log('abcd')
+                                                    $('#kyc_co_applicant_individual_nri').show();
+                                                    $('#kyc_co_applicant_company').hide();
+                                                
+                                                }
+                                                if (this.value =='Company')
+                                                {
+                                                $('#kyc_co_applicant_company').show();
+                                                $('#kyc_co_applicant_individual_nri').hide();
+                                               
+                                                }
+                                               
+                                                });
+                                                });
+                                            </script>
+                                        
+                                            <div id="kyc_co_applicant_individual_nri">
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="text" id="co_applicant_first-name" name="co_applicant_first_name"  class="form-control">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="text" id="co_applicant_last-name" name="co_applicant_last_name"  class="form-control">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="official_email">Offical Email
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="email" id="co_applicant_official_email" name="co_applicant_official_email"  class="form-control">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="personal_email">Personal Email 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="email" id="co_applicant_personal_email" name="co_applicant_personal_email"  class="form-control">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Phone 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="tel" id="co_applicant_phone" name="co_applicant_phone" data-validate-length-range="10,15"  class="form-control" onblur="phonenumbervalidation()">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="adhaar-image"> Adhaar Pic 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input class="form-control" type="file" name="co_applicant_adhaar_image" id="co_applicant_adhaar_image">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="pancard_image"
+                                                    >Pan Card 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input class="form-control" type="file" name="co_applicant_pancard_image" id="pancard_image">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row current_address_proof">
+                                                        <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align"
+                                                        for="job-location"
+                                                        >Current Address Proof
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6 select">
+                                                            <select class="select2-selection__rendered" name="co_applicant_kyc_address_proof" id="co_applicant_kyc_address_proof">
+                                                                <option value="ch5">Select Address Proof</option>
+                                                                {% for co_applicant_kyc_address_proof in co_applicant_address_proofs %}
+                                                                <option value="{{co_applicant_kyc_address_proof}}">{{co_applicant_kyc_address_proof}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row" style="padding: 10px;">
+                                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="adhaar-image"> KYC Address Proof Image
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <input class="form-control" type="file" name="co_applicant_kyc_address_proof_image" id="co_applicant_kyc_address_proof_image">
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div id="kyc_co_applicant_company">
+                                                    <div class="form-group row div_company_name">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="co_applicant_company-name">Company Name 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="text" id="co_applicant_company-name" name="co_applicant_company_name"  class="form-control">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row div_co_applicant_poc_name">
+                                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="poc-name">Point Of Contact Name
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6 ">
+                                                        <input type="text" id="co_applicant_poc_name" name="co_applicant_poc_name"  class="form-control">
+                                                        </div>
+                                                        </div>
+                                                    <div class="form-group row div_co_applicant_poc_phone">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="poc-phonenumber">Point of Contact Phone Number 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <input type="tel" id="co_applicant_poc_phone" name="co_applicant_poc_phone" data-validate-length-range="10,15"  class="form-control" onblur="phonenumbervalidation()">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row div_co_applicant_company_type">
+                                                        <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align"
+                                                        for="company-type"
+                                                        >Company Type
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6 select">
+                                                            <select class="select2-selection__rendered" name="co_applicant_company_type" id="co_applicant_company_type">
+                                                                <option value="ch5">Choose Company Type</option>
+                                                                {% for company_type in company_types %}
+                                                                <option value="{{company_type}}">{{company_type}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row div_co_applicant_company_pancard">
+                                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="co_applicant_company_pancard_image"
+                                                    >Company Pan Card 
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <input class="form-control" type="file" name="co_applicant_pancard_image" id="co_applicant_pancard_image">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group row div_co_applicant_nature_of_business">
+                                                        <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align"
+                                                        for="co_applicant_nature_of_business"
+                                                        >Nature of Business
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6 select">
+                                                            <select class="select2-selection__rendered" name="co_applicant_nature_of_business" id="co_applicant_nature_of_business">
+                                                                <option value="ch5">Choose Nature of Business</option>
+                                                                {% for business in businesses %}
+                                                                <option value="{{business}}">{{business}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row div_co_applicant_business_proof">
+                                                        <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align"
+                                                        for="job-location"
+                                                        >Business Proof
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6 select">
+                                                            <select class="select2-selection__rendered" name="kyc_co_applicant_business_proof" id="kyc_co_applicant_business_proof">
+                                                                <option value="ch5">Select Business Proof</option>
+                                                                {% for business_proof in business_proofs %}
+                                                                <option value="{{business_proof}}">{{business_proof}}</option>
+                                                                {% endfor  %}
+                                                            </select>
+                                                        </div>
+                                                    </div>    
+                                                    <div class="form-group row">
+                                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="co_applicant_business_proof-images"> Co Applicant Business Proof Image
+                                                        </label>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <input class="form-control" type="file" name="co_applicant_business_proof_image" id="co_applicant_business_proof_image">
+                                                        </div>
+                                                    </div>     
+                                            </div>
+                                    </section>
+                                </form>
+                            </div>
+                        </div>
+                    </div>`  
+                </div>
+                
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            
+
+
+            <!-- footer -->
+            <!-- ============================================================== -->
+           {% include 'static_template/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+            
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- customizer Panel -->
+    <!-- ============================================================== -->
+    {% include 'static_template/custom-sidebar.html' %}
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- apps -->
+    <script src="{% static '/monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app-style-switcher.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static '/monster/dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static '/monster/dist/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static '/monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/custom.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+    <script src="{%static  '/monster/src/assets/extra-libs/custom-switch/bootstrap4-toggle.min.js'  %}"></script>
+    <script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        $(function(){ $('#chkToggle2').bootstrapToggle() });
+    </script>
+    
+    <script>
+        $(function() {
+          $('#toggle-two').bootstrapToggle({
+            on: 'Enabled',
+            off: 'Disabled'
+          });
+        })
+    </script>
+    <!-- Event Propagation -->
+    <script>
+        $(function() {
+        $('#toggle-event').change(function() {
+            $('#console-event').html('Toggle: ' + $(this).prop('checked'))
+        })
+        })
+    </script>
+    <!-- Stopping Event Propagation -->
+    <script>
+        function toggleApiOnSilent() {
+        $('#toggle-silent').bootstrapToggle('on', true);
+        }
+        function toggleApiOffSilent() {
+        $('#toggle-silent').bootstrapToggle('off', true);
+        }
+        function toggleApiOnNotSilent() {
+        $('#toggle-silent').bootstrapToggle('on');
+        }
+        function toggleApiOffNotSilent() {
+        $('#toggle-silent').bootstrapToggle('off');
+        }
+    </script>
+    <!-- API vs Input -->
+    <script>
+        function toggleApiOn() {
+        $('#toggle-trigger').bootstrapToggle('on');
+        }
+        function toggleApiOff() {
+        $('#toggle-trigger').bootstrapToggle('off');
+        }
+        function toggleInpOn() {
+        $('#toggle-trigger').prop('checked', true).change();
+        }
+        function toggleInpOff() {
+        $('#toggle-trigger').prop('checked', false).change();
+        }
+    </script>
+    <!-- Checked State -->
+    <script>
+        function showChkState() {
+			$('#chkState .badge').remove();
+			var chkBool = document.getElementById('toggle-state').checked;
+			$('#chkState button').after('<div class="badge bg-success px-3 py-2 mb-2 mt-2 mt-sm-0 mx-3">'+chkBool+'</div>');
+		}
+    </script>
+    <script>
+    //Basic Example
+    $("#example-basic").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        autoFocus: true
+    });
+
+    // Basic Example with form
+    var form = $("#example-form");
+    form.validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password"
+            }
+        }
+    });
+    form.children("div").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        onStepChanging: function(event, currentIndex, newIndex) {
+            form.validate().settings.ignore = ":disabled,:hidden";
+            return form.valid();
+        },
+        onFinishing: function(event, currentIndex) {
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
+        },
+        onFinished: function(event, currentIndex) {
+
+            $("#hl_lap").submit();
+            alert("Submitted!");
+        }
+    });
+
+    // Advance Example
+
+    var form = $("#example-advanced-form").show();
+
+    form.steps({
+        headerTag: "h3",
+        bodyTag: "fieldset",
+        transitionEffect: "slideLeft",
+        onStepChanging: function(event, currentIndex, newIndex) {
+            // Allways allow previous action even if the current form is not valid!
+            if (currentIndex > newIndex) {
+                return true;
+            }
+            // Forbid next action on "Warning" step if the user is to young
+            if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                return false;
+            }
+            // Needed in some cases if the user went back (clean up)
+            if (currentIndex < newIndex) {
+                // To remove error styles
+                form.find(".body:eq(" + newIndex + ") label.error").remove();
+                form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+            }
+            form.validate().settings.ignore = ":disabled,:hidden";
+            return form.valid();
+        },
+        onStepChanged: function(event, currentIndex, priorIndex) {
+            // Used to skip the "Warning" step if the user is old enough.
+            if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
+                form.steps("next");
+            }
+            // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+            if (currentIndex === 2 && priorIndex === 3) {
+                form.steps("previous");
+            }
+        },
+        onFinishing: function(event, currentIndex) {
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
+        },
+        onFinished: function(event, currentIndex) {
+            $("#hl_lap").submit();
+            alert("Submitted!");
+        }
+    }).validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password-2"
+            }
+        }
+    });
+
+    // Dynamic Manipulation
+    $("#example-manipulation").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        enableAllSteps: true,
+        enablePagination: false
+    });
+
+    //Vertical Steps
+
+    $("#example-vertical").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        stepsOrientation: "vertical"
+    });
+
+    //Custom design form example
+    $(".tab-wizard").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Submit"
+        },
+        onFinished: function(event, currentIndex) {
+            $("#hl_lap").submit();
+            swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
+
+        }
+    });
+
+
+    var form = $(".validation-wizard").show();
+
+    $(".validation-wizard").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Submit"
+        },
+        onStepChanging: function(event, currentIndex, newIndex) {
+            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
+        },
+        onFinishing: function(event, currentIndex) {
+            return form.validate().settings.ignore = ":disabled", form.valid()
+        },
+        onFinished: function(event, currentIndex) {
+            $("#hl_lap").submit();
+            swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
+        }
+    }), $(".validation-wizard").validate({
+        ignore: "input[type=hidden]",
+        errorClass: "text-danger",
+        successClass: "text-success",
+        highlight: function(element, errorClass) {
+            $(element).removeClass(errorClass)
+        },
+        unhighlight: function(element, errorClass) {
+            $(element).removeClass(errorClass)
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element)
+        },
+        rules: {
+            email: {
+                email: !0
+            }
+        }
+    })
+    </script>
+<script>
+    $(document).ready(function(){
+$('#div_purchase').hide();
+
+$('#loan_type').on('change', function() {    
+
+if ( this.value == 'purchase')
+{
+$('#div_purchase').show();
+console.log("2")
+myfunction();
+}
+else
+{
+console.log("1")
+$('#div_purchase').hide();
+myfunction();
+}
+});
+});
+
+$(document).ready(function(){
+$('#div_purchase_plot').hide();
+
+$('#loan_type').on('change', function() {  
+if ( this.value == 'purchase')
+{
+$('#purchase_type').on('change', function() { 
+myfunction();
+if(this.value == 'plot')
+{
+$('#div_purchase_plot').show();
+} 
+else
+{
+$('#div_purchase_plot').hide();
+}
+
+});
+}
+
+});
+});
+$(document).ready(function(){
+$('#div_purchase_ih').hide();
+
+$('#loan_type').on('change', function() {  
+if ( this.value == 'purchase')
+{
+$('#purchase_type').on('change', function() { 
+if(this.value == 'ih')
+{
+$('#div_purchase_ih').show();
+} 
+else
+{
+$('#div_purchase_ih').hide();
+}
+
+});
+}
+
+});
+});
+
+$(document).ready(function(){
+$('#div_purchase_flat').hide();
+
+$('#loan_type').on('change', function() {  
+if ( this.value == 'purchase')
+{
+$('#purchase_type').on('change', function() { 
+if(this.value == 'flat')
+{
+$('#div_purchase_flat').show();
+} 
+else
+{
+$('#div_purchase_flat').hide();
+}
+
+});
+}
+
+});
+});
+
+
+$(document).ready(function(){
+$('#div_lap').hide();
+
+$('#loan_type').on('change', function() {  
+if ( this.value == 'lap')
+{
+$('#div_lap').show();
+}
+else
+{
+$('#div_lap').hide();
+}
+});
+});
+
+$(document).ready(function(){
+$('#div_self_construction').hide();
+
+$('#loan_type').on('change', function() {    
+
+if ( this.value == 'construction')
+{
+$('#div_self_construction').show();
+}
+else
+{
+$('#div_self_construction').hide();
+}
+});
+});
+
+
+function myfunction(){
+
+if ($('#div_purchase').is(":hidden")){
+$('#tech_error_message2').hide();
+console.log("Purchase Hidden")
+
+
+}
+else{
+console.log("Purchase Show")
+var e = document.getElementById("purchase_type");
+console.log(e.value)
+if (e.value == 'ch2'){
+console.log("ch2 ch2")
+$('#tech_error_message2').show();
+}
+else {
+$('#tech_error_message2').hide();
+}
+}
+};
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
+    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Lead Finance Process</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet">
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/steps.css' %}" rel="stylesheet">
+    <link href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <!-- Custom CSS -->
+    <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+    <script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+
+    <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
+
+    <style>
+    
+        .custom-switch.custom-switch-lg {
+padding-bottom: 1rem;
+padding-left: 2.25rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label {
+padding-left: 0.75rem;
+padding-top: 0.15rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::before {
+border-radius: 1rem;
+height: 1.5rem;
+width: 2.5rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::after {
+border-radius: 0.65rem;
+height: calc(1.5rem - 4px);
+width: calc(1.5rem - 4px);
+}
+.custom-switch.custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+transform: translateX(1rem);
+}
+    </style>
+    <style>
+        .input {
+            margin-bottom: 20px;
+        }
+        select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+
+  
+
+
+  background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: grey;
+  cursor: pointer;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #eaebec;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+  color: rgb(161, 161, 230);
+}
+
+    </style>
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#009efb" stroke-width="2"></path>
+          <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34" stroke="#009efb" stroke-width="2"></path>
+          <path id="teabag" fill="#009efb" fill-rule="evenodd" clip-rule="evenodd" d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+          <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#009efb"></path>
+          <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#009efb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+
+
+    
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin1" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+
+        
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% include 'static_template/top_nav.html' %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% include 'static_template/sidebar_v2.html' %}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="border-bottom title-part-padding">
+                                <h4 class="card-title mb-0">Finance Process</h4>
+                            </div>
+                            <div class="card-body wizard-content">
+                                <h6 class="card-subtitle mb-3"></h6>
+                                <form action="#" id='finance' method='POST' enctype="multipart/form-data" class="tab-wizard wizard-circle">
+                                    {% csrf_token %}  
+                                    {% if lead.is_co_applicant == True %}`                                  
+                                    <!-- Step 1 -->
+                                    <h6>APPLICANT FINANCIAL DETAILS</h6>
+                                    <section>
+                                        <div class="form-group row applicant">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="job-location">Job Type
+                                        </label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            <select class="select2-selection__rendered"  name="applicant_job_type" id="select_applicant_job_type2">
+                                                    <option value="ch5">Select Applicant Job Type</option>
+                                                    <option value="Sal">Salaried</option>
+                                                    <option value="SE">Self Employeed</option>
+                                                    <option value="Company">Company</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function(){
+                                        
+                                            $('#applicant_salaried2').hide();
+                                            $('#applicant_self_employeed2').hide();
+                                            $('#applicant_company2').hide();
+                                            $('#select_applicant_job_type2').on('change', function() {  
+                                                
+                                            if (this.value =='Sal')
+                                            {
+                                                console.log('abcd')
+                                                $('#applicant_salaried2').show();
+                                                $('#applicant_self_employeed2').hide();
+                                                $('#applicant_company2').hide();
+                                        
+                                            
+                                            }
+                                            if (this.value =='SE')
+                                            {
+                                                console.log('abcd')
+                                                $('#applicant_salaried2').hide();
+                                                $('#applicant_self_employeed2').show();
+                                                $('#applicant_company2').hide();
+                                        
+                                            
+                                            }
+                                            if (this.value =='Company')
+                                            {
+                                                $('#applicant_salaried2').hide();
+                                                $('#applicant_self_employeed2').hide();
+                                                $('#applicant_company2').show();
+                                        
+                                            }
+                                            });
+                                            });
+                                        </script>
+                                        <!-- ############### Applicant Salaried  ############### -->
+                                            <div id="applicant_salaried2">
+                                            <!-- Job Location -->
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="job-location">Job Location
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input type="text" id="applicant-job-location" name="applicant_job_location"  class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Take Home Salary -->
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="take-home-salary">Take Home Salary?
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input type="text" id="take-home-salary" name="applicant_take_home_salary"  class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Rental Income <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input sal_income " class="form-control" id="customSwitch15" onchange="salvalueChanged()" name="applicant_rental_income_job">
+                                                        <label class="custom-control-label" for="customSwitch15">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".income").hide();
+                                                    function salvalueChanged()
+                                                    {
+                                                        if($('.sal_income').is(":checked"))   
+                                                            $(".income").show();
+                                                        else
+                                                            $(".income").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Rental Income - How Much In Cash -->
+                                            <div class="form-group row income">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >How Much in cash?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text" name="applicant_how_much_in_cash_job" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income - How Much In Account -->
+                                            <div class="form-group row income">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >How Much in Account?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_in_account_job" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <!-- Duration in Present Company -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="duration"
+                                                    >Duration in Present Company <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 select">
+                                                    <select class="select2-selection__rendered"  name="applicant_duration_in_present_company">
+                                                        <option value="lessthantwoyears"> Less Than 2 Years </option>
+                                                        <option value="morethantwoyears"> More Than 2 Years </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- Company Name -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="applicant-company"
+                                                    >Company<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_company_name" class="form-control" />
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <!-- ############### Applicant Self Employeed  ############### -->
+                                            <div id="applicant_self_employeed2">
+                                            <!-- Business Location -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="account-name"
+                                                    >Business Location <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" name="applicant_business_location" class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Rental Income<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input self_rent" id="customSwitch16" onchange="rentvalueChanged3()" name="applicant_rental_income_bus" checked class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch16">Yes</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <script type="text/javascript">
+                                                    $(".rent").hide();
+                                                    function rentvalueChanged3()
+                                                    {
+                                                        if($('.self_rent').is(":checked"))   
+                                                            $(".rent").show();
+                                                        else
+                                                            $(".rent").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Rental Income - How Much In Cash -->
+                                            <div class="form-group row rent">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much in cash?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_in_cash_bus"  class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income - How Much In Account -->
+                                            <div class="form-group row rent">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much in Account?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_in_account_bus"  class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Declated ITR -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >Declared ITR <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input applicant_declare_itr2" id="customSwitch17" onchange="itrvalueChanged5()" name="applicant_declared_itr" checked>
+                                                        <label class="custom-control-label" for="customSwitch17" class="form-control">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".applicant_itr2").hide();
+                                                    function itrvalueChanged5()
+                                                    {
+                                                        if($('.applicant_declare_itr2').is(":checked"))   
+                                                            $(".applicant_itr2").show();
+                                                        else
+                                                            $(".applicant_itr2").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Declared ITR - How Much -->
+                                            <div class="form-group row applicant_itr2">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much ITR?<span class="required" >*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_itr" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Business Vintage -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="business-vintage"
+                                                    >Business Vintage<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_business_vintage" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Nature of Business -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="nature_business"
+                                                        >Nature of Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 select" >
+                                                <select class="select2-selection__rendered"  name="applicant_nature_business" id="applicant_nature_business">
+                                                    <option value="ch5">Choose Nature of Business</option>
+                                                    {% for business in businesses %}
+                                                    <option value="{{business}}">{{business}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <!-- GST Registered -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst"
+                                                        >GST Registered?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitch18" onchange="GSTRegistered()" name="applicant_gst_registered" class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch18">Yes</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Business Proof INR -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst"
+                                                        >Business Proof (Only For INR)<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input  type="text"  name="applicant_business_proof_inr" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <!-- ############### Applicant Company  ############### -->
+                                            <div id="applicant_company2">
+                                                <!-- Business Location -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="account-name"
+                                                    >Business Location <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" name="applicant_company_business_location" class="form-control">
+                                                </div>
+                                                </div>
+                                                <!-- Declated ITR -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >Declared ITR <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input applicant_declare_itr_company2" id="customSwitch19" onchange="itrvalueChanged6()" name="applicant_company_declared_itr" checked>
+                                                        <label class="custom-control-label" for="customSwitch19" class="form-control">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".applicant_itr_company2").hide();
+                                                    function itrvalueChanged6()
+                                                    {
+                                                        if($('.applicant_declare_itr_company2').is(":checked"))   
+                                                            $(".applicant_itr_company2").show();
+                                                        else
+                                                            $(".applicant_itr_company2").hide();
+                                                    }
+                                                </script>
+                                                </div>
+                                                <!-- Declared ITR - How Much -->
+                                                <div class="form-group row applicant_itr_company2">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much ITR?<span class="required" >*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_company_how_much_itr" class="form-control"/>
+                                                </div>
+                                                </div>
+                                                <!-- No. Of Years -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="no-of-years"
+                                                    >Number of Years in Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_no_of_years_business" class="form-control"/>
+                                                </div>
+                                            </div>
+                                                <!-- Nature of Business -->
+                                                <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="nature_business_company"
+                                                        >Nature of Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 select" >
+                                                <select  name="applicant_company_nature_business" id="applicant_company_nature_business">
+                                                    <option value="ch5">Choose Nature of Business</option>
+                                                    {% for business in businesses %}
+                                                    <option value="{{business}}">{{business}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                </div>
+                                                </div>
+                                                <!-- GST Registered -->
+                                                <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst_company"
+                                                        >GST Registered?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitch20" onchange="GSTRegistered()" name="applicant_company_gst_registered" class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch20">Yes</label>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <!-- Audit Report for 2 Years -->
+                                                <div class="form-group row">
+                                                    <label
+                                                            class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                            for="audit_report_company"
+                                                            >Audit Report for 2 years Available?<span class="required">*</span>
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="custom-control custom-switch  custom-switch-lg">
+                                                            <input type="checkbox" class="custom-control-input" id="customSwitch21" onchange="AuditReport()" name="applicant_audit_report_company" class="form-control">
+                                                            <label class="custom-control-label" for="customSwitch21">Yes</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                
+                                    </section>
+                                    <!-- Step 2  -->
+                                    <h6>COAPPLICANT FINANCIAL Details </h6>
+                                    <section>
+                                        <div class="form-group row applicant">
+                                            <label
+                                            class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="job-location"
+                                            >Job Type
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            <select class="select2-selection__rendered"  name="co_applicant_job_type" id="select_co_applicant_job_type1">
+                                                    <option value="ch5">Select Co Applicant Job Type</option>
+                                                    <option value="Sal">Salaried</option>
+                                                    <option value="SE">Self Employeed</option>
+                                                    <option value="HW">House Wife</option>
+                                                    <option value="Company">Company</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function(){
+                                            $('#co_applicant_salaried1').hide();
+                                            $('#co_applicant_self_employeed1').hide();
+                                            $('#co_applicant_company1').hide();
+                                            $('#co_applicant_housewife1').hide();
+                                            $('#select_co_applicant_job_type1').on('change', function() {  
+                                                
+                                            if (this.value =='Sal')
+                                            {
+                                                console.log('abcd')
+                                                $('#co_applicant_salaried1').show();
+                                                $('#co_applicant_self_employeed1').hide();
+                                                $('#co_applicant_company1').hide();
+                                                $('#co_applicant_housewife1').hide();
+                                        
+                                            
+                                            }
+                                            if (this.value =='SE')
+                                            {
+                                                console.log('abcd')
+                                                $('#co_applicant_salaried1').hide();
+                                                $('#co_applicant_self_employeed1').show();
+                                                $('#co_applicant_company1').hide();
+                                                $('#co_applicant_housewife1').hide();
+                                        
+                                            
+                                            }
+                                            if (this.value =='Company')
+                                            {
+                                                $('#co_applicant_salaried1').hide();
+                                                $('#co_applicant_self_employeed1').hide();
+                                                $('#co_applicant_housewife1').hide();
+                                                $('#co_applicant_company1').show();
+                                            }
+                                            if (this.value == 'HW')
+                                            {
+                                                $('#co_applicant_salaried1').hide();
+                                                $('#co_applicant_self_employeed1').hide();
+                                                $('#co_applicant_housewife1').show();
+                                                $('#co_applicant_company1').hide(); 
+                                            }
+                                            });
+                                            });
+                                        </script>
+                                        <!-- ############### CO Applicant Salaried  ############### -->
+                                            <div id="co_applicant_salaried1">
+                                            <!-- Job Location -->
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="job-location">Job Location
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input type="text" id="applicant-job-location" name="co_applicant_job_location"  class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Take Home Salary -->
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="co_applicant_take-home-salary">Take Home Salary?
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input type="text" id="take-home-salary" name="co_applicant_take_home_salary"  class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Rental Income <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input co_applicant_sal_income1 " class="form-control" id="customSwitch8" onchange="salvalueChanged2()" name="co_applicant_rental_income_job" checked>
+                                                        <label class="custom-control-label" for="customSwitch8">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".co_applicant_income1").hide();
+                                                    function salvalueChanged2()
+                                                    {
+                                                        if($('.co_applicant_sal_income1').is(":checked"))   
+                                                            $(".co_applicant_income1").show();
+                                                        else
+                                                            $(".co_applicant_income1").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Rental Income - How Much In Cash -->
+                                            <div class="form-group row co_applicant_income1">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >How Much in cash?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text" name="co_applicant_how_much_in_cash_job" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income - How Much In Account -->
+                                            <div class="form-group row income_applicant2">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >How Much in Account?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_how_much_in_account_job" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <!-- Duration in Present Company -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="duration"
+                                                    >Duration in Present Company <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 select">
+                                                    <select  name="co_applicant_duration_in_present_company" class="form-control">
+                                                        <option value="lessthantwoyears"> Less Than 2 Years </option>
+                                                        <option value="morethantwoyears"> More Than 2 Years </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- Company Name -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="applicant-company"
+                                                    >Company<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_company_name" class="form-control" />
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <!-- ############### Co Applicant Self Employeed  ############### -->
+                                            <div id="co_applicant_self_employeed1">
+                                            <!-- Business Location -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="account-name"
+                                                    >Business Location <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" name="co_applicant_business_location" class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Rental Income<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input co_applicant_self_rent1" id="customSwitch9" onchange="rentvalueChanged2()" name="co_applicant_rental_income_bus" checked class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch9">Yes</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <script type="text/javascript">
+                                                    $(".co_applicant_rent1").hide();
+                                                    function rentvalueChanged2()
+                                                    {
+                                                        if($('.co_applicant_self_rent1').is(":checked"))   
+                                                            $(".co_applicant_rent1").show();
+                                                        else
+                                                            $(".co_applicant_rent1").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Rental Income - How Much In Cash -->
+                                            <div class="form-group row co_applicant_rent1">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much in cash?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_how_much_in_cash_bus"  class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income - How Much In Account -->
+                                            <div class="form-group row rent">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much in Account?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_how_much_in_account_bus"  class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Declated ITR -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >Declared ITR <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input co_applicant_declare_itr1" id="customSwitch10" onchange="itrvalueChanged2()" name="co_applicant_declared_itr" checked>
+                                                        <label class="custom-control-label" for="customSwitch10" class="form-control">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".co_applicant_itr1").hide();
+                                                    function itrvalueChanged2()
+                                                    {
+                                                        if($('.co_applicant_declare_itr1').is(":checked"))   
+                                                            $(".co_applicant_itr1").show();
+                                                        else
+                                                            $(".co_applicant_itr1").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Declared ITR - How Much -->
+                                            <div class="form-group row co_applicant_itr1">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much ITR?<span class="required" >*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_how_much_itr" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Business Vintage -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="business-vintage"
+                                                    >Business Vintage<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_business_vintage" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Nature of Business -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="nature_business"
+                                                        >Nature of Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 select">
+                                                <select class="select2-selection__rendered" name="co_applicant_nature_business" id="co_applicant_nature_business">
+                                                    <option value="ch5">Choose Nature of Business</option>
+                                                    {% for business in businesses %}
+                                                    <option value="{{business}}">{{business}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                
+                                                </div>
+                                            </div>
+                                            <!-- GST Registered -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst"
+                                                        >GST Registered?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitch11" onchange="GSTRegistered2()" name="co_applicant_gst_registered" class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch11">Yes</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Business Proof INR -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst"
+                                                        >Business Proof (Only For INR)<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input  type="text"  name="co_applicant_business_proof_inr" class="form-control"/>
+                                                 </div>
+                                            </div>
+                                            </div>
+                                        <!-- ############### Co Applicant Company  ############### -->
+                                            <div id="co_applicant_company1">
+                                                 <!-- Business Location -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="account-name"
+                                                    >Business Location <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" name="co_applicant_company_business_location" class="form-control">
+                                                </div>
+                                                </div>
+                                                <!-- Declated ITR -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >Declared ITR <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input co_applicant_declare_itr_company1" id="customSwitch12" onchange="itrvalueChanged4()" name="co_applicant_company_declared_itr" checked>
+                                                        <label class="custom-control-label" for="customSwitch12" class="form-control">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".co_applicant_itr_company").hide();
+                                                    function itrvalueChanged4()
+                                                    {
+                                                        if($('.co_applicant_declare_itr_company1').is(":checked"))   
+                                                            $(".co_applicant_itr_company").show();
+                                                        else
+                                                            $(".co_applicant_itr_company").hide();
+                                                    }
+                                                </script>
+                                                </div>
+                                                <!-- Declared ITR - How Much -->
+                                                <div class="form-group row co_applicant_itr_company">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much ITR?<span class="required" >*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_company_how_much_itr" class="form-control"/>
+                                                </div>
+                                                </div>
+                                                <!-- No. Of Years -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="no-of-years"
+                                                    >Number of Years in Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                   <input  type="text"  name="co_applicant_no_of_years_business" class="form-control"/>
+                                                </div>
+                                            </div>
+                                                <!-- Nature of Business -->
+                                                <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="nature_business_company"
+                                                        >Nature of Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6" class="form-control">
+                                                class="select2-selection__rendered" name="co_applicant_company_nature_business" id="co_applicant_company_nature_business">
+                                                    <option value="ch5">Choose Nature of Business</option>
+                                                    {% for business in businesses %}
+                                                    <option value="{{business}}">{{business}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                
+                                                </div>
+                                                </div>
+                                                <!-- GST Registered -->
+                                                <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst_company"
+                                                        >GST Registered?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitch13" onchange="GSTRegistered()" name="co_applicant_company_gst_registered" class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch13">Yes</label>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <!-- Audit Report for 2 Years -->
+                                                <div class="form-group row">
+                                                    <label
+                                                            class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                            for="audit_report_company"
+                                                            >Audit Report for 2 years Available?<span class="required">*</span>
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="custom-control custom-switch  custom-switch-lg">
+                                                            <input type="checkbox" class="custom-control-input" id="customSwitch14" onchange="AuditReport()" name="co_applicant_audit_report_company" class="form-control">
+                                                            <label class="custom-control-label" for="customSwitch14">Yes</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <!-- ############### Co Applicant House Wife  ############### -->
+                                        <div id="co_applicant_housewife1">
+                                       </div>
+                                    </section>
+                                   
+                                    {% else %}
+                                    <!-- Step 1 -->
+                                    <h6>APPLICANT FINANCIAL DETAILS</h6>
+                                    <section>
+                                        <div class="form-group row applicant">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="job-location">Job Type
+                                        </label>
+                                            <div class="col-md-6 col-sm-6 select">
+                                            <select class="select2-selection__rendered"  name="applicant_job_type" id="select_applicant_job_type2">
+                                                    <option value="ch5">Select Applicant Job Type</option>
+                                                    <option value="Sal">Salaried</option>
+                                                    <option value="SE">Self Employeed</option>
+                                                    <option value="Company">Company</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function(){
+                                        
+                                            $('#applicant_salaried2').hide();
+                                            $('#applicant_self_employeed2').hide();
+                                            $('#applicant_company2').hide();
+                                            $('#select_applicant_job_type2').on('change', function() {  
+                                                
+                                            if (this.value =='Sal')
+                                            {
+                                                console.log('abcd')
+                                                $('#applicant_salaried2').show();
+                                                $('#applicant_self_employeed2').hide();
+                                                $('#applicant_company2').hide();
+                                        
+                                            
+                                            }
+                                            if (this.value =='SE')
+                                            {
+                                                console.log('abcd')
+                                                $('#applicant_salaried2').hide();
+                                                $('#applicant_self_employeed2').show();
+                                                $('#applicant_company2').hide();
+                                        
+                                            
+                                            }
+                                            if (this.value =='Company')
+                                            {
+                                                $('#applicant_salaried2').hide();
+                                                $('#applicant_self_employeed2').hide();
+                                                $('#applicant_company2').show();
+                                        
+                                            }
+                                            });
+                                            });
+                                        </script>
+                                        <!-- ############### Applicant Salaried  ############### -->
+                                            <div id="applicant_salaried2">
+                                            <!-- Job Location -->
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="job-location">Job Location
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input type="text" id="applicant-job-location" name="applicant_job_location"  class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Take Home Salary -->
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="take-home-salary">Take Home Salary?
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input type="text" id="take-home-salary" name="applicant_take_home_salary"  class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Rental Income <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input sal_income " class="form-control" id="customSwitch15" onchange="salvalueChanged()" name="applicant_rental_income_job" checked>
+                                                        <label class="custom-control-label" for="customSwitch15">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".income").hide();
+                                                    function salvalueChanged()
+                                                    {
+                                                        if($('.sal_income').is(":checked"))   
+                                                            $(".income").show();
+                                                        else
+                                                            $(".income").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Rental Income - How Much In Cash -->
+                                            <div class="form-group row income">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >How Much in cash?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text" name="applicant_how_much_in_cash_job" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income - How Much In Account -->
+                                            <div class="form-group row income">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >How Much in Account?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_in_account_job" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <!-- Duration in Present Company -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="duration"
+                                                    >Duration in Present Company <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="select2-selection__rendered"  name="applicant_duration_in_present_company" class="form-control">
+                                                        <option value="lessthantwoyears"> Less Than 2 Years </option>
+                                                        <option value="morethantwoyears"> More Than 2 Years </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- Company Name -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="applicant-company"
+                                                    >Company<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_company_name" class="form-control" />
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <!-- ############### Applicant Self Employeed  ############### -->
+                                            <div id="applicant_self_employeed2">
+                                            <!-- Business Location -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="account-name"
+                                                    >Business Location <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" name="applicant_business_location" class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="job-location"
+                                                    >Rental Income<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input self_rent" id="customSwitch16" onchange="rentvalueChanged3()" name="applicant_rental_income_bus" checked class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch16">Yes</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <script type="text/javascript">
+                                                    $(".rent").hide();
+                                                    function rentvalueChanged3()
+                                                    {
+                                                        if($('.self_rent').is(":checked"))   
+                                                            $(".rent").show();
+                                                        else
+                                                            $(".rent").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Rental Income - How Much In Cash -->
+                                            <div class="form-group row rent">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much in cash?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_in_cash_bus"  class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Rental Income - How Much In Account -->
+                                            <div class="form-group row rent">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much in Account?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_in_account_bus"  class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Declated ITR -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >Declared ITR <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input applicant_declare_itr2" id="customSwitch17" onchange="itrvalueChanged5()" name="applicant_declared_itr" checked>
+                                                        <label class="custom-control-label" for="customSwitch17" class="form-control">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".applicant_itr2").hide();
+                                                    function itrvalueChanged5()
+                                                    {
+                                                        if($('.applicant_declare_itr2').is(":checked"))   
+                                                            $(".applicant_itr2").show();
+                                                        else
+                                                            $(".applicant_itr2").hide();
+                                                    }
+                                                </script>
+                                            </div>
+                                            <!-- Declared ITR - How Much -->
+                                            <div class="form-group row applicant_itr2">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much ITR?<span class="required" >*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_how_much_itr" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Business Vintage -->
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="business-vintage"
+                                                    >Business Vintage<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_business_vintage" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <!-- Nature of Business -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="nature_business"
+                                                        >Nature of Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 select" class="form-control">
+                                                <select class="select2-selection__rendered" name="applicant_nature_business" id="applicant_nature_business">
+                                                    <option value="ch5">Choose Nature of Business</option>
+                                                    {% for business in businesses %}
+                                                    <option value="{{business}}">{{business}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <!-- GST Registered -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst"
+                                                        >GST Registered?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitch18" onchange="GSTRegistered()" name="applicant_gst_registered" class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch18">Yes</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Business Proof INR -->
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst"
+                                                        >Business Proof (Only For INR)<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input  type="text"  name="applicant_business_proof_inr" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <!-- ############### Applicant Company  ############### -->
+                                            <div id="applicant_company2">
+                                                <!-- Business Location -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align"
+                                                    for="account-name"
+                                                    >Business Location <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" name="applicant_company_business_location" class="form-control">
+                                                </div>
+                                                </div>
+                                                <!-- Declated ITR -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >Declared ITR <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input applicant_declare_itr_company2" id="customSwitch19" onchange="itrvalueChanged6()" name="applicant_company_declared_itr" checked>
+                                                        <label class="custom-control-label" for="customSwitch19" class="form-control">Yes</label>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    $(".applicant_itr_company2").hide();
+                                                    function itrvalueChanged6()
+                                                    {
+                                                        if($('.applicant_declare_itr_company2').is(":checked"))   
+                                                            $(".applicant_itr_company2").show();
+                                                        else
+                                                            $(".applicant_itr_company2").hide();
+                                                    }
+                                                </script>
+                                                </div>
+                                                <!-- Declared ITR - How Much -->
+                                                <div class="form-group row applicant_itr_company2">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="job-location"
+                                                    >How Much ITR?<span class="required" >*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_company_how_much_itr" class="form-control"/>
+                                                </div>
+                                                </div>
+                                                <!-- No. Of Years -->
+                                                <div class="form-group row">
+                                                <label
+                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                    for="no-of-years"
+                                                    >Number of Years in Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 input">
+                                                <input  type="text"  name="applicant_no_of_years_business" class="form-control"/>
+                                                </div>
+                                            </div>
+                                                <!-- Nature of Business -->
+                                                <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="nature_business_company"
+                                                        >Nature of Business<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6" class="form-control">
+                                                class="select2-selection__rendered" name="applicant_company_nature_business" id="applicant_company_nature_business">
+                                                    <option value="ch5">Choose Nature of Business</option>
+                                                    {% for business in businesses %}
+                                                    <option value="{{business}}">{{business}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                </div>
+                                                </div>
+                                                <!-- GST Registered -->
+                                                <div class="form-group row">
+                                                <label
+                                                        class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                        for="gst_company"
+                                                        >GST Registered?<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="custom-control custom-switch  custom-switch-lg">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitch20" onchange="GSTRegistered()" name="applicant_company_gst_registered" class="form-control">
+                                                        <label class="custom-control-label" for="customSwitch20">Yes</label>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <!-- Audit Report for 2 Years -->
+                                                <div class="form-group row">
+                                                    <label
+                                                            class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
+                                                            for="audit_report_company"
+                                                            >Audit Report for 2 years Available?<span class="required">*</span>
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="custom-control custom-switch  custom-switch-lg">
+                                                            <input type="checkbox" class="custom-control-input" id="customSwitch21" onchange="AuditReport()" name="applicant_audit_report_company" class="form-control">
+                                                            <label class="custom-control-label" for="customSwitch21">Yes</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </section>
+                                    
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>`  
+                </div>
+                
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+    
+
+
+            <!-- footer -->
+            <!-- ============================================================== -->
+           {% include 'static_template/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- customizer Panel -->
+    <!-- ============================================================== -->
+    {% include 'static_template/custom-sidebar.html' %}
+    <!-- ============================================================== -->
+    
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- apps -->
+    <script src="{% static '/monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app-style-switcher.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static '/monster/dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static '/monster/dist/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static '/monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/custom.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+    
+    <script>
+        
+    //Basic Example
+    $("#example-basic").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        autoFocus: true
+    });
+
+    // Basic Example with form
+    var form = $("#example-form");
+    form.validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password"
+            }
+        }
+    });
+    form.children("div").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+
+        
+        onStepChanging: function(event, currentIndex, newIndex) {
+
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
+        },
+
+        onInit: function (event, currentIndex) {
+            $('.actions a[href="#finish"]').attr('id', "example1");
+            },
+
+        onFinishing: function(event, currentIndex) {
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
+        },
+        onFinished: function(event, currentIndex) {
+            $("#finance").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="finance" name="finance_completed" value="{{lead.id|safe}}">Submit</button>') 
+                
+                });
+            
+            alert("Submitted!");
+            
+        }
+    });
+
+    // Advance Example
+
+    var form = $("#example-advanced-form").show();
+    
+    form.steps({
+        headerTag: "h3",
+        bodyTag: "fieldset",
+        transitionEffect: "slideLeft",
+
+        
+
+        
+        onStepChanging: function(event, currentIndex, newIndex) {
+            // Allways allow previous action even if the current form is not valid!
+            if (currentIndex > newIndex) {
+                return true;
+            }
+            // Forbid next action on "Warning" step if the user is to young
+            if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                return false;
+            }
+            // Needed in some cases if the user went back (clean up)
+            if (currentIndex < newIndex) {
+                // To remove error styles
+                form.find(".body:eq(" + newIndex + ") label.error").remove();
+                form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+            }
+            form.validate().settings.ignore = ":disabled,:hidden";
+            return form.valid();
+        },
+
+        onInit: function (event, currentIndex) {
+        $('.actions a[href="#finish"]').attr('id', "example1");
+            },
+
+        
+        onStepChanged: function(event, currentIndex, priorIndex) {
+            // Used to skip the "Warning" step if the user is old enough.
+            if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
+                form.steps("next");
+            }
+            // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+            if (currentIndex === 2 && priorIndex === 3) {
+                form.steps("previous");
+                $('.actions a[href="#finish"]').attr('id', "example1");
+            }
+            
+        },
+        
+       
+        
+        onFinishing: function(event, currentIndex) {
+            form.validate().settings.ignore = ":disabled";
+
+            
+            return form.valid();
+        },
+        onFinished: function(event, currentIndex) {
+            $("#finance").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="finance" name="finance_completed" value="{{lead.id}}">Submit</button>') 
+                
+                });
+            
+            alert("Submitted!");
+            
+        }
+    }).validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password-2"
+            }
+        }
+    });
+
+    // Dynamic Manipulation
+    $("#example-manipulation").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        enableAllSteps: true,
+        enablePagination: false
+    });
+
+    //Vertical Steps
+
+    $("#example-vertical").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        stepsOrientation: "vertical"
+    });
+
+    //Custom design form example
+    $(".tab-wizard").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Submit"
+        },
+        name: "finance_lead",
+        onFinished: function(event, currentIndex) {
+            $("#finance").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="finance" name="finance_completed" value="{{lead.id}}">Submit</button>') 
+                
+                });
+            
+            
+            swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
+
+        }
+    });
+
+
+    var form = $(".validation-wizard").show();
+
+    $(".validation-wizard").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Submit"
+        },
+        
+        onStepChanging: function(event, currentIndex, newIndex) {
+            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
+        },
+        
+        
+        onFinishing: function(event, currentIndex) {
+            return form.validate().settings.ignore = ":disabled", form.valid()
+        },
+        onFinished: function(event, currentIndex) {
+            $("#finance").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="finance" name="finance_completed" value="{{lead.id}}">Submit</button>') 
+                $("#finance").submit();
+                });
+                
+            
+             swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
+        }
+    }), $(".validation-wizard").validate({
+        ignore: "input[type=hidden]",
+        errorClass: "text-danger",
+        successClass: "text-success",
+        highlight: function(element, errorClass) {
+            $(element).removeClass(errorClass)
+        },
+        unhighlight: function(element, errorClass) {
+            $(element).removeClass(errorClass)
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element)
+        },
+        rules: {
+            email: {
+                email: !0
+            }
+        }
+    })
+    </script>
+
+</body>
+
+</html>

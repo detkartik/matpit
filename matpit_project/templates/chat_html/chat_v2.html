@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
+    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Chat </title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+    
+    <!-- Custom CSS -->
+    <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#009efb" stroke-width="2"></path>
+          <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34" stroke="#009efb" stroke-width="2"></path>
+          <path id="teabag" fill="#009efb" fill-rule="evenodd" clip-rule="evenodd" d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+          <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#009efb"></path>
+          <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#009efb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% include 'static_template/top_nav.html' %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% include 'static_template/sidebar_v2.html' %}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Lead id: {{lead.id}}</h4>
+                    <div class="chat-box scrollable ps-container ps-theme-default ps-active-y" style="height: 375px;" data-ps-id="26214be5-afd9-5cb9-0ef1-39ed2356aa14">
+                        <!--chat Row -->
+                        <ul class="chat-list m-0 p-0">
+                            {% for comment in comments %}
+                            {% if comment.user != user %}
+                            <li class="mt-4">
+                                <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/2.jpg' %}" alt="user" class="rounded-circle"></div>
+                                <div class="chat-content ps-3 d-inline-block">
+                                    <h5 class="text-muted fs-3 font-weight-medium">{{comment.user.first_name}} {{comment.user.last_name}} <span class="badge badge-pill bg-success">{{user.role}}</span></h5>
+                                    {% if comment.attachments  %}
+                                    <div class="box mb-2 d-inline-block text-dark fw-normal message fs-3 bg-light-success"><a  href="{{comment.attachments.url}}" target='_blank'> <img src="{{comment.attachments.url}}" alt="" style="height: 30px;" > </a> </div>
+                                    {% endif %}
+                                    {% if comment.message %}
+                                    <div class="box mb-2 d-inline-block text-dark fw-normal message fs-3 bg-light-success">{{comment.message}}</div>
+                                    {% endif %}
+                                    
+                                </div>
+                                <div class="chat-time d-inline-block text-end fs-2 font-weight-medium">{{comment.created}}</div>
+                            </li>
+                            {% endif %}
+                            <!--chat Row -->
+                            {% if comment.user == user %}
+                            <li class="odd mt-4">
+                                <div class="chat-content ps-3 d-inline-block text-end">
+                                    
+                                    {% if comment.message %}
+                                    <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-inverse">{{comment.message}}</div>
+                                    {% endif %}
+        
+                                    {% if comment.attachments %}
+                                    <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-inverse">									   
+                                        <a  href="{{comment.attachments.url}}" target='_blank'> <img src="{{comment.attachments.url}}" alt="" style="height: 30px;" > </a> 
+                                    </div>
+                                    {% endif %} 
+                                    <br>
+                                </div>
+                                <div class="chat-time d-inline-block text-end fs-2 font-weight-medium">{{comment.created}}</div>
+                            </li>
+                            {% endif %}
+
+                            {% endfor %}
+                           
+                        </ul>
+                 
+                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -9.09091px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 9.09091px; right: 3px; height: 375px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 6px; height: 252px;"></div></div></div>
+                </div>
+                <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body border-top">
+                    <div class="row">
+                        <div class="col-10 col-md-10 col-sm-10">
+                            <textarea placeholder="Type your message here" class="form-control border-0" name="lead_chat" value="{{lead.comments.message}}"></textarea>
+                        </div>
+                        <style>
+                            .feather-icon {
+                                font-size: 40px!important;
+                                color: grey;
+                                cursor: pointer;
+                                }
+                        </style>
+                        
+                        <div class="col-1 col-md-1 col-sm-1 image-upload" style="padding: 8px;">
+                            
+                                <i data-feather="paperclip" style="text-align: right;"  class="feather-icon"></i> 
+                                   
+                        </div>
+                        <div class="col-1 col-md-1 col-sm-1" >
+                            <button type="submit" class="btn btn-info btn-circle btn-lg" name='lead_chat_updated' value='{{lead.id}}'><i class="fas fa-paper-plane"></i> </button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <div class="chat-windows"></div>
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/extra-libs/taskboard/js/jquery.ui.touch-punch-improved.js' %}"></script>
+    <script src="{% static '/monster/src/assets/extra-libs/taskboard/js/jquery-ui.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- apps -->
+    <script src="{% static '/monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app-style-switcher.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/extra-libs/sparkline/sparkline.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static '/monster/dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static '/monster/dist/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static '/monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/custom.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/pages/chat/chat.js' %}"></script>
+    <!--This page JavaScript -->
+    <script>
+    $(function() {
+        $(document).on('keypress', "#textarea1", function(e) {
+            if (e.keyCode == 13) {
+                var id = $(this).attr("data-user-id");
+                var msg = $(this).val();
+                msg = msg_sent(msg);
+                $("#someDiv").append(msg);
+                $(this).val("");
+                $(this).focus();
+            }
+        });
+    });
+    </script>
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+	
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+
+       
+       
+    </script>
+    
+</body>
+
+</html>

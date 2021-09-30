@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
+    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Your Leads</title>
+     <!-- Favicon icon -->
+     <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+
+     <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet">
+     <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/steps.css' %}" rel="stylesheet">
+ 
+     <!-- Custom CSS -->
+     <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+ 
+ 
+     <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
+
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            $('#myModal').modal('show');
+        });
+    </script>
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#009efb" stroke-width="2"></path>
+          <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34" stroke="#009efb" stroke-width="2"></path>
+          <path id="teabag" fill="#009efb" fill-rule="evenodd" clip-rule="evenodd" d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+          <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#009efb"></path>
+          <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#009efb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% include 'static_template/top_nav.html' %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% include 'static_template/sidebar_v2.html' %}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+           
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table customize-table mb-0 v-middle">
+                            <thead class="table-light">
+                                <tr>
+                                  <th class="border-bottom border-top">Lead Name</th>
+                                  <th class="border-bottom border-top">Email</th>
+                                  <th class="border-bottom border-top">Phone</th>
+                                  <th class="border-bottom border-top">Loan Type</th>
+                                  <th class="border-bottom border-top">Job Type</th>
+                                  <th class="border-bottom border-top">Created On</th>
+                                  <th class="border-bottom border-top">Created By</th>
+                                  <th class="border-bottom border-top">View Details</th>
+                                  <th class="border-bottom border-top">Process</th>
+                                  <th class="border-bottom border-top">Status</th>
+                                  <th class="border-bottom border-top">Chat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for lead in leads %}
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <tr>
+                                        <td class="name">
+                                            <div class="d-flex align-items-center">
+                                                {% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+                                                <span class= 'ms-3 fw-normal'>{{lead.applicant_first_name}} {{lead.applicant_last_name}} </span>
+                                                {% endif %}
+                                                {% if lead.get_applicant_display == "Company"  %}
+                                                <span class= 'ms-3 fw-normal'> {{lead.company_name}} </span>
+                                                {% endif %}
+                                                {% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+                                                <span class= 'ms-3 fw-normal'>{{lead.personal_loan_first_name}} {{lead.personal_loan_last_name}}</span>
+                                                {% endif %}
+                                                <span class= 'ms-3 fw-normal'>{{delayed_login}}</span>
+                                            </div>
+                                           
+                                        </td>
+
+                                        <td class="email">
+                                            {% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+                                            <span class= 'ms-3 fw-normal'>{{lead.applicant_official_email}}</span>,
+                                            <br>
+                                            <span class= 'ms-3 fw-normal'>{{lead.applicant_personal_email}}</span>
+                                            {% endif %}
+                                            {% if lead.get_applicant_display == "Company"  %}
+                                            <span class= 'ms-3 fw-normal'> N/A </span>
+                                            {% endif %}
+                                            {% if lead.personal_loan_email %}
+                                            <span class= 'ms-3 fw-normal'>{{lead.personal_loan_email}}</span>
+                                            {% endif %}
+                                        </td>
+                                        
+                                        <td class="phone">
+                                            {% if lead.get_applicant_display in "Individual,NRI" %}
+                                            <span class= 'ms-3 fw-normal'>{{lead.applicant_phone}}</span>
+                                            {% endif %}
+                                            {% if lead.get_applicant_display == "Company"  %}
+                                            <span class= 'ms-3 fw-normal'> {{lead.point_of_contact_phone}} </span>
+                                            {% endif %}
+                                            {% if lead.personal_loan_phone %}
+                                            <span class= 'ms-3 fw-normal'> {{lead.personal_loan_phone}} </span>
+                                            {% endif %}
+                                        </td>
+                                        
+                                        <td class="loan_type">
+                                        {% if lead.loan_type in 'FL,BT' %}
+                                            <span class="mb-1 badge rounded-pill bg-warning text-dark">{{lead.get_loan_type_display|upper}}</span>
+                                        
+                                        {% endif %}
+                                        {% if lead.personal_loan_first_name or lead.personal_loan_last_name or lead.personal_loan_phone  %}
+                                        
+                                            <span class="mb-1 badge rounded-pill bg-warning text-dark">Personal Loan</span>
+                                    
+                                        {% endif %}
+                                        </td>
+                                       
+                                        
+                                        <td class="job_type">
+                                            {% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+                                            <span class="mb-1 badge rounded-pill bg-info text-dark">{{lead.get_applicant_job_type_display}}</span>
+                                            {% endif %}
+                                            {% if lead.get_applicant_display == "Company" %}
+                                           <span class="mb-1 badge bg-light text-dark">{{lead.nature_of_business}}</span>
+                                            {% endif %}
+                                            
+                                        </td>
+                                        
+                                        <td class="created_at">
+                                            <span>{{lead.created_at|date}}</span>   
+                                        </td>
+
+                                        <td class="created_by">
+                                            <span class= 'ms-3 fw-normal'>{{lead.created_by.phone}}</span>
+                                            <br>
+                                            <span class="mb badge bg-green">{{lead.created_by.role}}</span>
+                                        </td>
+                                        <!-- DETAILS -->
+                                        <td class="view_details">
+                                            <button type="submit" name="details" value="{{lead.id}}" class="btn waves-effect waves-light btn-rounded btn-info">Details </button>
+                                        </td>
+                                        <!-- Process -->
+                                        <td class="process" style="width: 12%;">
+                                            <!-- FILE PICK_UP -->
+                                            {% if user.role not in 'CONNECTOR,AF' %}
+                                            {% if lead.disbursement_process_completed_rejected == False and lead.disbursement_process_completed_approved == False %}
+                                            <button type="submit" class="btn waves-effect waves-light btn-rounded btn-outline-success" name = "proceed" value="{{lead.id}}">
+                                            {% if not lead.file_pickup_process_completed %}
+                                            <span> File Pick-up </span>
+                                            {% endif %}
+                                            {% if lead.file_pickup_process_completed and not lead.login_bank_process_completed %}
+                                            <span>Bank Login</span>
+                                            {% endif %}
+                                            {% if lead.file_pickup_process_completed and lead.login_bank_process_completed and not lead.senction_process_completed %}
+                                            <span>Senction Letter</span>
+                                            {% endif %}
+                                            {% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed %}
+                                            <span>Disbursement</span>    
+                                            {% endif %}
+                                            </button>
+                                            {% endif%}
+
+
+                                            {% else %}
+                                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" name = "proceed"
+                                                value="{{lead.id}}"
+                                                disabled
+                                            >
+                                                {% if not lead.file_pickup_process_completed %}
+                                                File Pick-up
+                                                {% endif %}
+                                                {% if lead.file_pickup_process_completed and not lead.login_bank_process_completed %}
+                                                Bank Login
+                                                {% endif %}
+                                                {% if lead.file_pickup_process_completed and lead.login_bank_process_completed and not lead.senction_process_completed %}
+                                                <span>
+                                                    Senction Letter
+                                                </span>
+                                                {% endif %}
+                                                {% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed %}
+                                                Disbursement
+                                                {% endif %}
+                                            </button>
+                                            {% endif %}
+                                            {% if lead.disbursement_process_completed_rejected %}
+                                            <button type="button"
+                                            class="btn btn-danger btn-xs" disabled>
+                                            Rejected	
+                                        </button>
+                                        {% endif %}
+                                        {% if lead.disbursement_process_completed_approved %}
+                                        <button type="button"
+                                        class="btn waves-effect waves-light btn-rounded btn-success" disabled>Completed</button>
+                                        {% endif %}														
+                                        </td>
+                                        {% if lead.disbursement_process_completed_approved %}
+                                        <td class='status'>
+                                            {% if lead.verification_approved %}
+                                            <span class="mb-1 badge bg-light text-dark">Approved</span>
+                                            {% endif %}
+                                            {% if lead.verification_rejected %}
+                                            <span class="mb-1 badge bg-danger">Not Approved</span>
+                                            {% endif %}
+                                            {% if lead.verification_pending %}
+                                            <span class="mb-1 badge bg-warning text-dark">Verification Pending</span>
+                                            {% endif %}
+                                        </td>
+                                        {% else %}
+                                        <td class="status">
+                                            <span class="mb-1 badge bg-secondary">In Progress</span>
+                                        </td>
+                                        {% endif %}
+                                        <td class="chat">
+                                            <button
+                                                type="submit"
+                                                class="btn"
+                                                style="border: none; color: black;"
+                                                name="chat"
+                                                value="{{lead.id}}"
+                                            >
+                                            <i data-feather="message-circle"  class="feather-icon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                
+               
+               
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {% include 'static_template/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- customizer Panel -->
+    <!-- ============================================================== -->
+    {% include 'static_template/custom-sidebar.html' %}
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+     <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- apps -->
+    <script src="{% static '/monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app-style-switcher.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static '/monster/dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static '/monster/dist/js/sidebarmenu.js' %}"></script>
+    
+    <!--Custom JavaScript -->
+    <script src="{% static '/monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/custom.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+</body>
+
+</html>

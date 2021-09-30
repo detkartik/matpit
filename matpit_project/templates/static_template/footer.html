@@ -1,0 +1,10 @@
+{% load static %}
+<div class="container">
+	<footer class="footer" style="position: fixed;bottom: 0; width: 100%; text-align:left;">
+	
+		<h6> 
+			 Referred By:{{user.manager.first_name}} {{user.manager.last_name}}
+			<span style="border-right: 1px solid rgb(78, 78, 78); height: 20px; margin-right: 20px; margin-left: 20px;"></span> <i data-feather="mail" class="feather-icon"></i> {{user.manager.email}} 
+			<span style="border-right: 1px solid rgb(78, 78, 78); height: 20px; margin-right: 20px; margin-left: 20px;">  </span><i data-feather="phone" class="feather-icon"></i> {{user.manager.phone}}   </h6> 		
+</footer>
+</div>

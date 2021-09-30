@@ -1,0 +1,30 @@
+{
+    "short_name": "BetaPage",
+    "name": "BetaPage",
+    "theme_color": "#4A90E2",
+    "background_color": "#F7F8F9",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "icons/aurss.96x96.png",
+        "type": "image/png",
+        "sizes": "48x48"
+      },
+      {
+        "src": "icons/aurss.96x96.png",
+        "type": "image/png",
+        "sizes": "96x96"
+      },
+      {
+        "src": "icons/aurss.512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      },
+      {
+        "src": "icons/aurss.192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      }
+    ],
+    "start_url": "/?utm_source=launcher"
+  }

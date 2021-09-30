@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% load static %}
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Pipeline Cases</title>
+
+		<!-- Bootstrap -->
+		<link
+			href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}"
+			rel="stylesheet"
+		/>
+		<!-- Font Awesome -->
+		<link
+			href="{% static '/vendors/font-awesome/css/font-awesome.min.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- NProgress -->
+		<link
+			href="{%static '/vendors/nprogress/nprogress.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- jQuery custom content scroller -->
+		<link
+			href="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' %}"
+			rel="stylesheet"
+		/>
+
+		<!-- Custom Theme Style -->
+		<link href="{%static '/build/css/custom.min.css' %}" rel="stylesheet" />
+	</head>
+
+	<body class="nav-md footer_fixed">
+		<div class="container body">
+			<div class="main_container">
+				<div class="col-md-3 left_col">
+					<div class="left_col scroll-view">
+						<div class="navbar nav_title" style="border: 0">
+							<a href="{% url 'dashboard' %}" class="site_title"
+								><img src="https://i.ibb.co/XXCGXRJ/bc-logo.png" alt="" style="max-width: 200px;"></a
+							>
+						</div>
+
+						<div class="clearfix"></div>
+
+						<!-- menu profile quick info -->
+						<div class="profile clearfix">
+							<div class="profile_pic">
+								{% if user.image %}
+								<img
+									src="{{user.image.url}}"
+									alt="..."
+									class="img-circle profile_img"
+								/>
+								{% else %} 
+								{{form.image}} 
+								{% endif %}
+							</div>
+							<br>
+							<br>
+								<span>{{user.first_name}} {{user.last_name}}</span>
+								<span class="badge bg-green">{{user.role}}</span>
+						</div>
+						<!-- /menu profile quick info -->
+
+						<br />
+
+						<!-- sidebar menu -->
+						<div
+							id="sidebar-menu"
+							class="main_menu_side hidden-print main_menu"
+						>
+							<div class="menu_section">
+								<ul class="nav side-menu">
+									
+									<li>
+										<a href="{% url 'dashboard' %}"
+											><i class="fa fa-map"></i>Dashboard</a
+										>
+									</li>
+									{% if user.role == 'ADMIN' %}
+									<li>
+										<a href="{% url 'bodashboard' %}"
+											><i class="fa fa-map"></i>Back Office Dashboard</a
+										>
+										</li>
+                                        <li>
+                                            <a href="{% url 'verify_lead' %}">
+                                                <i class="fa fa-map"></i>Verify Lead 
+                                            </a>
+                                        </li>
+										<li>
+											<a href="{% url 'account' %}"
+												><i class="fa fa-map"></i>Account</a>
+										</li>
+										
+										<li>
+											<a href="{% url 'reports' %}"
+												><i class="fa fa-file"></i>Reports</a
+											>
+										</li>
+									{% endif %}
+									{% if user.role in 'ADMIN,ACCOUNT,AFM,RM,AF,DSA' %}
+									<li>
+										<a href="{% url 'micdashboard' %}">
+												<i class="fa fa-map"></i>MIC Dashboard
+									</a>
+									</li>
+									{% endif %}
+
+									{% if user.profile_update %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile</a
+										>
+									</li>
+									{% else %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile  <span style="color:red" > incomplete </span>  </a>
+									</li>
+									{% endif %}
+									
+									{% if user.is_verified %}
+									{% if user.role not in 'CONNECTOR , AF' %}
+									<li>
+										<a href="{% url 'register' %}"
+											><i class="fa fa-pencil"></i> Register</a
+										>
+									</li>
+
+									<li>
+										<a href="{% url 'usermanager' %}"><i class="fa fa-newspaper-o"></i> User Management </a>
+									</li>
+									{% endif %}
+									
+                                    <li><a><i class="fa fa-edit"></i> Leads <span class="fa fa-chevron-down"></span></a>
+										<ul class="nav child_menu">
+											<li>
+												<a href="{% url 'commercial_vehicle_loans' %}"><i class="fa fa-book"></i>C.V. Loans</a>
+											</li>
+											<li>
+												<a href="{% url 'car_loans' %}"><i class="fa fa-book"></i>Car Loans</a>
+											</li>
+											   <li>
+												<a href="{% url 'credit_cards' %}"><i class="fa fa-book"></i>Credit Cards</a>
+											</li>
+											<li>
+												<a href="{% url 'personal_loans' %}"><i class="fa fa-book"></i>Personal Loans</a>
+											</li>
+											<li>
+												<a href="{% url 'hl_lap' %}"><i class="fa fa-book"></i>HL/LAP</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="{% url 'incomplete_lead' %}"><i class="fa fa-book"></i> Lead  <span style="color:red" > incomplete </span> </a>
+									</li>
+
+									<li>
+										<a href="{% url 'yourlead' %}"
+											><i class="fa fa-bar-chart"></i> Your Lead </a>
+									</li>
+									
+									<li>
+										<a href="{% url 'pipeline' %}"
+											><i class="fa fa-bar-chart"></i> Pipeline</a>
+									</li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+						<!-- /sidebar menu -->
+					</div>
+				</div>
+
+				<!-- top navigation -->
+				<div class="top_nav">
+					<div class="nav_menu">
+						<div class="nav toggle">
+							<a id="menu_toggle"><i class="fa fa-bars"></i></a>
+						</div>
+						<nav class="nav navbar-nav">
+							<ul class="navbar-right">
+								<li class="nav-item dropdown open" style="padding-left: 15px">
+									{% if user.image %}
+									<a
+										href="javascript:;"
+										class="user-profile dropdown-toggle"
+										aria-haspopup="true"
+										id="navbarDropdown"
+										data-toggle="dropdown"
+										aria-expanded="false"
+									>
+										<img src="{{user.image.url}}" alt="" />{{user.first_name}}
+									</a>
+									{% endif %}
+
+									<div
+										class="dropdown-menu dropdown-usermenu pull-right"
+										aria-labelledby="navbarDropdown"
+									>
+									{% if user.is_verified %}
+									<a class="dropdown-item"   href="{%url 'dashboard'  %}">Dashboard</a>
+									{% if user.role not in 'CONNECTOR , AF' %}
+									<a class="dropdown-item"   href="{%url 'usermanager'  %}">User Management</a>
+									{% endif %}
+									
+									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Your Lead</a>
+									{% endif %}
+									<a class="dropdown-item"   href="{%url 'profile'  %}">Profile</a>
+									<a class="dropdown-item"  href="{%url 'password_change'  %}"> Change Password </a>
+									<a class="dropdown-item"  href="{%url 'logout'  %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+									
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<!-- /top navigation -->
+
+				<!-- page content -->
+				<div class="right_col" role="main">
+					<div class="">
+						<div class="page-title">
+							<div class="title_left">
+								<h3>Pipeline Cases</h3>
+							</div>
+						</div>
+						
+						<div class="clearfix">
+							{% if messages %}
+								{% for message in messages %} 
+									<div class="alert {{ message.tags }} alert-dismissible" style="margin-top: 3rem;
+									text-align: center;
+									margin-bottom: 1rem;" role="alert">
+										<h6>{{message}} </h6>
+									</div>
+								{% endfor %}
+							{% endif %}	
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="x_panel">
+									<div class="x_title">
+										<h2>Total Cases Found: {{count}}</h2>
+										<ul class="nav navbar-right panel_toolbox">
+											<li>
+												<a class="collapse-link"
+													><i class="fa fa-chevron-up"></i
+												></a>
+											</li>
+											<li>
+												<a class="close-link"><i class="fa fa-close"></i></a>
+											</li>
+										</ul>
+										<div class="clearfix"></div>
+									</div>
+									<div class="x_content">
+										<!-- start project list -->
+										<table  class="table projects table-responsive-xl"  width="100%">
+											<thead>
+												<tr>
+													<th>Lead Name</th>
+													<th>Email</th>
+													<th>Phone</th>
+													<th>Loan Type</th>
+													<th>Job Type</th>
+													<th>Created On</th>
+													<th>Created By</th>
+													<th>View Details</th>
+													<th>Process</th>
+													<th>Chat</th>
+													
+												</tr>
+											</thead>
+											<tbody>
+												{% for lead in leads %}
+
+												<form method="POST" enctype="multipart/form-data">
+													{% csrf_token %} 
+													
+													<tr	>
+														
+														<td class="name">
+															<a>{{lead.first_name}}</a>
+															<a> {{lead.last_name}}</a>
+															<a>{{delayed_login}}</a>
+														</td>
+
+														<td class="email">
+															<a>{{lead.email}}</a>
+														</td>
+														
+														<td class="phone">
+															<a>{{lead.phone}}</a>
+														</td>
+														
+														<td class="loan_type">
+															<span class="badge badge-warning" style="color:white">{{lead.get_loan_type_display|upper}}</span>
+														</td>
+														
+														<td class="job_type">
+															<a>{{lead.get_job_type_display}}</a>
+														</td>
+														
+														<td class="created_at">
+															<a>{{lead.created_at|date}}</a>
+															<br>
+															<a>{{lead.created_at|time}}</a>
+														</td>
+
+														<td class="created_by">
+															<a>{{lead.created_by.phone}}</a>
+															<br>
+															<span class="badge bg-green">{{lead.created_by.role}}</span>
+														</td>
+														<td>
+															<!-- DETAILS -->
+															<button
+																type="submit"
+																class="btn btn-primary"
+																name="details"
+																value="{{lead.id}}"
+															>
+																Details
+															</button>
+														</td>
+														
+														<td style="width: 12%;">
+															<!-- FILE PICK_UP -->
+															{% if lead.disbursement_process_completed_rejected == False and lead.disbursement_process_completed_approved == False %}
+															<button
+																type="submit"
+																class="btn btn-success btn-xs"
+																name = "proceed"
+																value="{{lead.id}}"
+															>
+																{% if not lead.file_pickup_process_completed %}
+																File Pick-up
+																{% endif %}
+																{% if lead.file_pickup_process_completed and not lead.login_bank_process_completed %}
+																Bank Login
+																{% endif %}
+																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and not lead.senction_process_completed %}
+																<span>
+																	Senction Letter
+																</span>
+																{% endif %}
+																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed %}
+																Disbursement
+																{% endif %}
+															</button>
+															{% endif %}
+															{% if lead.disbursement_process_completed_rejected %}
+															<button type="button"
+															class="btn btn-danger btn-xs" disabled>
+															Rejected	
+														</button>
+														{% endif %}
+														{% if lead.disbursement_process_completed_approved %}
+														<button type="button"
+														class="btn btn-success btn-xs" disabled>Completed</button>
+														{% endif %}														
+														</td>
+														<td class="chat">
+															<button
+																type="submit"
+																class="btn"
+																style="border: none; color: black;"
+																name="chat"
+																value="{{lead.id}}"
+															>
+															<i class="fa fa-comments-o"></i>
+															</button>
+														</td>
+														{% endfor %}
+													</tr>
+												</form>
+											</tbody>
+										</table>
+										{% if leads.has_other_pages %}
+										<ul class="pagination">
+											{% if leads.has_previous %}
+											<li class="page-item"><a class="page-link" href="?page={{ leads.previous_page_number }}">Previous</a></li>
+											{% else %}
+											<li class="page-item disabled"><span class="page-link">Previous</span></li>
+											{% endif %}
+											{% for i in leads.paginator.page_range %}
+											{% if leads.number == i %}
+												<li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+											{% else %}
+												<li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+											{% endif %}
+											{% endfor %}
+											{% if leads.has_next %}
+											<li class="page-item"><a class="page-link" href="?page={{ leads.next_page_number }}">Next</a></li>
+											{% else %}
+											<li class="page-item disabled"><span class="page-link">Next</span></li>
+											{% endif %}
+										</ul>
+										{% endif %}
+										<!-- end project list -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /page content -->
+
+				<!-- profile update -->
+				
+
+				<!-- footer content -->
+				<footer>
+					<div class="pull-right">
+						<label for="">Lead Created By:</label>	{{ruser.first_name}} {{ruser.last_name}},
+
+						<label for="">Email:</label> {{ruser.email}},
+						 
+						<label for="">Phone:</label>{{ruser.phone}}
+
+					</div>
+				</footer>
+				<!-- /footer content -->
+			</div>
+		</div>
+
+		<!-- jQuery -->
+		<!-- jQuery -->
+		<script src="{%static '/vendors/jquery/dist/jquery.min.js' %}"></script>
+      <!-- Bootstrap -->
+      <script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <!-- FastClick -->
+      <script src="{%static '/vendors/fastclick/lib/fastclick.js' %} "></script>
+      <!-- NProgress -->
+      <script src="{%static '/vendors/nprogress/nprogress.js' %}"></script>
+      <!-- jQuery custom content scroller -->
+      <script src="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+      <!-- Custom Theme Scripts -->
+      <script src="{%static '/build/js/custom.min.js' %}"></script>
+      <script>
+			$('.btn').on('click', function() {
+    		var $this = $(this);
+  			$this.button('loading');
+    		setTimeout(function() {
+       		$this.button('reset');
+			}, 100000);
+			});
+		</script>	
+		
+	</body>
+</html>

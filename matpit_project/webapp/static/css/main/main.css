@@ -1,0 +1,42 @@
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled),
+button:not(:disabled) {
+	box-sizing: border-box;
+	appearance: none;
+	background-color: transparent;
+	border: 2px solid #3da745;
+	border-radius: 0.6em;
+	color: white;
+	cursor: pointer;
+	align-self: center;
+	font-size: 1rem;
+	line-height: 1;
+	padding: 10px 30px 10px 30px;
+	text-decoration: none;
+	text-align: center;
+	text-transform: uppercase;
+	font-family: "Montserrat", sans-serif;
+	font-weight: 400;
+	background: #28a745;
+}
+
+label {
+	display: inline-block;
+	margin-bottom: 0.5rem;
+	color: #424040;
+}
+
+input {
+	overflow: visible;
+	height: 30px;
+}
+
+dl,
+ol,
+ul {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	text-align: left;
+	color: red;
+}

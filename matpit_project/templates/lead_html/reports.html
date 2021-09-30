@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% load static %}
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Reports</title>
+
+		<!-- Bootstrap -->
+		<link
+			href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}"
+			rel="stylesheet"
+		/>
+		<!-- Font Awesome -->
+		<link
+			href="{% static '/vendors/font-awesome/css/font-awesome.min.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- NProgress -->
+		<link
+			href="{%static '/vendors/nprogress/nprogress.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- jQuery custom content scroller -->
+		<link
+			href="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' %}"
+			rel="stylesheet"
+		/>
+
+		<!-- Custom Theme Style -->
+		<link href="{%static '/build/css/custom.min.css' %}" rel="stylesheet" />
+	</head>
+
+	<body class="nav-md footer_fixed">
+		<div class="container body">
+			<div class="main_container">
+				<div class="col-md-3 left_col">
+					<div class="left_col scroll-view">
+						<div class="navbar nav_title" style="border: 0">
+							<a href="{% url 'dashboard' %}" class="site_title"
+								><img src="https://i.ibb.co/XXCGXRJ/bc-logo.png" alt="" style="max-width: 200px;"></a
+							>
+						</div>
+
+						<div class="clearfix"></div>
+
+						<!-- menu profile quick info -->
+						<div class="profile clearfix">
+							<div class="profile_pic">
+								{% if user.image %}
+								<img
+									src="{{user.image.url}}"
+									alt="..."
+									class="img-circle profile_img"
+								/>
+								{% else %} 
+								{{form.image}} 
+								{% endif %}
+							</div>
+							<br>
+							<br>
+								<span>{{user.first_name}} {{user.last_name}}</span>
+								<span class="badge bg-green">{{user.role}}</span>
+						</div>
+						<!-- /menu profile quick info -->
+
+						<br />
+
+						<!-- sidebar menu -->
+                        {% if not user.role == 'ACCOUNT' %}
+						<div
+							id="sidebar-menu"
+							class="main_menu_side hidden-print main_menu"
+						>
+							<div class="menu_section">
+								<ul class="nav side-menu">
+									
+									<li>
+										<a href="{% url 'dashboard' %}"
+											><i class="fa fa-map"></i>Dashboard</a
+										>
+									</li>
+									{% if user.role == 'ADMIN' %}
+									<li>
+										<a href="{% url 'bodashboard' %}"
+											><i class="fa fa-map"></i>Back Office Dashboard</a
+										>
+									</li>
+										<li>
+											<a href="{% url 'verify_lead' %}"
+												><i class="fa fa-map"></i>Verify Lead</a
+											>
+										</li>
+										<li>
+											<a href="{% url 'account' %}"
+												><i class="fa fa-map"></i>Account</a
+											>
+										</li>
+										
+										<li>
+											<a href="{% url 'reports' %}"
+												><i class="fa fa-file"></i>Reports</a
+											>
+										</li>
+									{% endif %}
+									{% if user.role in 'ADMIN,ACCOUNT,AFM,RM,AF,DSA' %}
+									<li>
+										<a href="{% url 'micdashboard' %}">
+												<i class="fa fa-map"></i>MIC Dashboard
+									</a>
+									</li>
+									{% endif %}
+									{% if user.profile_update %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile</a
+										>
+									</li>
+									{% else %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile  <span style="color:red" > incomplete </span>  </a>
+									</li>
+									{% endif %}
+										
+									{% if user.is_verified %}
+									{% if user.role not in 'CONNECTOR , AF' %}
+									<li>
+										<a href="{% url 'register' %}"
+											><i class="fa fa-pencil"></i> Register</a
+										>
+									</li>
+
+									<li>
+										<a href="{% url 'usermanager' %}"><i class="fa fa-newspaper-o"></i> User Management </a>
+									</li>
+									{% endif %}
+									<li><a><i class="fa fa-edit"></i> Leads <span class="fa fa-chevron-down"></span></a>
+										<ul class="nav child_menu">
+											<li>
+												<a href="{% url 'commercial_vehicle_loans' %}"><i class="fa fa-book"></i>C.V. Loans</a>
+											</li>
+											<li>
+												<a href="{% url 'car_loans' %}"><i class="fa fa-book"></i>Car Loans</a>
+											</li>
+											   <li>
+												<a href="{% url 'credit_cards' %}"><i class="fa fa-book"></i>Credit Cards</a>
+											</li>
+											<li>
+												<a href="{% url 'personal_loans' %}"><i class="fa fa-book"></i>Personal Loans</a>
+											</li>
+											<li>
+												<a href="{% url 'hl_lap' %}"><i class="fa fa-book"></i>HL/LAP</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="{% url 'incomplete_lead' %}"><i class="fa fa-book"></i> Lead  <span style="color:red" > incomplete </span> </a>
+									</li>
+									
+									<li>
+										<a href="{% url 'yourlead' %}"
+											><i class="fa fa-bar-chart"></i> Your Lead</a
+										>
+									</li>
+									<li>
+										<a href="{% url 'pipeline' %}"
+											><i class="fa fa-bar-chart"></i> Pipeline</a
+										>
+									</li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+                        {% endif %}
+						<!-- /sidebar menu -->
+					</div>
+				</div>
+
+				<!-- top navigation -->
+                
+				<div class="top_nav">
+					<div class="nav_menu">
+						<div class="nav toggle">
+							<a id="menu_toggle"><i class="fa fa-bars"></i></a>
+						</div>
+						<nav class="nav navbar-nav">
+							<ul class="navbar-right">
+								<li class="nav-item dropdown open" style="padding-left: 15px">
+									{% if user.image %}
+									<a
+										href="javascript:;"
+										class="user-profile dropdown-toggle"
+										aria-haspopup="true"
+										id="navbarDropdown"
+										data-toggle="dropdown"
+										aria-expanded="false"
+									>
+										<img src="{{user.image.url}}" alt="" />{{user.first_name}}
+									</a>
+									{% endif %}
+
+									<div
+										class="dropdown-menu dropdown-usermenu pull-right"
+										aria-labelledby="navbarDropdown"
+									>
+                                    {% if not user.role == 'ACCOUNT' %}
+									{% if user.is_verified %}
+									<a class="dropdown-item"   href="{%url 'dashboard'  %}">Dashboard</a>
+									{% if user.role not in 'CONNECTOR , AF' %}
+									<a class="dropdown-item"   href="{%url 'usermanager'  %}">User Management</a>
+									{% endif %}
+									
+									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Your Lead</a>
+									{% endif %}
+                                    <a class="dropdown-item"   href="{%url 'profile'  %}">Profile</a>
+                                    {% endif %}
+									
+									<a class="dropdown-item"  href="{%url 'password_change'  %}"> Change Password </a>
+									<a class="dropdown-item"  href="{%url 'logout'  %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+									
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+                
+				<!-- /top navigation -->
+
+				<!-- page content -->
+				<div class="right_col" role="main">
+					<div class="">
+						<div class="page-title">
+							<div class="title_left">
+								<h3>Reports</h3>
+							</div>
+							<div class="title_right">
+								<div class="col-md-5 col-sm-5 form-group pull-right">
+									
+								</div>
+							</div>
+						</div>
+						<div class="clearfix">
+							{% if messages %}
+								{% for message in messages %} 
+									<div class="alert {{ message.tags }} alert-dismissible" style="margin-top: 3rem;
+									text-align: center;
+									margin-bottom: 1rem;" role="alert">
+										<h6>{{message}} </h6>
+									</div>
+								{% endfor %}
+							{% endif %}	
+						</div>
+                  <form method="POST" enctype="multipart/form-data">
+                     {% csrf_token %}
+						<div class="row">
+							<div class="col-md-12">
+								<div class="x_panel">
+									<div class="x_title">
+										<h2>Bharat Credit User Report</h2>
+										<ul class="nav navbar-right panel_toolbox">
+											<li>
+												<a class="collapse-link"
+													><i class="fa fa-chevron-up"></i
+												></a>
+											</li>
+											<li>
+												<a class="close-link"><i class="fa fa-close"></i></a>
+											</li>
+										</ul>
+										<div class="clearfix"></div>
+									</div>
+									<div class="x_content">
+										<!-- start project list -->
+                                 <div class='row'>
+                                    <div class='col-md-12'>
+                                       <label class="col-form-label col-md-6 col-sm-6 label-align form-group" for="form-date"> FROM DATE <span class="required">*</span></label>
+                                       <div class="col-form-label col-md-6 col-sm-6">
+                                          <input type="date" name="startDate" id="startDate"/>
+                                       </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                       <label
+                                          class="col-form-label col-md-6 col-sm-6 label-align form-group"
+                                          for="to-date"
+                                          >TO DATE <span class="required">*</span>
+                                       </label>
+                                       <div class="col-form-label col-md-6 col-sm-6">
+                                          <input type="date" name="endDate" id="endDate"/>
+                                       </div>
+                                    </div>
+                                    <div class='col-md-12' style="margin-left: 530px; padding-top: 5px;">
+                                          <button class="btn btn-success submit" type="submit" name='download_user' value="{{user.id}}" >Download</button>
+                                          <button type="reset" class="btn btn-danger">RESET</button>
+                                    </div>
+                                 </div>
+										<!-- end project list -->
+									</div>
+								</div>
+							</div>
+						</div>
+                  </form>
+                  <form method="POST" enctype="multipart/form-data">
+                     {% csrf_token %}
+                  <div class="row">
+							<div class="col-md-12">
+								<div class="x_panel">
+									<div class="x_title">
+										<h2>Bharat Credit Lead Report</h2>
+										<ul class="nav navbar-right panel_toolbox">
+											<li>
+												<a class="collapse-link"
+													><i class="fa fa-chevron-up"></i
+												></a>
+											</li>
+											<li>
+												<a class="close-link"><i class="fa fa-close"></i></a>
+											</li>
+										</ul>
+										<div class="clearfix"></div>
+									</div>
+									<div class="x_content">
+										<!-- start project list -->
+                                 <div class='row'>
+                                    <div class='col-md-12'>
+                                       <label class="col-form-label col-md-6 col-sm-6 label-align form-group" for="form-date"> FROM DATE <span class="required">*</span></label>
+                                       <div class="col-form-label col-md-6 col-sm-6">
+                                          <input type="date" name="startDate" id="startDate"/>
+                                       </div>
+                                    </div>
+                                    <div class='col-md-12'>
+                                       <label
+                                          class="col-form-label col-md-6 col-sm-6 label-align form-group"
+                                          for="to-date"
+                                          >TO DATE <span class="required">*</span>
+                                       </label>
+                                       <div class="col-form-label col-md-6 col-sm-6">
+                                          <input type="date" name="endDate" id="endDate"/>
+                                       </div>
+                                    </div>
+                                    <div class='col-md-12' style="margin-left: 530px; padding-top: 5px;">
+                                          <button class="btn btn-success submit" type="submit" name='download_lead' value="{{user.id}}">Download</button>
+                                          <button type="reset" class="btn btn-danger">RESET</button>
+                                    </div>
+                                 </div>
+										<!-- end project list -->
+									</div>
+								</div>
+							</div>
+						</div>
+                  </form>
+					</div>
+				</div>
+				<!-- /page content -->
+
+				<!-- profile update -->
+				
+
+				<!-- footer content -->
+				<footer>
+					<div class="pull-right">
+						<label for="">Lead Created By:</label>	{{ruser.first_name}} {{ruser.last_name}},
+
+						<label for="">Email:</label> {{ruser.email}},
+						 
+						<label for="">Phone:</label>{{ruser.phone}}
+
+					</div>
+				</footer>
+				<!-- /footer content -->
+			</div>
+		</div>
+
+		<!-- jQuery -->
+		<!-- jQuery -->
+		<script src="{%static '/vendors/jquery/dist/jquery.min.js' %}"></script>
+      <!-- Bootstrap -->
+      <script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <!-- FastClick -->
+      <script src="{%static '/vendors/fastclick/lib/fastclick.js' %} "></script>
+      <!-- NProgress -->
+      <script src="{%static '/vendors/nprogress/nprogress.js' %}"></script>
+      <!-- jQuery custom content scroller -->
+      <script src="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+      <!-- Custom Theme Scripts -->
+      <script src="{%static '/build/js/custom.min.js' %}"></script>
+      <script>
+			$('.btn').on('click', function() {
+    		var $this = $(this);
+  			$this.button('loading');
+    		setTimeout(function() {
+       		$this.button('reset');
+			}, 100000);
+			});
+		</script>	
+		
+	</body>
+</html>

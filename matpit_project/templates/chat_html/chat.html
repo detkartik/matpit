@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% load static %}
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Lead Process</title>
+
+		<!-- Bootstrap -->
+		<link
+			href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}"
+			rel="stylesheet"
+		/>
+		<!-- Font Awesome -->
+		<link
+			href="{% static '/vendors/font-awesome/css/font-awesome.min.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- NProgress -->
+		<link
+			href="{%static '/vendors/nprogress/nprogress.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- jQuery custom content scroller -->
+		<link
+			href="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' %}"
+			rel="stylesheet"
+		/>
+
+		<!-- Custom Theme Style -->
+		<link href="{%static '/build/css/custom.min.css' %}" rel="stylesheet" />
+
+		<style>
+
+			.custom-switch.custom-switch-lg {
+				 padding-bottom: 1rem;
+				 padding-left: 2.25rem;
+			}
+			 .custom-switch.custom-switch-lg .custom-control-label {
+				 padding-left: 0.75rem;
+				 padding-top: 0.15rem;
+			}
+			 .custom-switch.custom-switch-lg .custom-control-label::before {
+				 border-radius: 1rem;
+				 height: 1.5rem;
+				 width: 2.5rem;
+			}
+			 .custom-switch.custom-switch-lg .custom-control-label::after {
+				 border-radius: 0.65rem;
+				 height: calc(1.5rem - 4px);
+				 width: calc(1.5rem - 4px);
+			}
+			 .custom-switch.custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+				 transform: translateX(1rem);
+			}
+
+			.margin-top5px{
+				margin-top: 5px;
+			}
+			
+			</style>
+	</head>
+
+	<body class="nav-md footer_fixed">
+		<div class="container body">
+			<div class="main_container">
+				<div class="col-md-3 left_col">
+					<div class="left_col scroll-view">
+						<div class="navbar nav_title" style="border: 0">
+							<a href="{% url 'dashboard' %}" class="site_title"
+								><img src="https://i.ibb.co/XXCGXRJ/bc-logo.png" alt="" style="max-width: 200px;"></a
+							>
+						</div>
+
+						<div class="clearfix"></div>
+
+						<!-- menu profile quick info -->
+						<div class="profile clearfix">
+							<div class="profile_pic">
+								{% if user.image %}
+								<img
+									src="{{user.image.url}}"
+									alt="..."
+									class="img-circle profile_img"
+								/>
+								{% else %} 
+								{{form.image}} 
+								{% endif %}
+							</div>
+							<br>
+							<br>
+								<span>{{user.first_name}} {{user.last_name}}</span>
+								<span class="badge bg-green">{{user.role}}</span>
+						</div>
+						<!-- /menu profile quick info -->
+
+						<br />
+
+						<!-- sidebar menu -->
+						<div
+							id="sidebar-menu"
+							class="main_menu_side hidden-print main_menu"
+						>
+							<div class="menu_section">
+								<ul class="nav side-menu">
+									
+									<li>
+										<a href="{% url 'dashboard' %}"
+											><i class="fa fa-map"></i>Dashboard</a
+										>
+									</li>
+									{% if user.role == 'ADMIN' %}
+									<li>
+										<a href="{% url 'bodashboard' %}"
+											><i class="fa fa-map"></i>Back Office Dashboard</a
+										>
+									</li>
+									<li>
+										<a href="{% url 'verify_lead' %}">
+											<i class="fa fa-map"></i>Verify Lead 
+										</a>
+									</li>
+									<li>
+										<a href="{% url 'reports' %}"
+											><i class="fa fa-file"></i>Reports</a
+										>
+									</li>
+									
+									{% endif %}
+
+									{% if user.profile_update %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile</a
+										>
+									</li>
+									{% else %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile  <span style="color:red" > incomplete </span>  </a>
+									</li>
+									{% endif %}
+										
+									{% if user.is_verified %}
+
+									<li>
+										<a href="{% url 'register' %}"
+											><i class="fa fa-pencil"></i> Register</a
+										>
+									</li>
+								
+									
+									<li>
+										<a href="{% url 'usermanager' %}"><i class="fa fa-newspaper-o"></i> User Management </a>
+									</li>
+									<li>
+										<a href="{% url 'hl_lap' %}"><i class="fa fa-book"></i>HL/LAP</a>
+									</li>
+									<li>
+										<a href="{% url 'incomplete_lead' %}"><i class="fa fa-book"></i> Lead  <span style="color:red" > incomplete </span> </a>
+									</li>
+									
+									<li>
+										<a href="{% url 'yourlead' %}"
+											><i class="fa fa-bar-chart"></i> Your Lead</a
+										>
+									</li>
+									
+									<li>
+										<a href="{% url 'pipeline' %}"
+											><i class="fa fa-bar-chart"></i> Pipeline</a
+										>
+									</li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+						<!-- /sidebar menu -->
+					</div>
+				</div>
+
+				<!-- top navigation -->
+				<div class="top_nav">
+					<div class="nav_menu">
+						<div class="nav toggle">
+							<a id="menu_toggle"><i class="fa fa-bars"></i></a>
+						</div>
+						<nav class="nav navbar-nav">
+							<ul class="navbar-right">
+								<li class="nav-item dropdown open" style="padding-left: 15px">
+									{% if user.image %}
+									<a
+										href="javascript:;"
+										class="user-profile dropdown-toggle"
+										aria-haspopup="true"
+										id="navbarDropdown"
+										data-toggle="dropdown"
+										aria-expanded="false"
+									>
+										<img src="{{user.image.url}}" alt="" />{{user.first_name}}
+									</a>
+									{% endif %}
+
+									<div
+										class="dropdown-menu dropdown-usermenu pull-right"
+										aria-labelledby="navbarDropdown"
+									>
+									{% if user.is_verified %}
+									<a class="dropdown-item"   href="{%url 'dashboard'  %}">Dashboard</a>
+									<a class="dropdown-item"   href="{%url 'usermanager'  %}">User Management</a>
+									
+									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Your Lead</a>
+									{% endif %}
+									<a class="dropdown-item"   href="{%url 'profile'  %}">Profile</a>
+									<a class="dropdown-item"  href="{%url 'password_change'  %}"> Change Password </a>
+									<a class="dropdown-item"  href="{%url 'logout'  %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+									
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<!-- /top navigation -->
+
+				<!-- page content -->
+				<div class="right_col" role="main">
+					<div class="">
+						<div class="page-title">
+							<div class="title_left">
+								<span> <span style="font-size: 30px; font-weight: bold;" > Chat Box </span> &nbsp; for &nbsp; <i class="fa fa-user"></i> {{lead.first_name}} {{lead.last_name}} &nbsp;&nbsp; <i class="fa fa-phone-square"></i> {{lead.phone}} </span>
+							</div>
+						</div>
+						
+						<div class="clearfix">
+							{% if messages %}
+								{% for message in messages %} 
+									<div class="alert {{ message.tags }} alert-dismissible" style="margin-top: 3rem;
+									text-align: center;
+									margin-bottom: 1rem;" role="alert">
+										<h6>{{message}} </h6>
+									</div>
+								{% endfor %}
+							{% endif %}	
+						</div>
+						<hr>
+						<style>
+							.chat-box1 {
+								padding-left: 200px; padding-right: 200px; height:auto; max-height: 500px; overflow: scroll;
+
+							}
+							#compose {
+								margin-left: 200px;
+							}
+						
+							@media only screen and (max-width: 800px) {
+								.chat-box1 {
+								padding-left: 20px; padding-right: 20px; height:auto; max-height: 500px; overflow: scroll;
+
+							}
+							#compose {
+								margin-left: 20px;
+								margin-right: 20px;
+							}
+							}
+
+						</style>
+						<div class="form-group row">
+							<button id="compose" class="btn btn-md col-sm-8 col-md-8 btn-success btn-block"  type="button"> <i class="fa fa-edit"></i> Message</button>
+						</div>
+						
+						<div class="form-group row chat-box1">
+							<div class="col-sm-12 col-md-12 mail_list_column">
+								{% for comment in comments %}
+								<a href="#">
+								<div class="mail_list">
+								<div class="left">
+								{% if comment.user.phone == user.phone  %}
+								<i class="fa fa-star" style="color: red;"></i>
+								{% else %}
+								<i class="fa fa-star"></i>
+								{% endif %}
+								<br>
+								
+								</div>
+								<div class="right">
+								<h3> <i class="fa fa-user"></i> {{comment.user.first_name}} {{comment.user.last_name}} 
+									<span class="badge bg-green" style="margin-left:5px;">{{comment.user.role}}</span>
+									<br>
+									 <i class="fa fa-phone-square"></i> {{comment.user.phone}}  <small> 
+									{% if comment.attachments %}
+									<a  href="{{comment.attachments.url}}" target='_blank' style="padding-right: 20px; margin-top: 5px;" > <i class="fa fa-paperclip fa-2x"></i> </a> 
+									{% endif %} 
+									{{comment.created}}</small>
+								</h3>
+								{% if comment.message %}
+								<p style="max-width:70%; text-align: justify;"> <i class="fa fa-envelope"></i> {{comment.message}}</p>
+								{% endif %}
+								{% if not comment.message %}
+								<br>
+								{% endif %}
+
+								</div>
+								</div>
+								</a>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="compose col-md-6 " id="compose-box" style="display: none;"><grammarly-extension data-grammarly-shadow-root="true" class="cGcvT" style="position: absolute; top: -1px; left: -1px; pointer-events: none;"></grammarly-extension>
+					<div class="compose-header">
+					New Message
+					<button type="button" class="close compose-close">
+					<span>×</span>
+					</button>
+					</div>
+					<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %} 
+					<div class="compose-body">
+					<div id="alerts"></div>
+					<div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor">
+					<div class="btn-group">
+					<a class="btn" title="Insert picture (or just drag &amp; drop)" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
+					<input type="file" style="margin-top: 5px;" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="lead_attachments" value="{{lead.comments.attachments}}">
+					</div>
+					</div>
+					<input id="editor" type="text" name="lead_chat" value="{{lead.comments.message}}" class="editor-wrapper placeholderText" style="width: 100%;" contenteditable="true" spellcheck="false" />
+					</div>
+					<div class="compose-footer">
+					<button class="btn btn-sm btn-success" name='lead_chat_updated' value='{{lead.id}}' >Send</button>
+					</div>
+					</form>
+				</div>
+				<!-- /page content -->
+
+				<!-- profile update -->
+				
+
+				<!-- footer content -->
+				<footer>
+					<div class="pull-right">
+						<label for="">Lead Created By:</label>	{{ruser.first_name}} {{ruser.last_name}},
+
+						<label for="">Email:</label> {{ruser.email}},
+						 
+						<label for="">Phone:</label>{{ruser.phone}}
+
+					</div>
+				</footer>
+				<!-- /footer content -->
+			</div>
+		</div>
+		
+		<div class="compose col-md-6 " id="compose-box" style="display: none;"><grammarly-extension data-grammarly-shadow-root="true" class="cGcvT" style="position: absolute; top: -1px; left: -1px; pointer-events: none;"></grammarly-extension>
+			<div class="compose-header">
+			New Message
+			<button type="button" class="close compose-close">
+			<span>×</span>
+			</button>
+			</div>
+			<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %} 
+			<div class="compose-body">
+			<div id="alerts"></div>
+			<div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor">
+			<div class="btn-group">
+			<a class="btn" title="Insert picture (or just drag &amp; drop)" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
+			<input type="file" style="margin-top: 5px;" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="lead_attachments" value="{{lead.comments.attachments}}">
+			</div>
+			</div>
+			<input id="editor" type="text" name="lead_chat" value="{{lead.comments.message}}" class="editor-wrapper placeholderText" style="width: 100%;" contenteditable="true" spellcheck="false" />
+			</div>
+			<div class="compose-footer">
+			<button class="btn btn-sm btn-success" name='lead_chat_updated' value='{{lead.id}}' >Send</button>
+			</div>
+			</form>
+		</div>
+		
+		<!-- jQuery -->
+		
+		<script src="{%static '/vendors/jquery/dist/jquery.min.js' %}"></script>
+		<!-- Bootstrap -->
+		<script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<!-- Referred By   -->
+		<!-- FastClick -->
+		<script src="{%static '/vendors/fastclick/lib/fastclick.js' %} "></script>
+		<script src="js/bootstrap.js"></script>
+		<!-- NProgress -->
+		<script src="{%static '/vendors/nprogress/nprogress.js' %}"></script>
+		<!-- jQuery custom content scroller -->
+		<script src="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+		<!-- Custom Theme Scripts -->
+		<script src="{%static '/build/js/custom.min.js' %}"></script>
+		<script>
+			$('.btn').on('click', function() {
+    		var $this = $(this);
+  			$this.button('loading');
+    		setTimeout(function() {
+       		$this.button('reset');
+			}, 1000);
+			});
+		</script>
+	</body>
+</html>

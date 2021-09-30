@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %} 
+{% load widget_tweaks %} 
+{% load crispy_forms_tags %}
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Lead page</title>
+
+<!-- Bootstrap -->
+<link
+href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}"
+rel="stylesheet"
+/>
+<!-- Font Awesome -->
+<link
+href="{% static '/vendors/font-awesome/css/font-awesome.min.css'%}"
+rel="stylesheet"
+/>
+<!-- NProgress -->
+<link
+href="{%static '/vendors/nprogress/nprogress.css'%}"
+rel="stylesheet"
+/>
+<!-- jQuery custom content scroller -->
+<link
+href="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' %}"
+rel="stylesheet"
+/>
+
+<!-- Custom Theme Style -->
+<link href="{%static '/build/css/custom.min.css' %}" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style>
+
+/* .form_wizard .stepContainer {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 0 solid #CCC;
+    overflow-x: visible !important;
+} */
+
+.custom-switch.custom-switch-lg {
+padding-bottom: 1rem;
+padding-left: 2.25rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label {
+padding-left: 0.75rem;
+padding-top: 0.15rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::before {
+border-radius: 1rem;
+height: 1.5rem;
+width: 2.5rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::after {
+border-radius: 0.65rem;
+height: calc(1.5rem - 4px);
+width: calc(1.5rem - 4px);
+}
+.custom-switch.custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+transform: translateX(1rem);
+}
+
+</style>
+<style>
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+position: absolute;
+left: -9999px;
+}
+[type="radio"]:checked + label,
+[type="radio"]:not(:checked) + label
+{
+position: relative;
+padding-left: 28px;
+cursor: pointer;
+line-height: 20px;
+display: inline-block;
+color: #666;
+}
+[type="radio"]:checked + label:before,
+[type="radio"]:not(:checked) + label:before {
+content: '';
+position: absolute;
+left: 0;
+top: 0;
+width: 18px;
+height: 18px;
+border: 1px solid #ddd;
+border-radius: 100%;
+background: #fff;
+}
+[type="radio"]:checked + label:after,
+[type="radio"]:not(:checked) + label:after {
+content: '';
+width: 12px;
+height: 12px;
+background: #0ea2e0;
+position: absolute;
+top: 4px;
+left: 4px;
+border-radius: 100%;
+-webkit-transition: all 0.2s ease;
+transition: all 0.2s ease;
+}
+[type="radio"]:not(:checked) + label:after {
+opacity: 0;
+-webkit-transform: scale(0);
+transform: scale(0);
+}
+[type="radio"]:checked + label:after {
+opacity: 1;
+-webkit-transform: scale(1);
+transform: scale(1);
+}
+</style>
+
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('#myModal').modal('show');
+    });
+</script>
+</head>
+
+<body class="nav-md">
+<div class="container body">
+<div class="main_container">
+<div class="col-md-3 left_col">
+<div class="left_col scroll-view">
+<div class="navbar nav_title" style="border: 0">
+<a href="{% url 'dashboard' %}"class="site_title"
+><img src="https://i.ibb.co/XXCGXRJ/bc-logo.png" alt="" style="max-width: 200px;"></a
+>
+</div>
+
+<div class="clearfix"></div>
+
+<!-- menu profile quick info -->
+<div class="profile clearfix">
+<div class="profile_pic">
+{% if user.image %}
+<img
+src="{{user.image.url}}"
+alt="..."
+class="img-circle profile_img"
+/>
+
+{% endif %}
+</div>
+<br>
+<br>
+<span>{{user.first_name}} {{user.last_name}}</span>
+<span class="badge bg-green">{{user.role}}</span>
+
+</div>
+<!-- /menu profile quick info -->
+
+<br />
+
+<!-- sidebar menu -->
+<div
+id="sidebar-menu"
+class="main_menu_side hidden-print main_menu"
+>
+<div class="menu_section">
+
+<ul class="nav side-menu">
+<li>
+<a href="{% url 'dashboard' %}"
+><i class="fa fa-map"></i>Dashboard</a
+>
+</li>
+
+{% if user.role == 'ADMIN' %}
+<li>
+<a href="{% url 'bodashboard' %}"
+><i class="fa fa-map"></i>Back Office Dashboard</a
+>
+</li>
+<li>
+    <a href="{% url 'verify_lead' %}">
+        <i class="fa fa-map"></i>Verify Lead
+    </a>
+</li>
+<li>
+<a href="{% url 'account' %}">
+<i class="fa fa-map"></i>Account
+</a>
+</li>
+
+<li>
+<a href="{% url 'reports' %}"
+><i class="fa fa-file"></i>Reports</a
+>
+</li>
+{% endif %}
+
+{% if user.profile_update %}
+<li>
+<a href="{% url 'profile' %}"
+><i class="fa fa-home"></i>Profile</a
+>
+</li>
+{% else %}
+<li>
+<a href="{% url 'profile' %}"
+><i class="fa fa-home"></i>Profile  <span style="color:red" > incomplete </span>  </a>
+</li>
+{% endif %}
+{% if user.role in 'ADMIN,ACCOUNT,AFM,RM,AF,DSA' %}
+<li>
+    <a href="{% url 'micdashboard' %}">
+            <i class="fa fa-map"></i>MIC Dashboard
+</a>
+</li>
+{% endif %}
+
+{% if user.is_verified  %}
+{% if user.role not in 'CONNECTOR , AF' %}
+<li>
+<a href="{% url 'register' %}"
+><i class="fa fa-pencil"></i> Register</a
+>
+</li>
+
+<li>
+<a href="{% url 'usermanager' %}"><i class="fa fa-newspaper-o"></i> User Management </a>
+</li>
+{% endif %}
+
+<li><a><i class="fa fa-edit"></i> Leads <span class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+        <li>
+            <a href="{% url 'commercial_vehicle_loans' %}"><i class="fa fa-book"></i>C.V. Loans</a>
+        </li>
+        <li>
+            <a href="{% url 'car_loans' %}"><i class="fa fa-book"></i>Car Loans</a>
+        </li>
+           <li>
+            <a href="{% url 'credit_cards' %}"><i class="fa fa-book"></i>Credit Cards</a>
+        </li>
+        <li>
+            <a href="{% url 'personal_loans' %}"><i class="fa fa-book"></i>Personal Loans</a>
+        </li>
+        <li>
+            <a href="{% url 'hl_lap' %}"><i class="fa fa-book"></i>HL/LAP</a>
+        </li>
+    </ul>
+    <script>
+        $(document).ready(function () {
+                $('.fa-chevron-down').click(function () {
+            console.log('Hello down')
+            $('.fa-edit').toggleClass('active');
+        });
+        });
+    </script>
+</li>
+
+<li>
+<a href="{% url 'incomplete_lead' %}"
+><i class="fa fa-book"></i> Lead  <span style="color:red" > incomplete </span></a
+>
+</li>
+<li>
+<a href="{% url 'yourlead' %}"
+><i class="fa fa-bar-chart"></i> Your Lead</a
+>
+</li>
+<li>
+<a href="{% url 'pipeline' %}"
+><i class="fa fa-bar-chart"></i> Pipeline</a
+>
+</li>
+{% endif %}
+
+</ul>
+</div>
+</div>
+<!-- /sidebar menu -->
+
+<!-- /menu footer buttons -->
+<div class="sidebar-footer hidden-small">
+<a data-toggle="tooltip" data-placement="top" title="Settings">
+<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+</a>
+<a data-toggle="tooltip" data-placement="top" title="FullScreen">
+<span
+class="glyphicon glyphicon-fullscreen"
+aria-hidden="true"
+></span>
+</a>
+<a data-toggle="tooltip" data-placement="top" title="Lock">
+<span
+class="glyphicon glyphicon-eye-close"
+aria-hidden="true"
+></span>
+</a>
+<a
+data-toggle="tooltip"
+data-placement="top"
+title="Logout"
+href="login.html"
+>
+<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+</a>
+</div>
+<!-- /menu footer buttons -->
+</div>
+</div>
+
+<!-- top navigation -->
+<div class="top_nav">
+<div class="nav_menu">
+<div class="nav toggle">
+<a id="menu_toggle"><i class="fa fa-bars"></i></a>
+</div>
+<nav class="nav navbar-nav">
+<ul class="navbar-right">
+<li class="nav-item dropdown open" style="padding-left: 15px">
+<a
+href="javascript:;"
+class="user-profile dropdown-toggle"
+aria-haspopup="true"
+id="navbarDropdown"
+data-toggle="dropdown"
+aria-expanded="false"
+>
+{% if user.image %}
+<img src="{{user.image.url}}" alt="" />
+{{user.first_name}}
+{% else %}
+<img src="" alt="" />{{user.first_name}}
+{% endif %}	
+</a>
+<div
+class="dropdown-menu dropdown-usermenu pull-right"
+aria-labelledby="navbarDropdown"
+>
+{% if user.is_verified %}
+<a class="dropdown-item"   href="{%url 'dashboard'  %}">Dashboard</a>
+<a class="dropdown-item"   href="{%url 'usermanager'  %}">User Management</a>
+
+<a class="dropdown-item"   href="{%url 'hl_lap'  %}">HL/LAP</a>
+<a class="dropdown-item"   href="{%url 'incomplete_lead'  %}">Incomplete Lead</a>
+<a class="dropdown-item"   href="{%url 'yourlead'  %}">Your Lead</a>
+{% endif %}
+<a class="dropdown-item"   href="{%url 'profile'  %}">Profile</a>
+<a class="dropdown-item"  href="{%url 'password_change'  %}"> Change Password </a>
+<a class="dropdown-item"  href="{%url 'logout'  %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+</div>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<!-- /top navigation -->
+<!-- page content -->
+<div class="right_col" role="main">
+<div class="">
+<div class="page-title">
+<div class="title_left">
+<h3>Personal Loan</h3>
+</div>
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+<div class="col-md-12 col-sm-12">
+<div class="x_panel">
+<div class="x_title">
+
+<ul class="nav navbar-right panel_toolbox">
+<li>
+<a class="collapse-link"
+><i class="fa fa-chevron-up"></i
+></a>
+</li>
+<li class="dropdown">
+<a
+href="#"
+class="dropdown-toggle"
+data-toggle="dropdown"
+role="button"
+aria-expanded="false"
+><i class="fa fa-wrench"></i
+></a>
+</li>
+<li>
+<a class="close-link"><i class="fa fa-close"></i></a>
+</li>
+</ul>
+<div class="clearfix">
+{% if messages %}
+{% for message in messages %} 
+<div class="alert {{ message.tags }} alert-dismissible" role="alert">
+<h6>{{message}} </h6>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id='myModal'>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Mandatory Documents</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Keep below documents ready to upload</p>
+          <label class="col-form-label col-md-12 col-sm-12 ">1. PAN CARD</label>
+          <br>
+          <label class="col-form-label col-md-12 col-sm-12 ">2. AADAHR CARD</label>
+          <br>
+          <label class="col-form-label col-md-12 col-sm-12 ">3. Current Address Proof</label>
+          <br>
+          <label class="col-form-label col-md-12 col-sm-12 ">4. Bank Statements</label>
+          <br>
+          <label class="col-form-label col-md-12 col-sm-12 ">5. Payslip (Last 3 Months)</label>
+          <br>
+          <label class="col-form-label col-md-12 col-sm-12 ">6. Stamp Size Photo</label>
+          <br>
+          <label class="col-form-label col-md-12 col-sm-12 ">7. Job Offer Letter( if job is < 1 year)</label>
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="x_content">
+<!-- Smart Wizard -->
+<div id="wizard" class="form_wizard wizard_horizontal">
+<ul class="wizard_steps anchor">
+<li>
+<a href="#step-1" class="selected" isdone="1" rel="1">
+<span class="step_no">1</span>
+<span class="step_descr">Step 1<br>
+<small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mobile Number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
+</span>
+</a>
+</li>
+<li>
+<a href="#step-2" class="disabled" isdone="0" rel="2">
+<span class="step_no">2</span>
+<span class="step_descr">
+Step 2<br>
+<small>Official Details </small>
+</span>
+</a>
+</li>
+<li>
+<a href="#step-3" class="disabled" isdone="0" rel="3">
+<span class="step_no">3</span>
+<span class="step_descr">
+Step 3<br>
+<small>Personal Details</small>
+</span>
+</a>
+</li>
+<li>
+<a href="#step-4" class="disabled" isdone="0" rel="4">
+<span class="step_no">4</span>
+<span class="step_descr">
+Step 4<br>
+<small>Upload Documents</small>
+</span>
+</a>
+</li>
+<li>
+<a href="#step-5" class="disabled" isdone="0" rel="5">
+<span class="step_no">5</span>
+<span class="step_descr">
+Step 5<br>
+<small>Submit</small>
+</span>
+</a>
+</li>
+</ul>
+
+<!-- Personal Loan -->
+<div class="stepContainer" >
+    <form  method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Mobile Number -->
+        <div id="step-1" class="content" style="display: block; height: 320px;">
+        <h2 class="StepTitle"> Step1 Mobile Details</h2>
+        <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">Mobile Number</label>
+        <div class="col-md-6 col-sm-6">
+            <input type="text" class="form-control" name="personal_loan_phone">
+        </div>
+        </div>
+        </div>
+
+        <!--  Official Details -->
+        <div id="step-2" class="content" style="display: none;height:500px;">
+            <h2 class="StepTitle">Step 2 Official Details</h2>
+            
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align">Required Loan Amount</label>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" class="form-control" name="personal_loan_required_loan_amount">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align">Monthly Take Home Salary</label>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" class="form-control" name="personal_loan_take_home_salary">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align">Living City</label>
+                <div class="col-md-6 col-sm-6">
+                    <select class="form-control" name="personal_loan_living_city" id="personal_loan_living_city">
+                        <option value="ch1">Choose option</option>
+                        {% for city in cities %}
+                        <option value="{{city}}">{{city}}</option>
+                        {% endfor  %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align">Salary Account Bank</label>
+                <div class="col-md-6 col-sm-6">
+                    <select class="form-control" name="personal_loan_salary_account_bank" id="personal_loan_salary_account_bank">
+                        <option value="ch2">Choose option</option>
+                        {% for bank in salary_account_banks %}
+                        <option value="{{bank}}">{{bank}}</option>
+                        {% endfor  %}
+                    </select>
+                </div>
+            </div>    
+        </div>
+
+        <!-- Personal Details  -->
+        <div id="step-3" class="content" style="height:550px;">
+        <h2 class="StepTitle">Step 3 Personal Details </h2>
+            <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name 
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+            <input type="text" id="first-name" name="personal_loan_first_name"  class="form-control">
+            </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name 
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+            <input type="text" id="last-name" name="personal_loan_last_name"  class="form-control">
+            </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="pincode">Residencial Pin Code
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+            <input type="text" id="last-name" name="personal_loan_pin_code"  class="form-control">
+            </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="official_email"> Email
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+            <input type="email" id="official_email" name="personal_loan_email"  class="form-control">
+            </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="existing_emi">Existing EMI
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                <input type="text" id="last-name" name="personal_loan_existing_emi"  class="form-control">
+                </div>
+            </div>		
+
+            <div class="form-group row" id="div_topup">
+                <label
+                class="col-form-label col-md-3 col-sm-3 label-align"
+                for="job-location"
+                > Experience Less Than 1 Year
+                </label>
+                <div class="col-md-6 col-sm-6">
+                <div class="custom-control custom-switch  custom-switch-lg">
+                <input type="checkbox" class="custom-control-input oneyear_experience" class="form-control" id="customSwitch1" onchange="lessathanOneYear()" name="oneyear_experience">
+                <label class="custom-control-label" for="customSwitch1">Yes</label>
+                </div>
+                </div>
+                <script type="text/javascript">
+                function lessathanOneYear()
+                {
+                if($('.oneyear_experience').is(":checked")) {
+                $(".personal_loan_job_offer_letter").show();
+                
+                }
+                else{
+                $(".personal_loan_job_offer_letter").hide();
+                
+                }
+                }
+                </script>
+            </div>
+        </div>
+
+
+        <!-- Upload Documents  -->
+        <div id="step-4" class="content" style="height:550px;">
+        <h2 class="StepTitle">Step 4 Upload Documents </h2>
+            <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="personal_loan_pancard">Pan Card
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+            <input type="file" id="personal_loan_pancard" name="personal_loan_pancard">
+            </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="personal_loan_adhaarcard">Adhaar Card
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+            <input type="file" id="personal_loan_adhaarcard" name="personal_loan_adhaarcard">
+            </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="current-address-proof">Current Address Proof
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+            <input type="file" id="personal_loan_current_address_proof" name="personal_loan_current_address_proof">
+            </div>
+            </div>
+            
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="bank_statement">Bank Statement (Last 6 months)
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                <input type="file" id="personal_loan_bank_statement" name="personal_loan_bank_statement">
+                </div>
+            </div>		
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="payslip">Pay Slip ( Last 3 months)
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                <input type="file" id="personal_loan_payslip" name="personal_loan_payslip">
+                </div>
+            </div>		
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="stamp_size_photo">Stamp Size Photo
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                <input type="file" id="personal_loan_stamp_size_photo" name="personal_loan_stamp_size_photo">
+                </div>
+            </div>		
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="personal_loan_form16_image">Form 16
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                <input type="file" id="personal_loan_form16_image" name="personal_loan_form16_image">
+                </div>
+            </div>		
+            <div class="form-group row personal_loan_job_offer_letter">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="job_offer_letter">Job Offer Letter
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                <input type="file" id="personal_loan_job_offer_letter" name="personal_loan_job_offer_letter">
+                </div>
+            </div>		
+        </div>
+
+        <!-- Submit Details -->
+        <div id="step-5" style="text-align:center">
+            <br>
+            <br>
+            <h2 class="StepTitle">Step 5 Submit</h2>
+            <span><p> I Accept Terms & Conditions</p></span> 
+            <br>
+            <button class="btn btn-danger"  type="submit">Submit</button>
+        </div>
+        </form>
+</div>	
+
+
+</div>
+<!-- jQuery -->
+
+
+<script>
+function phonenumbervalidation(){
+
+var phone = document.getElementById('phone').value;
+if (phone.length < 10 || phone.length>13 || phone.type == 'text'){
+alert("Please check phone number")
+}
+
+}
+
+</script>
+
+<script src="{%static '/vendors/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{%static '/vendors/fastclick/lib/fastclick.js' %} "></script>
+<!-- NProgress -->
+<script src="{%static '/vendors/nprogress/nprogress.js' %}"></script>
+<!-- jQuery custom content scroller -->
+<script src="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<!-- jQuery Smart Wizard -->
+<script src="{%static '/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js' %}"></script>
+<!-- Custom Theme Scripts -->
+<script src="{%static '/build/js/custom.min.js' %}"></script>
+
+
+</body>
+</html>

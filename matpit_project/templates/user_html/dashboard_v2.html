@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
+    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Dashboard</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+    <!-- Custom CSS -->
+    <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+
+     <!-- Custom CSS -->
+     <link rel="stylesheet" href="{% static 'monster/src/assets/libs/apexcharts/dist/apexcharts.css' %}">
+     <link href="{% static '/monster/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css' %}" rel="stylesheet" />
+     <link href="{% static '/monster/src/assets/libs/fullcalendar/dist/fullcalendar.min.css' %}" rel="stylesheet" />
+     
+
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#009efb" stroke-width="2"></path>
+          <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34" stroke="#009efb" stroke-width="2"></path>
+          <path id="teabag" fill="#009efb" fill-rule="evenodd" clip-rule="evenodd" d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+          <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#009efb"></path>
+          <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#009efb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% include 'static_template/top_nav.html' %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% include 'static_template/sidebar_v2.html' %}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- Row -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Row -->
+                                <div class="row">
+                                    <div class="col-8"><span class="display-6">2376 <i class="ti-angle-down fs-3 text-danger"></i></span>
+                                        <h6>Total Visits</h6></div>
+                                    <div class="col-4 align-self-center text-end  pl-0">
+                                        <div id="total-visits"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Row -->
+                                <div class="row">
+                                    <div class="col-8"><span class="display-6">3670 <i class="ti-angle-up fs-3 text-success"></i></span>
+                                        <h6>Page Views</h6></div>
+                                    <div class="col-4 align-self-center text-end pl-0">
+                                        <div id="page-views"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Row -->
+                                <div class="row">
+                                    <div class="col-8"><span class="display-6">1562 <i class="ti-angle-up fs-3 text-success"></i></span>
+                                        <h6>Unique Visits</h6></div>
+                                    <div class="col-4 align-self-center text-end pl-0">
+                                        <div id="unique-visits"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Row -->
+                                <div class="row">
+                                    <div class="col-8"><span class="display-6">35% <i class="ti-angle-down fs-3 text-danger"></i></span>
+                                        <h6>Bounce Rate</h6></div>
+                                    <div class="col-4 align-self-center text-end pl-0">
+                                        <div id="bounce-rate"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+                <!-- Row -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-md-flex align-items-center">
+                                    <h4 class="card-title">Total Revenue</h4>
+                                    <div class="ms-auto">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <h6 class="text-muted"><i class="fa fa-circle me-1" style="color:#51bdff"></i>2015</h6>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <h6 class="text-muted"><i class="fa fa-circle me-1" style="color:#11a0f8"></i>2016</h6>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <h6 class="text-muted"><i class="fa fa-circle me-1 text-info"></i>2020</h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="total-revenue"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Sales Prediction</h4>
+                                        <div class="row">
+                                            <div class="col-5 col-md-6 align-self-center">
+                                                <span class="display-6 text-primary text-truncate d-block">$3528</span>
+                                                <h6 class="text-muted text-truncate">10% Increased</h6>
+                                                <h5 class="text-truncate">(150-165 Sales)</h5>
+                                            </div>
+                                            <div class="col-7 col-md-6 d-flex justify-content-end">
+                                                <div id="sales-prediction"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Sales Difference</h4>
+                                        <div class="row">
+                                            <div class="col-5 col-md-6 align-self-center">
+                                                <span class="display-6 text-success text-truncate d-block">$4316</span>
+                                                <h6 class="text-muted text-truncate">10% Increased</h6>
+                                                <h5 class="text-truncate">(150-165 Sales)</h5>
+                                            </div>
+                                            <div class="col-7 col-md-6 d-flex justify-content-end">
+                                                <div id="sales-difference"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Total Visits</h4>
+                                <div id="visitfromworld" style="width:100%!important; height:415px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Browser Stats</h4>
+                                <div class="table-responsive">
+                                    <table class="table browser mt-4 table-borderless no-wrap v-middle">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:40px"><img src="{% static '/monster/src/assets/images/browser/chrome-logo.png" alt=logo /></td>
+                                                <td class="fw-normal">Google Chrome</td>
+                                                <td class="text-end"><span class="badge bg-light-info text-info">23%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="{% static '/monster/src/assets/images/browser/firefox-logo.png" alt=logo /></td>
+                                                <td class="fw-normal">Mozila Firefox</td>
+                                                <td class="text-end"><span class="badge bg-light-success text-success">15%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="{% static '/monster/src/assets/images/browser/safari-logo.png" alt=logo /></td>
+                                                <td class="fw-normal">Apple Safari</td>
+                                                <td class="text-end"><span class="badge bg-light-primary text-primary">07%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="{% static '/monster/src/assets/images/browser/internet-logo.png" alt=logo /></td>
+                                                <td class="fw-normal">Internet Explorer</td>
+                                                <td class="text-end"><span class="badge bg-light-warning text-warning">09%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="{% static '/monster/src/assets/images/browser/opera-logo.png" alt=logo /></td>
+                                                <td class="fw-normal">Opera mini</td>
+                                                <td class="text-end"><span class="badge bg-light-danger text-danger">23%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="{% static '/monster/src/assets/images/browser/internet-logo.png" alt=logo /></td>
+                                                <td class="fw-normal">Microsoft edge</td>
+                                                <td class="text-end"><span class="badge bg-light-megna text-megna">09%</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="calendar" class="dashboard-calendar"></div>
+                                <!-- BEGIN MODAL -->
+                                <div class="modal fade none-border" id="my-event">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header d-flex align-items-center">
+                                                <h4 class="modal-title"><strong>Add Event</strong></h4>
+                                                <button type="button" class="close ms-auto" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body"></div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-white waves-effect" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
+                                                <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-bs-dismiss="modal">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal Add Category -->
+                                <div class="modal fade none-border" id="add-new-event">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header d-flex align-items-center">
+                                                <h4 class="modal-title"><strong>Add</strong> a category</h4>
+                                                <button type="button" class="close ms-auto" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label class="control-label">Category Name</label>
+                                                            <input class="form-control form-white" placeholder="Enter name" type="text" name="category-name" />
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="control-label">Choose Category Color</label>
+                                                            <select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
+                                                                <option value="success">Success</option>
+                                                                <option value="danger">Danger</option>
+                                                                <option value="info">Info</option>
+                                                                <option value="primary">Primary</option>
+                                                                <option value="warning">Warning</option>
+                                                                <option value="inverse">Inverse</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-bs-dismiss="modal">Save</button>
+                                                <button type="button" class="btn btn-white waves-effect" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END MODAL -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class=""><img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="100"></div>
+                                    <div class="ps-3">
+                                        <h3 class="font-weight-medium">Daniel Kristeen</h3>
+                                        <h6 class="text-muted">UI/UX Designer</h6>
+                                        <button class="btn btn-light-info text-info">Follow</button>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 pt-2">
+                                    <div class="col text-center border-end">
+                                        <h2 class="fw-light">14</h2>
+                                        <h6 class="text-muted">Photos</h6>
+                                    </div>
+                                    <div class="col text-center border-end">
+                                        <h2 class="fw-light">54</h2>
+                                        <h6 class="text-muted">Videos</h6>
+                                    </div>
+                                    <div class="col text-center">
+                                        <h2 class="fw-light">145</h2>
+                                        <h6 class="text-muted">Tasks</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body border-top">
+                                <p class="text-center scrollable text-muted" style="overflow: hidden; width: auto; height: 115px;">
+                                    Lorem ipsum dolor sit ametetur adipisicing elit, sed do eiusmod tempor incididunt adipisicing elit, sed do eiusmod tempor incididunLorem ipsum dolor sit ametetur adipisicing elit, sed do eiusmod tempor incididuntt
+                                </p>
+                                <ul class="list-icons d-flex flex-item text-center list-style-none">
+                                    <li class="col my-1">
+                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Website"><i data-feather="globe" class="ps-2"></i></a>
+                                    </li>
+                                    <li class="col my-1">
+                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="twitter"><i data-feather="twitter" class="ps-2"></i></a>
+                                    </li>
+                                    <li class="col my-1">
+                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Facebook"><i data-feather="facebook" class="ps-2"></i></a>
+                                    </li>
+                                    <li class="col my-1">
+                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Youtube"><i data-feather="youtube" class="ps-2"></i></a>
+                                    </li>
+                                    <li class="col my-1">
+                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Linkd-in"><i data-feather="linkedin" class="ps-2"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body border-top mt-4">
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <h4>Followers</h4></div>
+                                    <div class="col-3"><span class="round" data-bs-toggle="tooltip" title="Varun"><img class="rounded-3" src="{% static '/monster/src/assets/images/users/4.jpg" alt="user" width="45"/></span></div>
+                                    <div class="col-3"><span class="round" data-bs-toggle="tooltip" title="Alia"><img class="rounded-3" src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" width="45"/></span></div>
+                                    <div class="col-3"><span class="round" data-bs-toggle="tooltip" title="Akshay"><img class="rounded-3" src="{% static '/monster/src/assets/images/users/3.jpg" alt="user" width="45"/></span></div>
+                                    <div class="col-3"><span class="round d-inline-block text-center text-white bg-info rounded-3" data-bs-toggle="tooltip" title="More">5+</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Recent Chats</h4>
+                                <div class="chat-box scrollable" style="height: 375px;">
+                                    <!--chat Row -->
+                                    <ul class="chat-list m-0 p-0">
+                                        <!--chat Row -->
+                                        <li class="mt-4">
+                                            <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle" /></div>
+                                            <div class="chat-content ps-3 d-inline-block">
+                                                <h6 class="text-muted text-nowrap">James Anderson</h6>
+                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-info">Lorem Ipsum is simply dummy text of the printing & type setting industry.</div>
+                                            </div>
+                                            <div class="chat-time d-inline-block text-end text-muted">10:56 am</div>
+                                        </li>
+                                        <!--chat Row -->
+                                        <li class="mt-4">
+                                            <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" class="rounded-circle" /></div>
+                                            <div class="chat-content ps-3 d-inline-block">
+                                                <h6 class="text-muted text-nowrap">Bianca Doe</h6>
+                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-success">It’s Great opportunity to work.</div>
+                                            </div>
+                                            <div class="chat-time d-inline-block text-end text-muted">10:57 am</div>
+                                        </li>
+                                        <!--chat Row -->
+                                        <li class="odd mt-4">
+                                            <div class="chat-content ps-3 d-inline-block text-end">
+                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-inverse">I would love to join the team.</div>
+                                                <br/>
+                                            </div>
+                                            <div class="chat-time d-inline-block text-end text-muted">10:58 am</div>
+                                        </li>
+                                        <!--chat Row -->
+                                        <li class="odd mt-4">
+                                            <div class="chat-content ps-3 d-inline-block text-end">
+                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-inverse">Whats budget of the new project.</div>
+                                                <br/>
+                                            </div>
+                                            <div class="chat-time d-inline-block text-end text-muted">10:59 am</div>
+                                        </li>
+                                        <!--chat Row -->
+                                        <li class="mt-4">
+                                            <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/3.jpg" alt="user" class="rounded-circle" /></div>
+                                            <div class="chat-content ps-3 d-inline-block">
+                                                <h6 class="text-muted text-nowrap">Angelina Rhodes</h6>
+                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-primary">Well we have good budget for the project</div>
+                                            </div>
+                                            <div class="chat-time d-inline-block text-end text-muted">11:00 am</div>
+                                        </li>
+                                        <!--chat Row -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body border-top">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <textarea placeholder="Type your message here" class="form-control border-0"></textarea>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fas fa-paper-plane"></i> </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Recent Messages</h4>
+                                <div class="message-box scrollable" style="height: 476px;">
+                                    <div class="message-widget message-scroll">
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle online"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has been.</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:30 AM</span> 
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle busy"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Sonu Nigam</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">I've sung a song! See you at</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:10 AM</span> 
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <span class="round bg-info d-inline-block text-white text-center rounded-circle">A</span> <span class="profile-status rounded-circle away"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Arijit Sinh</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Simply dummy text of the printing and typesetting industry.</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:08 AM</span> 
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/4.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle offline"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Just see the my admin!</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:02 AM</span> 
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle online"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Welcome to the Elite Admin</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:30 AM</span> 
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle busy"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Sonu Nigam</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">I've sung a song! See you at</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:10 AM</span> 
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/3.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle away"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Arijit Sinh</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">I am a singer!</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:08 AM</span> 
+                                            </div>
+                                        </a>
+                                        <!-- Message -->
+                                        <a href="#" class="d-flex align-items-center p-3">
+                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/4.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle offline"></span> </div>
+                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
+                                                <div class="w-85">
+                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
+                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Just see the my admin!</span> 
+                                                </div>
+                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:02</span> 
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+    
+
+
+            <!-- footer -->
+            <!-- ============================================================== -->
+           {% include 'static_template/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- customizer Panel -->
+    <!-- ============================================================== -->
+    {% include 'static_template/custom-sidebar.html' %}
+    <!-- ============================================================== -->
+     <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/extra-libs/taskboard/js/jquery.ui.touch-punch-improved.js' %}"></script>
+    <script src="{% static '/monster/src/assets/extra-libs/taskboard/js/jquery-ui.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- apps -->
+    <script src="{% static '/monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app-style-switcher.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static '/monster/dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static '/monster/dist/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static '/monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/custom.min.js' %}"></script>
+    <!--This page JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/moment/moment.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/fullcalendar/dist/fullcalendar.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/pages/calendar/cal-init.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js' %}"></script>
+    <script src="{% static '/monster/dist/js/pages/dashboards/dashboard4.js' %}"></script>
+</body>
+
+</html>

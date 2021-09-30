@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
+    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Personal Loan</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet">
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/steps.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+
+    <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
+
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            $('#myModal').modal('show');
+        });
+    </script>
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#009efb" stroke-width="2"></path>
+          <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34" stroke="#009efb" stroke-width="2"></path>
+          <path id="teabag" fill="#009efb" fill-rule="evenodd" clip-rule="evenodd" d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+          <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#009efb"></path>
+          <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#009efb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% include 'static_template/top_nav.html' %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% include 'static_template/sidebar.html' %}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+           
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table customize-table mb-0 v-middle">
+                            <thead class="table-light">
+                                <tr>
+                                  <th class="border-bottom border-top">Contact Details</th>
+                                  <th class="border-bottom border-top">Refferred By</th>
+                                  <th class="border-bottom border-top">Bank Details</th>
+                                  <th class="border-bottom border-top"># Identity Cards</th>
+                                  <th class="border-bottom border-top">View Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                <tr>
+                                    <td class="contact_details">
+                                        <a>{{user.first_name}}</a>
+                                        <a> {{user.last_name}}</a>
+                                        <br />
+                                        <span name='email' value="{{user.email}}"><i class="fa fa-envelope"></i>
+                                            {{user.email}}</a>
+                                        <br />
+                                        <a><i class="fa fa-phone"></i>
+                                            {{user.phone}}</a>
+                                        <br />
+                                        <a> {{user.role}} </a>
+                                        <br />
+                                        <small>{{user.created_at}}</small>
+                                    </td>
+                                    
+                                    
+                                    <td class="referred_user">
+                                        <a>{{user.manager.first_name}}</a>
+                                        <a> {{user.manager.last_name}}</a>
+                                        <br />
+                                        <span name="manager_email" value="{{user.manager.email}}"><i class="fa fa-envelope"></i>
+                                            {{user.manager.email}}</span>
+                                        <br />
+                                        <a><i class="fa fa-phone"></i>
+                                            {{user.manager.phone}}</a>
+                                        <br />
+                                        <a> {{user.manager.role}} </a>
+                                        <br />
+                                        <small>{{user.manager.created_at}}</small>
+                                    </td>
+                                         
+
+                                    <td class="bank_details">
+                                        <label for="account_number">
+                                            <strong>Account Number:</strong></label
+                                        >
+                                        <a>{{user.account_number}}</a>
+                                        <br />
+                                        <label for="account_name">
+                                            <strong>Account Name:</strong>
+                                        </label>
+                                        <a>{{user.account_name}}</a>
+                                        <br />
+                                        <label for="ifsc_code">
+                                            <strong>IFSC CODE:</strong>
+                                        </label>
+                                        <a>{{user.ifsc_code}}</a>
+                                        <br />
+                                        <small>
+                                            <a>  {{user.profile_created}}</a> </small>
+                                        
+                                    </td>
+                                        
+                                    <td class="upload_documents">
+                                        <small>
+                                        {% if user.adhaar_image %}	
+                                        <span href="{{user.adhaar_image.url}}" target="_blank"  class="btn btn-info btn-sm">
+                                            <small> <i class="fa fa-camera" aria-hidden="true"></i> Aadhar Card </small>
+                                        </span>
+                                        <br>
+                                        {% else %}
+                                        <span href="" target="_blank"  class="btn btn-info btn-sm">
+                                            <small> <i class="fa fa-camera" aria-hidden="true"></i> Aadhar Card </small>
+                                        </span>
+                                        <br>
+                                        {% endif %}
+                                        <br>
+                                        {% if user.pancard_image %}
+                                            <span href="{{user.pancard_image.url}}" target="_blank"  class="btn btn-danger btn-sm">
+                                            <small>
+                                                <i class="fa fa-camera" aria-hidden="true"></i> Pan Card
+                                            </small>
+                                        </span>
+                                        <br>
+                                        {% else %}
+                                        <span href="" target="_blank"  class="btn btn-info btn-sm">
+                                            <small>
+                                                <i class="fa fa-camera" aria-hidden="true"></i> Pan Card
+                                            </small>
+                                        </span>
+                                        <br>
+                                        {% endif %}
+                                        <br>
+                                        {% if user.cancelled_cheque %}
+                                        <span
+                                            href="{{user.cancelled_cheque_image.url}}"
+                                            class="btn btn-primary btn-sm" target="_blank" 
+                                            > <small> <i class="fa fa-camera" aria-hidden="true"></i> 
+                                            Cancelled Cheque </small> 
+                                            </span>
+                                        {%  else %}
+                                        <span href="" target="_blank"  class="btn btn-info btn-sm">
+                                            <small>
+                                                <i class="fa fa-camera" aria-hidden="true"></i> Cancelled Cheque
+                                            </small>
+                                        </span>
+                                        {% endif %}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <button
+																type="submit"
+																class="btn waves-effect waves-light btn-rounded btn-primary"
+																name="details"
+																id="load1" 
+																data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>Loading.."
+																value="{{user.id}}"
+															>
+																Details
+															</button>
+															{% if not user.is_suspended and user.is_active %}
+															<button
+																type="button"
+																class="btn waves-effect waves-light btn-rounded btn-danger"
+																data-bs-toggle="modal"
+																data-bs-target="#Suspend{{user.id}}"
+															>
+																Suspend
+															</button>
+															<!-- Modal -->
+															<div
+																class="modal fade"
+																id="Suspend{{user.id}}"
+																tabindex="-1"
+																role="dialog"
+																aria-labelledby="exampleModalLabel"
+																aria-hidden="true"
+															>
+																<div class="modal-dialog" role="document">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5
+																				class="modal-title"
+																				id="exampleModalLabel"
+																			>
+																				Suspend User {{user.first_name}}
+																				{{user.last_name}} for role
+																				{{user.role}}
+																			</h5>
+																			<button
+																				type="button"
+																				class="close"
+																				data-bs-dismiss="modal"
+																				aria-label="Close"
+																			>
+																				<span aria-hidden="true">&times;</span>
+																			</button>
+																		</div>
+																		<div class="modal-body">
+																			Confirm if you want to suspend
+																			{{user.first_name}} for the role
+																			{{user.role}} ?
+																		</div>
+																		<div class="modal-footer">
+																			<button
+																				type="button"
+																				class="btn btn-secondary"
+																				data-bs-dismiss="modal"
+																			>
+																				Close
+																			</button>
+
+																			<button
+																				type="submit"
+																				class="btn btn-danger"
+																				name="suspend"
+																				value="{{user.id}}"
+																			>
+																				Confirm
+																			</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															{% endif %} 
+															{% if user.is_suspended %}
+															<button
+																type="button"
+																class="btn btn-success btn-xs"
+																data-bs-toggle="modal"
+																data-bs-target="#Active{{user.id}}"
+															>
+																Retain
+															</button>
+															<!-- Modal -->
+															<div
+																class="modal fade"
+																id="Active{{user.id}}"
+																tabindex="-1"
+																role="dialog"
+																aria-labelledby="exampleModalLabel"
+																aria-hidden="true"
+															>
+																<div class="modal-dialog" role="document">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5
+																				class="modal-title"
+																				id="exampleModalLabel"
+																			>
+																				Retain {{user.first_name}}
+																				{{user.last_name}} for role
+																				{{user.role}}
+																			</h5>
+																			<button
+																				type="button"
+																				class="close"
+																				data-bs-dismiss="modal"
+																				aria-label="Close"
+																			>
+																				<span aria-hidden="true">&times;</span>
+																			</button>
+																		</div>
+																		<div class="modal-body">
+																			Confirm if you want to retain
+																			{{user.first_name}} {{user.last_name}} for
+																			the role {{user.role}} ?
+																		</div>
+																		<div class="modal-footer">
+																			<button
+																				type="button"
+																				class="btn btn-secondary"
+																				data-bs-dismiss="modal"
+																			>
+																				Close
+																			</button>
+
+																			<button
+																				type="submit"
+																				class="btn btn-success"
+																				name="active"
+																				value="{{user.id}}"
+																			>
+																				Retain
+																			</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															{% endif %}
+															<br>
+															{% if not user.is_active %}
+															<button
+																type="button"
+																class="btn btn-warning btn-xs"
+																data-bs-toggle="modal"
+																data-bs-target="#Resend{{user.id}}"
+															>
+															Resend Activation Link 
+															</button>
+															<!-- Modal -->
+															<div
+																class="modal fade"
+																id="Resend{{user.id}}"
+																tabindex="-1"
+																role="dialog"
+																aria-labelledby="exampleModalLabel"
+																aria-hidden="true"
+															>
+																<div class="modal-dialog" role="document">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5
+																				class="modal-title"
+																				id="exampleModalLabel"
+																			>
+																				Resend Activation Link 
+																			</h5>
+																			<button
+																				type="button"
+																				class="close"
+																				data-bs-dismiss="modal"
+																				aria-label="Close"
+																			>
+																				<span aria-hidden="true">&times;</span>
+																			</button>
+																		</div>
+																		<div class="modal-body">
+																			Confirm if you want to send an activation link to 
+																			{{user.first_name}} for the role
+																			{{user.role}} ?
+																		</div>
+																		<div class="modal-footer">
+																			<button
+																				type="button"
+																				class="btn btn-secondary"
+																				data-bs-dismiss="modal"
+																			>
+																				Close
+																			</button>
+
+																			<button
+																				type="submit"
+																				class="btn btn-danger"
+																				name="resend"
+																				value="{{user.id}}"
+																			>
+																				Confirm
+																			</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															{% endif %}
+                                    </td>
+                                </tr>
+                                </form>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                
+               
+               
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
+            </div>
+
+
+
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {% include 'static_template/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- customizer Panel -->
+    <!-- ============================================================== -->
+    {% include 'static_template/custom-sidebar.html' %}
+    <!-- ============================================================== -->
+    
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- apps -->
+    <script src="{% static 'monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static 'monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static 'monster/dist/js/app-style-switcher.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static 'monster/dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static 'monster/dist/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static 'monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static 'monster/dist/js/custom.min.js' %}"></script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% load static %}
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>MIC</title>
+
+		<!-- Bootstrap -->
+		<link
+			href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}"
+			rel="stylesheet"
+		/>
+		<!-- Font Awesome -->
+		<link
+			href="{% static '/vendors/font-awesome/css/font-awesome.min.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- NProgress -->
+		<link
+			href="{%static '/vendors/nprogress/nprogress.css'%}"
+			rel="stylesheet"
+		/>
+		<!-- jQuery custom content scroller -->
+		<link
+			href="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' %}"
+			rel="stylesheet"
+		/>
+
+		<!-- Custom Theme Style -->
+		<link href="{%static '/build/css/custom.min.css' %}" rel="stylesheet" />
+		<style>
+			.footer_fixed {
+				max-width: 300%;
+			}
+		</style>
+	</head>
+
+	<body class="nav-md footer_fixed">
+		<div class="container body">
+			<div class="main_container">
+				<div class="col-md-3 left_col">
+					<div class="left_col scroll-view">
+						<div class="navbar nav_title" style="border: 0">
+							<a href="{% url 'dashboard' %}" class="site_title"
+								><img src="https://i.ibb.co/XXCGXRJ/bc-logo.png" alt="" style="max-width: 200px;"></a
+							>
+						</div>
+
+						<div class="clearfix"></div>
+
+						<!-- menu profile quick info -->
+						<div class="profile clearfix">
+							<div class="profile_pic">
+								{% if user.image %}
+								<img
+									src="{{user.image.url}}"
+									alt="..."
+									class="img-circle profile_img"
+								/>
+								{% else %} 
+								{{form.image}} 
+								{% endif %}
+							</div>
+							<br>
+							<br>
+								<span>{{user.first_name}} {{user.last_name}}</span>
+								<span class="badge bg-green">{{user.role}}</span>
+						</div>
+						<!-- /menu profile quick info -->
+
+						<br />
+
+						<!-- sidebar menu -->
+						<div
+							id="sidebar-menu"
+							class="main_menu_side hidden-print main_menu"
+						>
+							<div class="menu_section">
+								<ul class="nav side-menu">
+									
+									<li>
+										<a href="{% url 'dashboard' %}"
+											><i class="fa fa-map"></i>Dashboard</a
+										>
+									</li>
+									{% if user.role == 'ADMIN' %}
+									<li>
+										<a href="{% url 'bodashboard' %}"
+											><i class="fa fa-map"></i>Back Office Dashboard</a
+										>
+										</li>
+                                        <li>
+                                            <a href="{% url 'verify_lead' %}">
+                                                <i class="fa fa-map"></i>Verify Lead 
+                                            </a>
+                                        </li>
+										<li>
+											<a href="{% url 'account' %}"
+												><i class="fa fa-map"></i>Account</a>
+										</li>
+										
+										<li>
+											<a href="{% url 'reports' %}"
+												><i class="fa fa-file"></i>Reports</a
+											>
+										</li>
+									{% endif %}
+<li>
+											<a href="{% url 'micdashboard' %}">
+													<i class="fa fa-map"></i>MIC Dashboard
+										</a>
+										</li>
+
+									{% if user.profile_update %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile</a
+										>
+									</li>
+									{% else %}
+									<li>
+										<a href="{% url 'profile' %}"
+											><i class="fa fa-home"></i>Profile  <span style="color:red" > incomplete </span>  </a>
+									</li>
+									{% endif %}
+										
+									{% if user.is_verified %}
+									{% if user.role not in 'CONNECTOR , AF' %}
+									<li>
+										<a href="{% url 'register' %}"
+											><i class="fa fa-pencil"></i> Register</a
+										>
+									</li>
+
+									<li>
+										<a href="{% url 'usermanager' %}"><i class="fa fa-newspaper-o"></i> User Management </a>
+									</li>
+									{% endif %}
+									
+                                    <li><a><i class="fa fa-edit"></i> Leads <span class="fa fa-chevron-down"></span></a>
+										<ul class="nav child_menu">
+											<li>
+												<a href="{% url 'commercial_vehicle_loans' %}"><i class="fa fa-book"></i>C.V. Loans</a>
+											</li>
+											<li>
+												<a href="{% url 'car_loans' %}"><i class="fa fa-book"></i>Car Loans</a>
+											</li>
+											   <li>
+												<a href="{% url 'credit_cards' %}"><i class="fa fa-book"></i>Credit Cards</a>
+											</li>
+											<li>
+												<a href="{% url 'personal_loans' %}"><i class="fa fa-book"></i>Personal Loans</a>
+											</li>
+											<li>
+												<a href="{% url 'hl_lap' %}"><i class="fa fa-book"></i>HL/LAP</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="{% url 'incomplete_lead' %}"><i class="fa fa-book"></i> Lead  <span style="color:red" > incomplete </span> </a>
+									</li>
+
+									
+									
+									<li>
+										<a href="{% url 'pipeline' %}"
+											><i class="fa fa-bar-chart"></i> Pipeline</a>
+									</li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+						<!-- /sidebar menu -->
+					</div>
+				</div>
+
+				<!-- top navigation -->
+				<div class="top_nav" style="width:1800px">
+					<div class="nav_menu">
+						<div class="nav toggle">
+							<a id="menu_toggle"><i class="fa fa-bars"></i></a>
+						</div>
+						<nav class="nav navbar-nav">
+							<ul class="navbar-right">
+								<li class="nav-item dropdown open" style="padding-left: 15px">
+									{% if user.image %}
+									<a
+										href="javascript:;"
+										class="user-profile dropdown-toggle"
+										aria-haspopup="true"
+										id="navbarDropdown"
+										data-toggle="dropdown"
+										aria-expanded="false"
+									>
+										<img src="{{user.image.url}}" alt="" />{{user.first_name}}
+									</a>
+									{% endif %}
+
+									<div
+										class="dropdown-menu dropdown-usermenu pull-right"
+										aria-labelledby="navbarDropdown"
+									>
+									{% if user.is_verified %}
+									<a class="dropdown-item"   href="{%url 'dashboard'  %}">Dashboard</a>
+									{% if user.role not in 'CONNECTOR , AF' %}
+									<a class="dropdown-item"   href="{%url 'usermanager'  %}">User Management</a>
+									{% endif %}
+									
+									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Account</a>
+									{% endif %}
+									<a class="dropdown-item"   href="{%url 'profile'  %}">Profile</a>
+									<a class="dropdown-item"  href="{%url 'password_change'  %}"> Change Password </a>
+									<a class="dropdown-item"  href="{%url 'logout'  %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+									
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<!-- /top navigation -->
+
+				<!-- page content -->
+				<div class="right_col" role="main" style="width: 1800px;">
+					<div class="">
+						<div class="page-title">
+							<div class="title_left">
+								<h3>MIC DASHBAORD</h3>
+							</div>
+						</div>
+						
+						<div class="clearfix">
+							{% if messages %}
+								{% for message in messages %} 
+									<div class="alert {{ message.tags }} alert-dismissible" style="margin-top: 3rem;
+									text-align: center;
+									margin-bottom: 1rem;" role="alert">
+										<h6>{{message}} </h6>
+									</div>
+								{% endfor %}
+							{% endif %}	
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="x_panel">
+									<div class="x_title">
+										<h2>Total Enteries Found: {{count}}</h2>
+										<ul class="nav navbar-right panel_toolbox">
+											<li>
+												<a class="collapse-link"
+													><i class="fa fa-chevron-up"></i
+												></a>
+											</li>
+											<li>
+												<a class="close-link"><i class="fa fa-close"></i></a>
+											</li>
+										</ul>
+										<div class="clearfix"></div>
+									</div>
+									<div class="x_content" style="width:1700px">
+										<!-- start project list -->
+										
+										<form method="POST" enctype="multipart/form-data">
+										{% csrf_token %} 
+										<table  class="table projects table-responsive-xs"  width="100%">
+											{% if user.role in 'ADMIN,ACCOUNT' %}
+											<thead>
+												<tr>
+													
+													<th>Customer Name</th>
+													<th>Product Type</th>
+													<th>Loan Type</th>
+													<th>Loan Sub Type</th>
+													<th>Bank / NBFC name</th>
+													<th>Actual disbursement(A)</th>
+													<th>Disbursement Date</th>
+													<th>Lead - Channel</th>
+													<th>Affiliate/ DSA name</th>
+													<th>AFM/RM name</th>
+													<th>DSA code</th>
+													<th>Payout(%)(B)</th>
+													<th>Payout paid(C)</th>
+													<th>Payout Recieved(%)(D)</th>
+													<th>Payout Recieved(E)</th>
+													<th>Payout Recieved Date</th>
+													<th>AFM/RM incentive(%) (F)</th>
+													<th>AFM/RM incentive(G)</th>
+													<th>Net Revenue</th>
+													
+													
+												</tr>
+											</thead>
+											{% for lead in leads %}
+											<tbody>
+												<tr>
+													<td class="name">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>{{lead.applicant_first_name}}</a>
+														<a> {{lead.applicant_last_name}}</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> {{lead.company_name}} </a>
+														{% endif %}
+														{% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+														<a>{{lead.personal_loan_first_name}}</a>
+														<a> {{lead.personal_loan_last_name}}</a>
+														{% endif %}
+														<a>{{delayed_login}}</a>
+													</td>
+
+													<td class="product_type">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>HL/LAP</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> HL/LAP </a>
+														{% endif %}
+														{% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+														<a>Personal Loan</a>
+														{% endif %}
+
+													</td>
+													
+													<td class="loan_type">
+														<span class="badge badge-warning" style="color:white">{{lead.get_loan_type_display|upper}}</span>
+													</td>
+													
+													<td class="loan_sub_type">
+														{% if lead.loan_type == 'FL' %}
+														<span class="badge badge-danger" style="color:white">{{lead.get_fresh_loan_type_display|upper}}</span>
+														{% elif lead.loan_type == 'BT' %}
+														<span class="badge badge-info" style="color:white">{{lead.get_balance_transfer_type_display|upper}}</span>
+														{% else %}
+														<span class="badge badge-primary" style="color:white">N/A</span>
+														{% endif %}
+
+													</td>
+													
+													<td class="bank_name">
+														
+														<a>{{lead.login_bank}}</a>
+													</td>
+
+													<td class="actual_disbursement">
+														<a>{{lead.actual_disbursement}}</a>
+													</td>
+												
+													<td class="disbursement_date">
+														<a>{{lead.disbursement_date|date}}</a>
+													</td>
+													
+													<td class="lead_channel" style="width: 12%;">
+														{% if lead.created_by == user %}
+														<span class="badge badge-success" style="color:white">Direct</span>
+														
+
+														{% elif lead.created_by.manager == user or lead.created_by.manager.referred_by == user.referral_code  %}
+														<span class="badge badge-info" style="color:white">Referral</span>
+														{% endif %}
+													</td>	
+													
+													<td class="dsa_name" style="width: 12%;">
+														{% if lead.created_by.role in 'DSA,AF,ADMIN' %}
+														<a>{{lead.created_by.first_name}} {{lead.created_by.last_name}}</a>
+														{% else %}
+														<a>N/A</a>
+														{% endif %}
+													</td>	
+													<td class="afm/rm_name" style="width: 12%;">
+														{% if lead.created_by.manager.role in 'AFM,RM,ADMIN' %}
+														<a>{{lead.created_by.manager.first_name}} {{lead.created_by.manager.last_name}} </a>
+														{% else %}
+														<a>N/A</a>
+														{% endif %}
+													</td>	
+													<td class="dsa_code" style="width: 12%;">
+														<a>{{lead.dsa_code}}</a>
+													</td>	
+													<td class="payout_percentage" style="width: 12%;">
+														<a>{{lead.payout}}%</a>
+													</td>	
+													<td class="payout_paid" style="width: 12%;">
+														<a>{{lead.payout_paid}}</a>
+													</td>	
+													<td class="payout_recieved_percentage" style="width: 12%;">
+														<a>{{lead.payout_recieved_percentage}}%</a>
+													</td>	
+													<td class="payout_recieved" style="width: 12%;">
+														<a>{{lead.payout_recieved}}</a>
+													</td>	
+													<td class="payout_recieved_date" style="width: 12%;">
+														<a>{{lead.payout_recieved_date|date}}</a>
+													</td>	
+													<td class="incentives_percentage" style="width: 12%;">
+														<a>{{lead.incentives_percentage}}</a>
+													</td>	
+													<td class="incentives" style="width: 12%;">
+														<a>{{lead.incentives}}</a>
+													</td>	
+													<td class="net_revenue" style="width: 12%;">
+														<a>{{lead.net_revenue}}</a>
+													</td>
+												</tr>
+												
+													
+													
+													
+													
+													
+												
+												
+											</tbody>
+											{% endfor %}
+											{% endif %}
+											{% if user.role == 'AFM' or user.role == 'RM' %}
+											<thead>
+											<th>Customer Name</th>
+											<th>Product Type</th>
+											<th>Loan Type</th>
+											<th>Loan Sub Type</th>
+											<th>Bank / NBFC name</th>
+											<th>Actual disbursement</th>
+											<th>Disbursement Date</th>
+											<th>Affiliate/ DSA name</th>
+											<th>DSA code</th>
+											<th>Payout</th>
+											<th>AFM/RM incentive</th>
+											<th>Payout Recieved Date</th>
+											</thead>
+											{% for lead in leads %}
+											<tbody>
+												<tr>
+													<td class="name">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>{{lead.applicant_first_name}}</a>
+														<a> {{lead.applicant_last_name}}</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> {{lead.company_name}} </a>
+														{% endif %}
+														{% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+														<a>{{lead.personal_loan_first_name}}</a>
+														<a> {{lead.personal_loan_last_name}}</a>
+														{% endif %}
+														<a>{{delayed_login}}</a>
+													</td>
+
+													<td class="product_type">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>HL/LAP</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> HL/LAP </a>
+														{% endif %}
+														{% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+														<a>Personal Loan</a>
+														{% endif %}
+
+													</td>
+													
+													<td class="loan_type">
+														<span class="badge badge-warning" style="color:white">{{lead.get_loan_type_display|upper}}</span>
+													</td>
+													
+													<td class="loan_sub_type">
+														{% if lead.loan_type == 'FL' %}
+														<span class="badge badge-danger" style="color:white">{{lead.get_fresh_loan_type_display|upper}}</span>
+														{% endif %}
+														{% if lead.loan_type == 'BT' %}
+														<span class="badge badge-danger" style="color:white">{{lead.get_balance_transfer_type_display|upper}}</span>
+														{% endif %}
+													</td>
+													
+													<td class="bank_name">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>{{lead.balance_transfer_bank}}</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> N/A </a>
+														{% endif %}
+														{% if lead.personal_loan_salary_account_bank %}
+														<a>{{lead.personal_loan_salary_account_bank}}</a>
+														{% endif %}
+													</td>
+													<td class="actual_disbursement">
+														<a>{{lead.actual_disbursement}}</a>
+													</td>
+												
+													<td class="disbursement_date">
+														<a>{{lead.disbursement_date|date}}</a>
+													</td>
+														
+													<td class="dsa_name" style="width: 12%;">
+														{% if lead.created_by.role in 'DSA,AF' and lead.created_by.manager == user %}
+														<a>{{lead.created_by.first_name}} {{lead.created_by.last_name}} </a>
+														{% endif %}
+													</td>	
+													
+													<td class="dsa_code" style="width: 12%;">
+														<a>{{lead.dsa_code}}</a>
+													</td>	
+													<td class="payout" style="width: 12%;">
+														<a>{{lead.payout_paid}}%</a>
+													</td>	
+													
+													<td class="incentives" style="width: 12%;">
+														<a>{{lead.incentives}}</a>
+													</td>	
+													<td class="payout_recieved_date" style="width: 12%;">
+														<a>{{lead.payout_recieved_date|date}}</a>
+													</td>	
+																											
+												</tr>
+											</tbody>
+											{% endfor %}
+											{% endif %}
+											{% if user.role == 'AF' or user.role == 'DSA' %}
+											<thead>
+												<th>Customer Name</th>
+												<th>Product Type</th>
+												<th>Loan Type</th>
+												<th>Loan Sub Type</th>
+												<th>Bank / NBFC name</th>
+												<th>Actual disbursement(A)</th>
+												<th>Disbursement Date</th>
+												<th>Affiliate/ DSA name</th>
+												<th>Payout</th>
+												<th>Payout Recieved Date</th>
+											</thead>
+											{% for lead in leads %}
+											<tbody>
+												<tr>
+													<td class="name">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>{{lead.applicant_first_name}}</a>
+														<a> {{lead.applicant_last_name}}</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> {{lead.company_name}} </a>
+														{% endif %}
+														{% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+														<a>{{lead.personal_loan_first_name}}</a>
+														<a> {{lead.personal_loan_last_name}}</a>
+														{% endif %}
+														<a>{{delayed_login}}</a>
+													</td>
+
+													<td class="product_type">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>HL/LAP</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> HL/LAP </a>
+														{% endif %}
+														{% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+														<a>Personal Loan</a>
+														{% endif %}
+
+													</td>
+													
+													<td class="loan_type">
+														<span class="badge badge-warning" style="color:white">{{lead.get_loan_type_display|upper}}</span>
+													</td>
+													
+													<td class="loan_sub_type">
+														{% if lead.loan_type == 'FL' %}
+														<span class="badge badge-danger" style="color:white">{{lead.get_fresh_loan_type_display|upper}}</span>
+														{% endif %}
+														{% if lead.loan_type == 'BT' %}
+														<span class="badge badge-danger" style="color:white">{{lead.get_balance_transfer_type_display|upper}}</span>
+														{% endif %}
+													</td>
+													
+													<td class="bank_name">
+														{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+														<a>{{lead.balance_transfer_bank}}</a>
+														{% endif %}
+														{% if lead.get_applicant_display == "Company"  %}
+														<a> N/A </a>
+														{% endif %}
+														{% if lead.personal_loan_salary_account_bank %}
+														<a>{{lead.personal_loan_salary_account_bank}}</a>
+														{% endif %}
+													</td>
+													<td class="actual_disbursement">
+														<a>{{lead.actual_disbursement}}</a>
+													</td>
+												
+													<td class="disbursement_date">
+														<a>{{lead.disbursement_date|date}}</a>
+													</td>
+													
+													<td class="dsa_name" style="width: 12%;">
+														<a>{{lead.created_by.first_name}} {{lead.created_by.last_name}}</a>
+													</td>	
+													
+													
+													<td class="payout" style="width: 12%;">
+														<a>{{lead.payout_paid}}</a>
+													</td>
+													
+													<td class="payout_recieved_date" style="width: 12%;">
+														<a>{{lead.payout_recieved_date|date}}</a>
+													</td>	
+																											
+												</tr>
+											</tbody>
+											{% endfor %}
+											{% endif %}
+											
+										</table>
+										</form>
+									
+									
+													
+													
+
+													
+											
+										{% if leads.has_other_pages %}
+										<ul class="pagination">
+											{% if leads.has_previous %}
+											<li class="page-item"><a class="page-link" href="?page={{ leads.previous_page_number }}">Previous</a></li>
+											{% else %}
+											<li class="page-item disabled"><span class="page-link">Previous</span></li>
+											{% endif %}
+											{% for i in leads.paginator.page_range %}
+											{% if leads.number == i %}
+												<li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+											{% else %}
+												<li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+											{% endif %}
+											{% endfor %}
+											{% if leads.has_next %}
+											<li class="page-item"><a class="page-link" href="?page={{ leads.next_page_number }}">Next</a></li>
+											{% else %}
+											<li class="page-item disabled"><span class="page-link">Next</span></li>
+											{% endif %}
+										</ul>
+										{% endif %}
+										<!-- end project list -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /page content -->
+
+				<!-- profile update -->
+				
+
+				<!-- footer content -->
+				<footer>
+					<div class="pull-right">
+						<label for="">Lead Created By:</label>	{{ruser.first_name}} {{ruser.last_name}},
+
+						<label for="">Email:</label> {{ruser.email}},
+						 
+						<label for="">Phone:</label>{{ruser.phone}}
+
+					</div>
+				</footer>
+				<!-- /footer content -->
+			</div>
+		</div>
+
+		<!-- jQuery -->
+		<script src="{%static '/vendors/jquery/dist/jquery.min.js' %}"></script>
+      <!-- Bootstrap -->
+      <script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <!-- FastClick -->
+      <script src="{%static '/vendors/fastclick/lib/fastclick.js' %} "></script>
+      <!-- NProgress -->
+      <script src="{%static '/vendors/nprogress/nprogress.js' %}"></script>
+      <!-- jQuery custom content scroller -->
+      <script src="{%static '/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+      <!-- Custom Theme Scripts -->
+      <script src="{%static '/build/js/custom.min.js' %}"></script>
+      <script>
+			$('.btn').on('click', function() {
+    		var $this = $(this);
+  			$this.button('loading');
+    		setTimeout(function() {
+       		$this.button('reset');
+			}, 100000);
+			});
+		</script>	
+		
+	</body>
+</html>

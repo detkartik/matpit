@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
+    <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Lead Process</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet">
+    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/steps.css' %}" rel="stylesheet">
+    <link href="{% static '/vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <!-- Custom CSS -->
+    <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+
+
+    <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#009efb" stroke-width="2"></path>
+          <path d="M29 23.5C29 23.5 34.5 20.5 35.5 25.4999C36.0986 28.4926 34.2033 31.5383 32 32.8713C29.4555 34.4108 28 34 28 34" stroke="#009efb" stroke-width="2"></path>
+          <path id="teabag" fill="#009efb" fill-rule="evenodd" clip-rule="evenodd" d="M16 25V17H14V25H12C10.3431 25 9 26.3431 9 28V34C9 35.6569 10.3431 37 12 37H18C19.6569 37 21 35.6569 21 34V28C21 26.3431 19.6569 25 18 25H16ZM11 28C11 27.4477 11.4477 27 12 27H18C18.5523 27 19 27.4477 19 28V34C19 34.5523 18.5523 35 18 35H12C11.4477 35 11 34.5523 11 34V28Z"></path>
+          <path id="steamL" d="M17 1C17 1 17 4.5 14 6.5C11 8.5 11 12 11 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#009efb"></path>
+          <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#009efb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+
+
+    
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin1" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+
+        
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% include 'static_template/top_nav.html' %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% include 'static_template/sidebar_v2.html' %}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="border-bottom title-part-padding">
+                                <h4 class="card-title mb-0">Lead Process</h4>
+
+                                {% if messages %}
+                                {% for message in messages %} 
+                                    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                        <h6>{{message}} </h6>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            </div>
+                            <div class="card-body wizard-content">
+                                <h6 class="card-subtitle mb-3"></h6>
+                                {% if not lead.file_pickup_process_completed %}
+                                <form action="#" id='file_pickup' method='POST' enctype="multipart/form-data"  class="tab-wizard wizard-circle">
+                                    {% csrf_token %}
+                                    <!-- Step 1 -->
+                                    
+                                    <h6>File Pickup</h6>
+                                    <section>
+                                        <!-- Customer_contacted -->
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="Customer_contacted"
+                                                > Customer Contacted  <span class="required">*</span>
+                                            </label>
+                                            
+                                            <div class="col-md-6 col-sm-6">
+                                                {% if not lead.customer_contact_updated %}
+                                                <div class="custom-control custom-switch  custom-switch-lg">
+                                                    <input type="checkbox" class="custom-control-input" class="form-control" id="customSwitch1" name="customer_contacted" >
+                                                    <label class="custom-control-label" for="customSwitch1">Yes</label>
+                                                    <button class="btn btn-primary btn-sm" style="margin-left: 20px;" name='customer_contact_update'  value='{{lead.id}}' type='submit'> Update </button>
+                                                </div>
+                                                {% endif %}
+                                                {% if lead.customer_contact_updated and lead.customer_contacted == False %}
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            No
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <button type="submit" style="border: none; color: black; display: block; " name="customer_contact_updated_success" value='{{lead.id}}'>
+                                                            <i data-feather="edit"  class="feather-icon"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>  
+                                                {% endif %}                                            
+                                                {% if lead.customer_contact_updated and lead.customer_contacted == True %}
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        Yes
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" style="border: none; color: black; display: block;" name="customer_contact_updated_success" value='{{lead.id}}'>
+                                                        <i data-feather="edit"  class="feather-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </div> 
+                                        </div>
+                                        <!-- File Picked Up -->
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="File_picked_up"
+                                                >File Picked Up <span class="required">*</span>
+                                            </label>
+                                            
+                                            <div class="col-md-6 col-sm-6">
+                                                {% if not lead.file_picked_updated %}
+                                                <div class="custom-control custom-switch  custom-switch-lg">
+                                                    <input type="checkbox" class="custom-control-input" class="form-control" id="customSwitch2" name="file_picked">
+                                                    <label class="custom-control-label" for="customSwitch2">Yes</label>
+                                                    <button class="btn btn-primary btn-sm" style="margin-left: 20px;" name='file_picked_updated'  value='{{lead.id}}' type='submit'> Update </button>
+                                                </div>
+                                                {% endif %}
+                                                {% if lead.file_picked_updated and lead.file_picked == False %}
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    No
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" style="border: none; color: black; display: block; " name="file_picked_updated_success" value='{{lead.id}}'>
+                                                    <i data-feather="edit"  class="feather-icon"></i>
+                                                    </button>
+                                                </div>
+                                            </div>  
+                                            {% endif %}                                            
+                                            {% if lead.file_picked_updated and lead.file_picked == True %}
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    Yes
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" style="border: none; color: black; display: block;" name="file_picked_updated_success" value='{{lead.id}}'>
+                                                    <i data-feather="edit"  class="feather-icon"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            </div>
+                                            
+                                            
+                                            
+                                            
+                                           
+
+                                        </div>
+                                        <!-- Remark -->
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="Remark"
+                                                >Remark <span class="required">*</span>
+                                            </label>
+                                            
+                                            <div class="col-md-6 col-sm-6">
+                                                {% if not lead.remark_message_updated %}
+                                                <div class="row">
+                                                    <div class="col input">
+                                                        <textarea class="form-control" id="message-text" name="remark_message" value="{{lead.remark_message}}" ></textarea>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button class="btn btn-primary btn-sm pull-right" style="margin-left: 0px;" name='remark_message_updated'   value='{{lead.id}}' type='submit'> Update </button>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                                {% if lead.remark_message_updated %}
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        {{lead.remark_message}} 
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" style="border: none; color: black;" name="remark_message_updated_success" value='{{lead.id}}'>
+                                                            <i data-feather="edit"  class="feather-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                                {% endif %}
+                                            </div>	 
+                                            
+                                            
+                                           
+                                        </div>
+                                        
+                                       
+                                        
+                                    </section>
+                                </form>
+                                {% endif %}
+
+                                {% if lead.file_pickup_process_completed and not lead.login_bank_process_completed %}
+                                <form action="#" id='login_bank' method='POST' enctype="multipart/form-data"  class="tab-wizard wizard-circle">
+                                    {% csrf_token %} 
+                                    <h6> Login Bank </h6>
+                                    <section>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="bank_login">
+                                                Bank Login:
+                                            </label>
+                                            
+                                            <div class="col-md-6 col-sm-6">
+                                                {% if not lead.login_bank_updated %}
+                                                <div class="row">
+                                                    <div class="col-md-3 select">
+                                                         <select class="select2-selection__rendered"  id="bank" name="bank">
+                                                            {% for bank in banks %}
+                                                            <option value="{{bank.name}}">{{ bank.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" name='login_bank_updated' type="submit" value="{{lead.id}}"> Update </button>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                                {% if lead.login_bank_updated %}
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        {{lead.login_bank.name}}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" style="border: none; color: black;"  name="login_bank_updated_success" value='{{lead.id}}'>
+                                                            <i data-feather="edit"  class="feather-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            </div>
+                                        </div>		
+                                    </section>
+                                </form>
+                                {% endif %}
+
+
+                                {% if lead.file_pickup_process_completed and lead.login_bank_process_completed and not lead.senction_process_completed %}
+                                <form action="#" id='senction_letter' method='POST' enctype="multipart/form-data"  class="tab-wizard wizard-circle">
+                                    {% csrf_token %} 
+                                    <h6>Section Letter</h6>
+                                    <section>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="senction_letter"> Sanction Letter Image  <span class="required">*</span>
+                                            </label>
+                                            {% if not lead.senction_letter_updated %}
+                                            <div class="col-md-6 col-sm-6" name="senction_letter">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input class="form-control" type="file" name="senction_letter" class="col-form-label col-md-4 col-sm-3 label-align">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" name="senction_letter_updated" value='{{lead.id}}' style="margin-left: 50px;"> Upload </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lead.senction_letter_updated %}
+                                            <div class="col-md-6 col-sm-6">
+                                            {% if lead.senction_letter %}
+                                            <img width="300px" height="300px" src="{{lead.senction_letter.url}}" alt="">
+                                            {% endif %}
+                                            <button type="submit" style="border: none; color: black;"   name="senction_letter_updated_success" value='{{lead.id}}'>
+                                                <i data-feather="edit"  class="feather-icon"></i>
+                                            </button>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="senction_amount"> Sanction Amount  <span class="required">*</span>
+                                            </label>
+                                            {% if not lead.senction_amount_updated %}
+                                            <div class="col-md-6 col-sm-6" name="senction_letter">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 input">
+                                                        <input type="text" name="senction_amount" class="col-md-9" >
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" name="senction_amount_updated" style="margin-left: 50px;" value='{{lead.id}}'> Update </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lead.senction_amount_updated %}
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        {{lead.senction_amount}} 
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" style="border: none; color: black;"   name="senction_amount_updated_success" value='{{lead.id}}'>
+                                                            <i data-feather="edit"  class="feather-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="dsa_code"> DSA Code  <span class="required">*</span>
+                                            </label>
+                                            {% if not lead.dsa_code_updated %}
+                                            <div class="col-md-6 col-sm-6" name="div_dsa_code">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 input">
+                                                        <input type="text" name="dsa_code" class="col-md-9">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" name="dsa_code_updated" value='{{lead.id}}' style="margin-left: 50px;"> Update </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lead.dsa_code_updated  %}
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        {{lead.dsa_code}}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" style="border: none; color: black;"  name="dsa_code_updated_success" value='{{lead.id}}'>
+                                                        <i data-feather="edit"  class="feather-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="senction_date"> Sanction Date  <span class="required">*</span>
+                                            </label>
+                                            {% if not lead.senction_date_updated %}
+                                            <div class="col-md-6 col-sm-6" name="senction_date">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 input">
+                                                        <input type="date" name="senction_date" class="col-md-9">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" name="senction_date_updated" value='{{lead.id}}' style="margin-left: 50px;"> Update </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lead.senction_date_updated %}
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-md-3"> {{lead.senction_date|date}}  </div>
+                                                    <div class="col-md-3"> 
+                                                        <button type="submit" style="border: none; color: black;"  name="senction_date_updated_success" value='{{lead.id}}'>
+                                                            <i data-feather="edit"  class="feather-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </section>
+                                    
+                                </form>
+                                {% endif %}
+
+
+                                {% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed_approved  or lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed_rejected %}
+                                <form action="#" id='disbursement' method='POST' enctype="multipart/form-data"  class="tab-wizard wizard-circle">
+                                    {% csrf_token %} 
+                                    <!-- Customer_contacted -->
+                                    <h6>Disbursement</h6>
+                                    <section>
+                                        <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="disbursement"> Disbursement <span class="required">*</span></label>
+                                        {% if not lead.disbursement_updated %}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="custom-control custom-switch  custom-switch-lg">
+                                                <input type="checkbox" class="custom-control-input" class="form-control" id="customSwitch4" name="disbursement" >
+                                                <label class="custom-control-label" for="customSwitch4">Yes</label>
+                                                <button class="btn btn-primary btn-sm" style="margin-left: 20px;" name='disbursement_updated'  value='{{lead.id}}' type='submit'> Update </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if lead.disbursement_updated and lead.disbursement == False %}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    No
+                                                </div>
+                                                <div class="col-md-3">
+                                                 <button type="submit" style="border: none; color: black;"  name="disbursement_success" value='{{lead.id}}'>
+                                                 <i data-feather="edit"  class="feather-icon"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                              
+                                        <div class="col-md-6 col-sm-6">
+                                            {% if lead.disbursement_updated and lead.disbursement == True %}  
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    Yes
+                                                </div>
+                                                <div class="col-md-6">
+                                                 <button type="submit" style="border: none; color: black;"  name="disbursement_success" value='{{lead.id}}'>
+                                                 <i data-feather="edit"  class="feather-icon"></i></button>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>     
+                                        
+                                    
+                                    <!-- Disbursement_proof -->
+                                    {% if lead.disbursement_updated and lead.disbursement == True %}
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="disbursement_proof"> Disbursement Proof  <span class="required">*</span>
+                                        </label>
+                                        {% if not lead.disbursement_proof_updated %}
+                                        <div class="col-md-6 col-sm-6 input" name="senction_letter">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="file" class="form-control" name="disbursement_proof">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-primary" name="disbursement_proof_updated" value='{{lead.id}}'> Upload </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if lead.disbursement_proof_updated and lead.disbursement_proof  %}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <img width="300px" height="300px" src="{{lead.disbursement_proof.url}}" alt="">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" style="border: none; color: black;"  name="disbursement_proof_updated_success" value='{{lead.id}}'>
+                                                        <i data-feather="edit"  class="feather-icon"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="disbursement_amount"> Disbursement Amount  <span class="required">*</span>
+                                        </label>
+                                        {% if not lead.disbursement_amount_updated %}
+                                        <div class="col-md-6" name="disbursement_amount">
+                                            <div class="row">
+                                                <div class="col-md-6 input">
+                                                    <input type="text" name="disbursement_amount" class="col-md-6" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-primary" name="disbursement_amount_updated" style="margin-left: 50px;" value='{{lead.id}}'> Update </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if lead.disbursement_amount_updated %}
+                                        <div class="col-md-6 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        {{lead.disbursement_amount}} 
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" style="border: none; color: black;"   name="disbursement_amount_updated_success" value='{{lead.id}}'>
+                                                            <i data-feather="edit"  class="feather-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="disbursement_date"> Disbursement Date  <span class="required">*</span>
+                                        </label>
+                                        {% if not lead.disbursement_date_updated %}
+                                        <div class="col-md-6 col-sm-6" name="disbursement_date">
+                                            <div class="row">
+                                                <div class="col-md-6 input">
+                                                    <input type="date" name="disbursement_date">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-primary" name="disbursement_date_updated" value='{{lead.id}}' style="margin-left: 50px;"> Update </button>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        {% endif %}
+                                        {% if lead.disbursement_date_updated %}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-md-6"> {{lead.disbursement_date|date}}  </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" style="border: none; color: black;"  name="disbursement_date_updated_success" value='{{lead.id}}'>
+                                                        <i data-feather="edit"  class="feather-icon"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="payout"> Payout  <span class="required">*</span>
+                                        </label>
+                                        {% if not lead.payout_updated %}
+                                        <div class="col-md-6 col-sm-6 input" name="payout">
+                                            <div class="row">
+                                                <div class="col-md-6 input">
+                                                    <input type="text" name="payout" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-primary" name="payout_updated" style="margin-left: 50px;" value='{{lead.id}}'> Update </button>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        {% endif %}
+                                        {% if lead.payout_updated %}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    {{lead.payout}}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" style="border: none; color: black;"   name="payout_updated_success" value='{{lead.id}}'>
+                                                        <i data-feather="edit"  class="feather-icon"></i>
+                                                    </button>
+                                                </div>
+                                                  
+                                            </div>
+                                       
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Disbursement_Rejection -->
+                                    {% if lead.disbursement_updated  and lead.disbursement == False %}
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Rejection Reason"> Rejection Reason <span class="required">*</span></label>
+                                        {% if not lead.disbursement_rejection_reason_updated %}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="row">
+                                                <div class="col select">
+                                                     <select class="select2-selection__rendered"  id="message-text" name="disbursement_rejection_reason"  >
+                                                        <option value="Rejected">Rejected</option>
+                                                        <option value="Pendencies">Pendencies</option>
+                                                        <option value="Banker Delay">Banker Delay</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button class="btn btn-primary btn-sm pull-right" style="margin-left: 0px;" name='disbursement_rejection_reason_updated'   value='{{lead.id}}' type='submit'> Update </button>
+                                                </div>
+                                            </div>
+                                        </div>	 
+                                        {% endif %}
+                                        
+                                        {% if lead.disbursement_rejection_reason_updated %}
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    {{lead.disbursement_rejection_reason}}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit"  style="border: none; color: black; margin-top:5px;"  name="disbursement_rejection_reason_updated_success" value='{{lead.id}}'>
+                                                        <i data-feather="edit"  class="feather-icon"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                   
+                                </section>                                    
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>`  
+                </div>
+                
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+    
+
+
+            <!-- footer -->
+            <!-- ============================================================== -->
+           {% include 'static_template/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- customizer Panel -->
+    <!-- ============================================================== -->
+    {% include 'static_template/custom-sidebar.html' %}
+    <!-- ============================================================== -->
+    
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- apps -->
+    <script src="{% static '/monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app-style-switcher.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static '/monster/dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static '/monster/dist/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static '/monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/custom.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+    <script src="{%static '/vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
+    <style>
+    
+        .custom-switch.custom-switch-lg {
+padding-bottom: 1rem;
+padding-left: 2.25rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label {
+padding-left: 0.75rem;
+padding-top: 0.15rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::before {
+border-radius: 1rem;
+height: 1.5rem;
+width: 2.5rem;
+}
+.custom-switch.custom-switch-lg .custom-control-label::after {
+border-radius: 0.65rem;
+height: calc(1.5rem - 4px);
+width: calc(1.5rem - 4px);
+}
+.custom-switch.custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+transform: translateX(1rem);
+}
+    </style>
+    <style>
+        .input {
+            margin-bottom: 20px;
+        }
+        select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+
+  
+
+
+  background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: grey;
+  cursor: pointer;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #eaebec;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+  color: rgb(161, 161, 230);
+}
+
+    </style>
+
+    <script>
+    //Basic Example
+    $("#example-basic").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        autoFocus: true
+    });
+
+    // Basic Example with form
+    var form = $("#example-form");
+    form.validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password"
+            }
+        }
+    });
+    form.children("div").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        onStepChanging: function(event, currentIndex, newIndex) {
+            form.validate().settings.ignore = ":disabled,:hidden";
+            return form.valid();
+        },
+        onFinishing: function(event, currentIndex) {
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
+        },
+        onFinished: function(event, currentIndex) {
+
+            
+                                            
+
+            var disbursement_updated = '{{lead.disbursement_updated|safe}}';
+            var disbursement_proof_updated = '{{lead.disbursement_proof_updated|safe}}';
+            var disbursement = '{{lead.disbursement|safe}}';
+            var disbursement_proof = '{{lead.disbursement_proof|safe }}';
+            var disbursement_amount_updated ='{{lead.disbursement_amount_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated}|safe}';
+            var disbursement_rejection_reason_updated = '{{lead.disbursement_rejection_reason_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated|safe}}'
+            
+            
+            console.log(disbursement_updated)
+            $("#file_pickup").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="file_pickup" name="file_pickup_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#login_bank").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="login_bank" name="login_bank_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#senction_letter").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="senction_letter" name="senction_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+                
+            $("#disbursement").on("click", function(){
+                if (disbursement_updated && disbursement_proof && disbursement && disbursement_proof && disbursement_amount_updated && disbursement_date_updated) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_completed" value="{{lead.id}}">Submit</button>') 
+                }
+                if (disbursement_updated && disbursement_rejection_reason_updated  && disbursement_rejection_reason  &&  (disbursement === false)) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_rejected" value="{{lead.id}}">Submit</button>') 
+                }
+            });
+            
+            alert("Submitted!");
+        }
+    });
+
+    // Advance Example
+
+    var form = $("#example-advanced-form").show();
+
+    form.steps({
+        headerTag: "h3",
+        bodyTag: "fieldset",
+        transitionEffect: "slideLeft",
+        onStepChanging: function(event, currentIndex, newIndex) {
+            // Allways allow previous action even if the current form is not valid!
+            if (currentIndex > newIndex) {
+                return true;
+            }
+            // Forbid next action on "Warning" step if the user is to young
+            if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                return false;
+            }
+            // Needed in some cases if the user went back (clean up)
+            if (currentIndex < newIndex) {
+                // To remove error styles
+                form.find(".body:eq(" + newIndex + ") label.error").remove();
+                form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+            }
+            form.validate().settings.ignore = ":disabled,:hidden";
+            return form.valid();
+        },
+        onStepChanged: function(event, currentIndex, priorIndex) {
+            // Used to skip the "Warning" step if the user is old enough.
+            if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
+                form.steps("next");
+            }
+            // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+            if (currentIndex === 2 && priorIndex === 3) {
+                form.steps("previous");
+            }
+        },
+        onFinishing: function(event, currentIndex) {
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
+        },
+        onFinished: function(event, currentIndex) {
+            var disbursement_updated = '{{lead.disbursement_updated|safe}}';
+            var disbursement_proof_updated = '{{lead.disbursement_proof_updated|safe}}';
+            var disbursement = '{{lead.disbursement|safe}}';
+            var disbursement_proof = '{{lead.disbursement_proof|safe }}';
+            var disbursement_amount_updated ='{{lead.disbursement_amount_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated}|safe}';
+            var disbursement_rejection_reason_updated = '{{lead.disbursement_rejection_reason_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated|safe}}'
+            
+            
+            console.log(disbursement_updated)
+            $("#file_pickup").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="file_pickup" name="file_pickup_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#login_bank").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="login_bank" name="login_bank_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#senction_letter").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="senction_letter" name="senction_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+                
+            $("#disbursement").on("click", function(){
+                if (disbursement_updated && disbursement_proof && disbursement && disbursement_proof && disbursement_amount_updated && disbursement_date_updated) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_completed" value="{{lead.id}}">Submit</button>') 
+                }
+                if (disbursement_updated && disbursement_rejection_reason_updated  && disbursement_rejection_reason  &&  (disbursement === false)) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_rejected" value="{{lead.id}}">Submit</button>') 
+                }
+            });
+            alert("Submitted!");
+        }
+    }).validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password-2"
+            }
+        }
+    });
+
+    // Dynamic Manipulation
+    $("#example-manipulation").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        enableAllSteps: true,
+        enablePagination: false
+    });
+
+    //Vertical Steps
+
+    $("#example-vertical").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        stepsOrientation: "vertical"
+    });
+
+    //Custom design form example
+    $(".tab-wizard").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Submit"
+        },
+        onFinished: function(event, currentIndex) {
+            var disbursement_updated = '{{lead.disbursement_updated|safe}}';
+            var disbursement_proof_updated = '{{lead.disbursement_proof_updated|safe}}';
+            var disbursement = '{{lead.disbursement|safe}}';
+            var disbursement_proof = '{{lead.disbursement_proof|safe }}';
+            var disbursement_amount_updated ='{{lead.disbursement_amount_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated}|safe}';
+            var disbursement_rejection_reason_updated = '{{lead.disbursement_rejection_reason_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated|safe}}'
+            
+            
+            console.log(disbursement_updated)
+            $("#file_pickup").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="file_pickup" name="file_pickup_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#login_bank").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="login_bank" name="login_bank_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#senction_letter").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="senction_letter" name="senction_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+                
+            $("#disbursement").on("click", function(){
+                if (disbursement_updated && disbursement_proof && disbursement && disbursement_proof && disbursement_amount_updated && disbursement_date_updated) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_completed" value="{{lead.id}}">Submit</button>') 
+                }
+                if (disbursement_updated && disbursement_rejection_reason_updated  && disbursement_rejection_reason  &&  (disbursement === false)) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_rejected" value="{{lead.id}}">Submit</button>') 
+                }
+            });
+
+        }
+    });
+
+
+    var form = $(".validation-wizard").show();
+
+    $(".validation-wizard").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Submit"
+        },
+        onStepChanging: function(event, currentIndex, newIndex) {
+            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
+        },
+        onFinishing: function(event, currentIndex) {
+            return form.validate().settings.ignore = ":disabled", form.valid()
+        },
+        onFinished: function(event, currentIndex) {
+            var disbursement_updated = '{{lead.disbursement_updated|safe}}';
+            var disbursement_proof_updated = '{{lead.disbursement_proof_updated|safe}}';
+            var disbursement = '{{lead.disbursement|safe}}';
+            var disbursement_proof = '{{lead.disbursement_proof|safe }}';
+            var disbursement_amount_updated ='{{lead.disbursement_amount_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated}|safe}';
+            var disbursement_rejection_reason_updated = '{{lead.disbursement_rejection_reason_updated|safe}}';
+            var disbursement_date_updated = '{{lead.disbursement_date_updated|safe}}'
+            
+            
+            console.log(disbursement_updated)
+            $("#file_pickup").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="file_pickup" name="file_pickup_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#login_bank").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="login_bank" name="login_bank_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+            $("#senction_letter").on("click", function(){
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="senction_letter" name="senction_process_completed" value="{{lead.id}}">Submit</button>') 
+                });
+                
+            $("#disbursement").on("click", function(){
+                if (disbursement_updated && disbursement_proof && disbursement && disbursement_proof && disbursement_amount_updated && disbursement_date_updated) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_completed" value="{{lead.id}}">Submit</button>') 
+                }
+                if (disbursement_updated && disbursement_rejection_reason_updated  && disbursement_rejection_reason  &&  (disbursement === false)) {
+                $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="disbursement" name="disbursement_process_rejected" value="{{lead.id}}">Submit</button>') 
+                }
+            });
+        }
+    }), $(".validation-wizard").validate({
+        ignore: "input[type=hidden]",
+        errorClass: "text-danger",
+        successClass: "text-success",
+        highlight: function(element, errorClass) {
+            $(element).removeClass(errorClass)
+        },
+        unhighlight: function(element, errorClass) {
+            $(element).removeClass(errorClass)
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element)
+        },
+        rules: {
+            email: {
+                email: !0
+            }
+        }
+    })
+    </script>
+
+
+</body>
+
+</html>
