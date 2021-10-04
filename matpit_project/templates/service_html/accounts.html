@@ -8,7 +8,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<title>Pipeline Cases</title>
+		<title>Accounts</title>
 
 		<!-- Bootstrap -->
 		<link
@@ -42,7 +42,7 @@
 					<div class="left_col scroll-view">
 						<div class="navbar nav_title" style="border: 0">
 							<a href="{% url 'dashboard' %}" class="site_title"
-								><img src="https://i.ibb.co/XXCGXRJ/bc-logo.png" alt="" style="max-width: 200px;"></a
+								><img src="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png" alt="" style="max-width: 200px;"></a
 							>
 						</div>
 
@@ -90,7 +90,7 @@
 										>
 										</li>
                                         <li>
-                                            <a href="{% url 'verify_lead' %}">
+                                            <a href="{% url 'verify_service' %}">
                                                 <i class="fa fa-map"></i>Verify Lead 
                                             </a>
                                         </li>
@@ -125,7 +125,7 @@
 											><i class="fa fa-home"></i>Profile  <span style="color:red" > incomplete </span>  </a>
 									</li>
 									{% endif %}
-									
+										
 									{% if user.is_verified %}
 									{% if user.role not in 'CONNECTOR , AF' %}
 									<li>
@@ -163,7 +163,7 @@
 									</li>
 
 									<li>
-										<a href="{% url 'yourlead' %}"
+										<a href="{% url 'yourservice' %}"
 											><i class="fa fa-bar-chart"></i> Your Lead </a>
 									</li>
 									
@@ -211,7 +211,7 @@
 									<a class="dropdown-item"   href="{%url 'usermanager'  %}">User Management</a>
 									{% endif %}
 									
-									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Your Lead</a>
+									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Account</a>
 									{% endif %}
 									<a class="dropdown-item"   href="{%url 'profile'  %}">Profile</a>
 									<a class="dropdown-item"  href="{%url 'password_change'  %}"> Change Password </a>
@@ -230,7 +230,23 @@
 					<div class="">
 						<div class="page-title">
 							<div class="title_left">
-								<h3>Pipeline Cases</h3>
+								<h3>ACCOUNTS</h3>
+							</div>
+							<div class="title_right">
+								<div class="col-md-5 col-sm-5 form-group pull-right top_search">
+									<div class="input-group">
+										<input
+											type="text"
+											class="form-control"
+											placeholder="Search for..."
+										/>
+										<span class="input-group-btn">
+											<button class="btn btn-secondary" type="button">
+												Go!
+											</button>
+										</span>
+									</div>
+								</div>
 							</div>
 						</div>
 						
@@ -250,7 +266,7 @@
 							<div class="col-md-12">
 								<div class="x_panel">
 									<div class="x_title">
-										<h2>Total Cases Found: {{count}}</h2>
+										<h2>Total Enteries Found: {{count}}</h2>
 										<ul class="nav navbar-right panel_toolbox">
 											<li>
 												<a class="collapse-link"
@@ -277,6 +293,7 @@
 													<th>Created By</th>
 													<th>View Details</th>
 													<th>Process</th>
+													<th>Status</th>
 													<th>Chat</th>
 													
 												</tr>
@@ -290,17 +307,45 @@
 													<tr	>
 														
 														<td class="name">
-															<a>{{lead.first_name}}</a>
-															<a> {{lead.last_name}}</a>
+															{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+															<a>{{lead.applicant_first_name}}</a>
+															<a> {{lead.applicant_last_name}}</a>
+															{% endif %}
+															{% if lead.get_applicant_display == "Company"  %}
+															<a> {{lead.company_name}} </a>
+															{% endif %}
+															{% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
+															<a>{{lead.personal_loan_first_name}}</a>
+															<a> {{lead.personal_loan_last_name}}</a>
+															{% endif %}
 															<a>{{delayed_login}}</a>
 														</td>
 
 														<td class="email">
-															<a>{{lead.email}}</a>
+															{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+															<a>{{lead.applicant_official_email}}</a>,
+															<br>
+															<a>{{lead.applicant_personal_email}}</a>
+															{% endif %}
+															{% if lead.get_applicant_display == "Company"  %}
+															<a> N/A </a>
+															{% endif %}
+															{% if lead.personal_loan_email %}
+															<a>{{lead.personal_loan_email}}</a>
+															{% endif %}
 														</td>
 														
 														<td class="phone">
-															<a>{{lead.phone}}</a>
+															{% if lead.get_applicant_display in "Individual,NRI" %}
+															<a>{{lead.applicant_phone}}</a>
+															{% endif %}
+															{% if lead.get_applicant_display == "Company"  %}
+															<a> {{lead.point_of_contact_phone}} </a>
+															{% endif %}
+															{{lead.personal_loan_phone}}
+															{% if lead.personal_loan_phone %}
+															<a> {{lead.personal_loan_phone}} </a>
+															{% endif %}
 														</td>
 														
 														<td class="loan_type">
@@ -308,7 +353,13 @@
 														</td>
 														
 														<td class="job_type">
-															<a>{{lead.get_job_type_display}}</a>
+															{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
+															<a>{{lead.get_applicant_job_type_display}}</a>
+															{% endif %}
+															{% if lead.get_applicant_display == "Company" %}
+															<a>{{lead.nature_of_business}} </a>
+															{% endif %}
+															
 														</td>
 														
 														<td class="created_at">
@@ -322,8 +373,9 @@
 															<br>
 															<span class="badge bg-green">{{lead.created_by.role}}</span>
 														</td>
-														<td>
-															<!-- DETAILS -->
+														<!-- DETAILS -->
+														<td class="view_details">
+															
 															<button
 																type="submit"
 																class="btn btn-primary"
@@ -333,43 +385,34 @@
 																Details
 															</button>
 														</td>
-														
-														<td style="width: 12%;">
-															<!-- FILE PICK_UP -->
-															{% if lead.disbursement_process_completed_rejected == False and lead.disbursement_process_completed_approved == False %}
-															<button
-																type="submit"
-																class="btn btn-success btn-xs"
-																name = "proceed"
-																value="{{lead.id}}"
-															>
-																{% if not lead.file_pickup_process_completed %}
-																File Pick-up
-																{% endif %}
-																{% if lead.file_pickup_process_completed and not lead.login_bank_process_completed %}
-																Bank Login
-																{% endif %}
-																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and not lead.senction_process_completed %}
-																<span>
-																	Senction Letter
-																</span>
-																{% endif %}
-																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed %}
-																Disbursement
-																{% endif %}
-															</button>
-															{% endif %}
-															{% if lead.disbursement_process_completed_rejected %}
-															<button type="button"
-															class="btn btn-danger btn-xs" disabled>
-															Rejected	
-														</button>
+														<!-- Process -->
+														<td class="process" style="width: 12%;">
+														{% if not lead.other_details_updated %}
+														<button type="submit" class="btn btn-success btn-xs" name="other" id = "other" value= "{{lead.id}}" >Others</button>
+														{% else %}
+														<button type="submit" class="btn btn-success btn-xs"  name="completed" id = "completed" value= "{{lead.id}}" >Completed</button>			
 														{% endif %}
-														{% if lead.disbursement_process_completed_approved %}
-														<button type="button"
-														class="btn btn-success btn-xs" disabled>Completed</button>
-														{% endif %}														
 														</td>
+
+
+														<!-- Status -->
+														{% if lead.disbursement_process_completed_approved %}
+														<td class='status'>
+															{% if lead.verification_approved %}
+															<span class="badge badge-info">Approved</span>
+															{% endif %}
+															{% if lead.verification_rejected %}
+															<span class="badge badge-danger">Not Approved</span>
+															{% endif %}
+															{% if lead.verification_pending %}
+															<span class="badge badge-warning">Verification Pending</span>
+															{% endif %}
+														</td>
+														{% else %}
+														<td class="status">
+															<span class="badge badge-secondary">In Progress</span>
+														</td>
+														{% endif %}
 														<td class="chat">
 															<button
 																type="submit"
@@ -434,7 +477,6 @@
 			</div>
 		</div>
 
-		<!-- jQuery -->
 		<!-- jQuery -->
 		<script src="{%static '/vendors/jquery/dist/jquery.min.js' %}"></script>
       <!-- Bootstrap -->

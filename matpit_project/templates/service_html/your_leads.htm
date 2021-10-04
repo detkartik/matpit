@@ -8,7 +8,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<title>Accounts</title>
+		<title>Your Leads</title>
 
 		<!-- Bootstrap -->
 		<link
@@ -33,6 +33,7 @@
 
 		<!-- Custom Theme Style -->
 		<link href="{%static '/build/css/custom.min.css' %}" rel="stylesheet" />
+
 	</head>
 
 	<body class="nav-md footer_fixed">
@@ -42,7 +43,7 @@
 					<div class="left_col scroll-view">
 						<div class="navbar nav_title" style="border: 0">
 							<a href="{% url 'dashboard' %}" class="site_title"
-								><img src="https://i.ibb.co/XXCGXRJ/bc-logo.png" alt="" style="max-width: 200px;"></a
+								><img src="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png" alt="" style="max-width: 200px;"></a
 							>
 						</div>
 
@@ -89,11 +90,11 @@
 											><i class="fa fa-map"></i>Back Office Dashboard</a
 										>
 										</li>
-                                        <li>
-                                            <a href="{% url 'verify_lead' %}">
-                                                <i class="fa fa-map"></i>Verify Lead 
-                                            </a>
-                                        </li>
+										<li>
+											<a href="{% url 'verify_service' %}">
+												<i class="fa fa-map"></i>Verify Lead 
+											</a>
+										</li>
 										<li>
 											<a href="{% url 'account' %}"
 												><i class="fa fa-map"></i>Account</a>
@@ -138,8 +139,7 @@
 										<a href="{% url 'usermanager' %}"><i class="fa fa-newspaper-o"></i> User Management </a>
 									</li>
 									{% endif %}
-									
-                                    <li><a><i class="fa fa-edit"></i> Leads <span class="fa fa-chevron-down"></span></a>
+									<li><a class="lead_button"><i class="fa fa-edit"></i> Leads <span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
 											<li>
 												<a href="{% url 'commercial_vehicle_loans' %}"><i class="fa fa-book"></i>C.V. Loans</a>
@@ -157,19 +157,25 @@
 												<a href="{% url 'hl_lap' %}"><i class="fa fa-book"></i>HL/LAP</a>
 											</li>
 										</ul>
-									</li>
-									<li>
-										<a href="{% url 'incomplete_lead' %}"><i class="fa fa-book"></i> Lead  <span style="color:red" > incomplete </span> </a>
-									</li>
-
-									<li>
-										<a href="{% url 'yourlead' %}"
-											><i class="fa fa-bar-chart"></i> Your Lead </a>
+										<script>
+											$(".lead_button").click(function () {
+												$(this).toggleClass('fa-chevron-down fa-chevron-up');
+											});
+										</script>
 									</li>
 									
 									<li>
+										<a href="{% url 'incomplete_lead' %}"><i class="fa fa-book"></i> Lead  <span style="color:red" > incomplete </span> </a>
+									</li>
+									<li>
+										<a href="{% url 'yourservice' %}"
+											><i class="fa fa-bar-chart"></i> Your Lead</a
+										>
+									</li>
+									<li>
 										<a href="{% url 'pipeline' %}"
-											><i class="fa fa-bar-chart"></i> Pipeline</a>
+											><i class="fa fa-bar-chart"></i> Pipeline</a
+										>
 									</li>
 									{% endif %}
 								</ul>
@@ -211,7 +217,7 @@
 									<a class="dropdown-item"   href="{%url 'usermanager'  %}">User Management</a>
 									{% endif %}
 									
-									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Account</a>
+									<a class="dropdown-item"   href="{%url 'yourlead'  %}">Your Lead</a>
 									{% endif %}
 									<a class="dropdown-item"   href="{%url 'profile'  %}">Profile</a>
 									<a class="dropdown-item"  href="{%url 'password_change'  %}"> Change Password </a>
@@ -230,7 +236,7 @@
 					<div class="">
 						<div class="page-title">
 							<div class="title_left">
-								<h3>ACCOUNTS</h3>
+								<h3>YOUR LEADS</h3>
 							</div>
 							<div class="title_right">
 								<div class="col-md-5 col-sm-5 form-group pull-right top_search">
@@ -303,10 +309,9 @@
 
 												<form method="POST" enctype="multipart/form-data">
 													{% csrf_token %} 
-													
-													<tr	>
-														
+													<tr>
 														<td class="name">
+															
 															{% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
 															<a>{{lead.applicant_first_name}}</a>
 															<a> {{lead.applicant_last_name}}</a>
@@ -387,15 +392,66 @@
 														</td>
 														<!-- Process -->
 														<td class="process" style="width: 12%;">
-														{% if not lead.other_details_updated %}
-														<button type="submit" class="btn btn-success btn-xs" name="other" id = "other" value= "{{lead.id}}" >Others</button>
-														{% else %}
-														<button type="submit" class="btn btn-success btn-xs"  name="completed" id = "completed" value= "{{lead.id}}" >Completed</button>			
+															<!-- FILE PICK_UP -->
+															{% if user.role not in 'CONNECTOR,AF' %}
+															{% if lead.disbursement_process_completed_rejected == False and lead.disbursement_process_completed_approved == False %}
+															<button
+																type="submit"
+																class="btn btn-success btn-xs"
+																name = "proceed"
+																value="{{lead.id}}"
+															>
+																{% if not lead.file_pickup_process_completed %}
+																File Pick-up
+																{% endif %}
+																{% if lead.file_pickup_process_completed and not lead.login_bank_process_completed %}
+																Bank Login
+																{% endif %}
+																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and not lead.senction_process_completed %}
+																<span>
+																	Senction Letter
+																</span>
+																{% endif %}
+																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed %}
+																Disbursement
+																{% endif %}
+															</button>
+															{% endif %}
+															{% else %}
+															<button
+																type="button"
+																class="btn btn-success btn-xs"
+																name = "proceed"
+																value="{{lead.id}}"
+																disabled
+															>
+																{% if not lead.file_pickup_process_completed %}
+																File Pick-up
+																{% endif %}
+																{% if lead.file_pickup_process_completed and not lead.login_bank_process_completed %}
+																Bank Login
+																{% endif %}
+																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and not lead.senction_process_completed %}
+																<span>
+																	Senction Letter
+																</span>
+																{% endif %}
+																{% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and not lead.disbursement_process_completed %}
+																Disbursement
+																{% endif %}
+															</button>
+															{% endif %}
+															{% if lead.disbursement_process_completed_rejected %}
+															<button type="button"
+															class="btn btn-danger btn-xs" disabled>
+															Rejected	
+														</button>
 														{% endif %}
+														{% if lead.disbursement_process_completed_approved %}
+														<button type="button"
+														class="btn btn-success btn-xs" disabled>Completed</button>
+														{% endif %}														
 														</td>
-
-
-														<!-- Status -->
 														{% if lead.disbursement_process_completed_approved %}
 														<td class='status'>
 															{% if lead.verification_approved %}
@@ -477,6 +533,7 @@
 			</div>
 		</div>
 
+		<!-- jQuery -->
 		<!-- jQuery -->
 		<script src="{%static '/vendors/jquery/dist/jquery.min.js' %}"></script>
       <!-- Bootstrap -->

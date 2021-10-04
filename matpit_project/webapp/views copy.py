@@ -1484,7 +1484,7 @@ def usermanagement(request):
             resend_user.set_password(password_genrate)
             resend_user.save()
             current_site = get_current_site(request)
-            mail_subject_employee = 'Activate your Bharat Credit Account.'
+            mail_subject_employee = 'Activate your Matpit Account.'
             print(mail_subject_employee)
             message = render_to_string('email_template/register_confirm.htm', {
                 'user': resend_user,
@@ -3466,7 +3466,7 @@ def register(request):
                     
                     
                     current_site = get_current_site(request)
-                    mail_subject = 'Activate your Bharat Credit Account.'
+                    mail_subject = 'Activate your Matpit Account.'
                     
                     
                     message = render_to_string('email_template/register_confirm.htm', {

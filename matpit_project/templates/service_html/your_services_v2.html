@@ -9,21 +9,24 @@
     <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
     <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
     <meta name="robots" content="noindex,nofollow">
-    <title>Commercial Loan</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
+    <title>Your Leads</title>
+     <!-- Favicon icon -->
+     <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
 
-    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet">
-    <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/steps.css' %}" rel="stylesheet">
+     <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet">
+     <link href="{%  static '/monster/src/assets/extra-libs/jquery-steps/steps.css' %}" rel="stylesheet">
+ 
+     <!-- Custom CSS -->
+     <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
+ 
+ 
+     <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
 
-    <!-- Custom CSS -->
-    <link href="{% static '/monster/dist/css/style.min.css' %}" rel="stylesheet">
-
-
-    <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;box-sizing: content-box;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style>
-
-
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            $('#myModal').modal('show');
+        });
+    </script>
 
 </head>
 
@@ -58,54 +61,89 @@
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
-        <!-- ============================================================== -->
-        <!-- Container fluid  -->
+            <!-- ============================================================== -->
+           
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <!-- -------------------------------------------------------------- -->
                 <!-- Start Page Content -->
                 <!-- -------------------------------------------------------------- -->
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body border-bottom">
-                                <h4 class="card-title">Commercial Loan</h4>
-                                <h6 class="card-subtitle mb-0">This form is to get all the required Commercial Loan Details </h6>
-                            </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table customize-table mb-0 v-middle">
+                            <thead class="table-light">
+                                <tr>  
+                                  <th class="border-bottom border-top">Service Type</th>
+                                  <th class="border-bottom border-top">Service Sub Type</th>
+                                  <th class="border-bottom border-top">Service Amount</th>
+                                  <th class="border-bottom border-top">Created On</th>
+                                  <th class="border-bottom border-top">Created By</th>
+                                  <th class="border-bottom border-top">View Details</th>
+                                  <th class="border-bottom border-top">Process</th>
+                                  <th class="border-bottom border-top">Status</th>
+                                  <th class="border-bottom border-top">Chat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for service in services %}
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <tr>
+                                        <td class="service_type">
+                                            <span class="mb-1 badge rounded-pill bg-warning text-dark">{{service.service_type|upper}}</span>
+                                        </td>
+                                       
+                                        <td class="service_sub_type">
+                                            <span class="mb-1 badge rounded-pill bg-warning text-dark">{{service.service_sub_type|upper}}</span>
+                                        </td>
 
-                            {% if messages %}
-                                {% for message in messages %} 
-                                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                                    <h6>{{message}} </h6>
-                                </div>
+                                        
+                                        <td class="created_at">
+                                            <span>{{service.created_at|date}}</span>   
+                                        </td>
+
+                                        <td class="created_by">
+                                            <span class= 'ms-3 fw-normal'>{{service.created_by.phone}}</span>
+                                            <br>
+                                            <span class="mb badge bg-green">{{service.created_by.role}}</span>
+                                        </td>
+                                        <!-- DETAILS -->
+                                        <td class="view_details">
+                                            <button type="submit" name="details" value="{{service.id}}" class="btn waves-effect waves-light btn-rounded btn-info">Details </button>
+                                        </td>
+                                       
+                                        <td class="chat">
+                                            <button
+                                                type="submit"
+                                                class="btn"
+                                                style="border: none; color: black;"
+                                                name="chat"
+                                                value="{{service.id}}"
+                                            >
+                                            <i data-feather="message-circle"  class="feather-icon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </form>
                                 {% endfor %}
-                            {% endif %}
-
-                            <form class="form-horizontal" method='POST' enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="card-body">
-                                    <h4 class="card-title">Commercial Loan Details</h4>
-                                    
-                                </div>
-                               
-                                <div class="p-3 border-top">
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="">Submit</button>
-                                        <button type="reset" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
-                                    </div>
-                                </div>
-                            </form>
-                            
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 
+                
+                
+                
+                
+                
+               
+               
                 <!-- -------------------------------------------------------------- -->
                 <!-- End PAge Content -->
                 <!-- -------------------------------------------------------------- -->
@@ -113,17 +151,13 @@
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
-    
-
-
+            <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-           {% include 'static_template/footer.html' %}
+            {% include 'static_template/footer.html' %}
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
-
-
         </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
@@ -137,25 +171,29 @@
     <!-- ============================================================== -->
     {% include 'static_template/custom-sidebar.html' %}
     <!-- ============================================================== -->
-    <!-- All Jquery -->
+    <!-- ============================================================== -->
+     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="{% static '/monster/src/assets/libs/jquery/dist/jquery.min.js' %}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{% static '/monster/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <!-- apps -->
-    <script src="{% static 'monster/dist/js/app.min.js' %}"></script>
-    <script src="{% static 'monster/dist/js/app.init.js' %}"></script>
-    <script src="{% static 'monster/dist/js/app-style-switcher.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app.init.js' %}"></script>
+    <script src="{% static '/monster/dist/js/app-style-switcher.js' %}"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{% static '/monster/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
     <script src="{% static '/monster/src/assets/libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
     <!--Wave Effects -->
-    <script src="{% static 'monster/dist/js/waves.js' %}"></script>
+    <script src="{% static '/monster/dist/js/waves.js' %}"></script>
     <!--Menu sidebar -->
-    <script src="{% static 'monster/dist/js/sidebarmenu.js' %}"></script>
+    <script src="{% static '/monster/dist/js/sidebarmenu.js' %}"></script>
+    
     <!--Custom JavaScript -->
-    <script src="{% static 'monster/dist/js/feather.min.js' %}"></script>
-    <script src="{% static 'monster/dist/js/custom.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/feather.min.js' %}"></script>
+    <script src="{% static '/monster/dist/js/custom.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+    <script src="{% static '/monster/src/assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
 </body>
 
 </html>
