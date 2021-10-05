@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
     {% load static %}
-    {% load widget_tweaks %}
-    {% load crispy_forms_tags %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -82,39 +80,39 @@
                                 <div class="mb-3 row">
                                     <label for="firstname" class="col-sm-3 text-end control-label col-form-label">First Name</label>
                                     <div class="col-sm-9">
-                                        {{form.first_name|as_crispy_field}}
+                                        <input  type="text"  name="first_name" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="lastname" class="col-sm-3 text-end control-label col-form-label">Last Name</label>
                                     <div class="col-sm-9">
-                                        {{form.last_name|as_crispy_field}}
+                                        <input  type="text"  name="last_name" class="form-control"/>
                                     </div>
                                 </div>
                                 
                                 <div class="mb-3 row">
                                     <label for="email20" class="col-sm-3 text-end control-label col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        {{form.email|as_crispy_field}}
+                                        <input  type="email"  name="email" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="cono3" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
                                     <div class="col-sm-9">
-                                        {{form.phone|as_crispy_field}}
+                                        <input  type="number"  name="phone" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 text-end control-label col-form-label">Role</label>
                                     <div class="col-sm-9">
-                                        {{form.role|as_crispy_field}}
+                                       {{form.role}}
                                     </div>
                                 </div>
                             </div>
                             <div class="p-3 border-top">
                                 <div class="text-end">
                                     
-                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light">Save</button>
+                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" >Save</button>
 
                                     <button type="submit" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
                                 </div>

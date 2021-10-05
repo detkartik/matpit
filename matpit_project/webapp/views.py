@@ -22,7 +22,7 @@ from .tokens import account_activation_token
 from django.http import HttpResponseRedirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import CustomUser,Notification,Comment,Lead
+from .models import CustomUser,Category,Comment,StartUp,RealEstate,Taxation,Legal,Tradmark,Service,Other
 import random
 import string
 import copy
@@ -34,7 +34,7 @@ import csv
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML,CSS
-from weasyprint.fonts import FontConfiguration
+
 import tempfile
 import ssl
 import logging
@@ -73,7 +73,7 @@ def login(request):
                     if request.user.role == 'ACCOUNT':
                         request.user.is_verified = True
                         request.user.profile_update = True
-                        return render(request,'lead_html/lead_verify_v2.html')
+                        return render(request,'service_html/service_verify_v2.html')
 
                     if request.user.profile_update:
                         return redirect('dashboard')
@@ -87,9 +87,6 @@ def login(request):
     else:
         return render(request,"user_html/login_v2.html")
 
-@login_required(login_url='login')
-def rera_consultancy(request):
-    return render(request,'lead_html/rera_consultancy.html')
 
 
 @login_required(login_url='login')
@@ -98,353 +95,490 @@ def mic_dashboard(request):
     managers_dsa_af = ['AF','DSA']
     managers_afm_rm = ['AFM','RM']
     ruser = request.user
-    leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager=ruser) | Q(created_by__manager__referred_by=ruser.referral_code),verification_approved=True,other_details_updated=True)
+    services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager=ruser) | Q(created_by__manager__referred_by=ruser.referral_code),verification_approved=True,other_details_updated=True)
     context = {
-        'leads':leads,
-        'count':leads.count
+        'services':services,
+        'count':services.count
         
         }
-    return render (request,'lead_html/mic_dashboard_v2.html',context)
+    return render (request,'service_html/mic_dashboard_v2.html',context)
 
   
-
-
-
 @login_required(login_url='login')
-def yourlead(request):
+def yourservice(request):
     ruser = request.user
     print(request)
-    leads = Lead.objects.filter(Q(created_by=ruser)|Q(created_by__manager=ruser) |Q(created_by__manager__referred_by=ruser.referral_code)|Q(loan_type='PL'),lead_update=True).order_by('-id')
+    services = Service.objects.filter(Q(created_by=ruser)|Q(created_by__manager=ruser) |Q(created_by__manager__referred_by=ruser.referral_code),service_update=True).order_by('-id')
     
-
-    count = leads.count
-    banks = LoginBank.objects.all()
+    count = services.count
+    
     page = request.GET.get('page', 1)
-    paginator = Paginator(leads, 10)
+    paginator = Paginator(services, 10)
     try:
-        leads = paginator.page(page)
+        services = paginator.page(page)
     except PageNotAnInteger:
-        leads = paginator.page(1)
+        services = paginator.page(1)
     except EmptyPage:
-        leads = paginator.page(paginator.num_pages)
+        services = paginator.page(paginator.num_pages)
 
     if request.user.is_suspended == True or request.user.role == 'BO' or request.user.role == 'ACCOUNT':
         return render(request,'user_html/404_page.htm')
 
     # if ruser.role in ['CONNECTOR','AF']:
-    #     return render(request,'lead_html/your_leads_v2.html')
+    #     return render(request,'service_html/your_services_v2.html')
 
     
     if request.POST.get('proceed'):
-        lead = Lead.objects.get(id=request.POST.get('proceed'))
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead,'banks':banks})
+        service = Service.objects.get(id=request.POST.get('proceed'))
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
 
     if request.POST.get('customer_contact_update'):
-        lead = Lead.objects.get(id=request.POST.get('customer_contact_update'))
-        lead.customer_contact_updated = True
-        lead.customer_contacted = request.POST.get('customer_contacted')
-        print('ABCD',lead.customer_contacted)
-        if lead.customer_contacted == "on":
-            lead.customer_contacted = True
-            lead.customer_contacted_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service = Service.objects.get(id=request.POST.get('customer_contact_update'))
+        service.customer_contact_updated = True
+        service.customer_contacted = request.POST.get('customer_contacted')
+        print('ABCD',service.customer_contacted)
+        if service.customer_contacted == "on":
+            service.customer_contacted = True
+            service.customer_contacted_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
         else:
-            lead.customer_contacted = False
-            lead.customer_contacted_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+            service.customer_contacted = False
+            service.customer_contacted_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('customer_contact_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('customer_contact_updated_success'))
-        lead.customer_contact_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('customer_contact_updated_success'))
+        service.customer_contact_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('file_picked_updated'):
-        lead = Lead.objects.get(id=request.POST.get('file_picked_updated'))
-        lead.file_picked_updated = True 
-        lead.file_picked = request.POST.get('file_picked')
-        print('ABCD',lead.file_picked)
-        if lead.file_picked == "on":
-            lead.file_picked = True
-            lead.file_picked_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service = Service.objects.get(id=request.POST.get('file_picked_updated'))
+        service.file_picked_updated = True 
+        service.file_picked = request.POST.get('file_picked')
+        print('ABCD',service.file_picked)
+        if service.file_picked == "on":
+            service.file_picked = True
+            service.file_picked_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
         else:
-            lead.file_picked = False
-            lead.file_picked_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+            service.file_picked = False
+            service.file_picked_time = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('file_picked_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('file_picked_updated_success'))
-        lead.file_picked_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('file_picked_updated_success'))
+        service.file_picked_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('remark_message_updated'):
-        lead = Lead.objects.get(id=request.POST.get('remark_message_updated'))
-        lead.remark_message_updated = True
-        lead.remark_message = request.POST.get('remark_message')
-        lead.remark_message_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('remark_message_updated'))
+        service.remark_message_updated = True
+        service.remark_message = request.POST.get('remark_message')
+        service.remark_message_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('remark_message_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('remark_message_updated_success'))
-        lead.remark_message_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('remark_message_updated_success'))
+        service.remark_message_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('file_pickup_process_completed'):
-        lead = Lead.objects.get(id=request.POST.get('file_pickup_process_completed'))
-        lead.file_pickup_process_completed = True
-        lead.file_pickup_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead,'banks':banks})
+        service = Service.objects.get(id=request.POST.get('file_pickup_process_completed'))
+        service.file_pickup_process_completed = True
+        service.file_pickup_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service,'banks':banks})
     
     if request.POST.get('login_bank_updated'):
-        lead = Lead.objects.get(id=request.POST.get('login_bank_updated'))
-        lead.login_bank_updated = True
-        lead.login_bank_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service = Service.objects.get(id=request.POST.get('login_bank_updated'))
+        service.login_bank_updated = True
+        service.login_bank_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
         
         if request.POST.get('bank'):
             print(request.POST.get('bank'))
-            lead.login_bank = LoginBank.objects.get(name=request.POST.get('bank'))
-            lead.login_bank.save()
-            lead.save()
-            return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+            service.login_bank = LoginBank.objects.get(name=request.POST.get('bank'))
+            service.login_bank.save()
+            service.save()
+            return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('login_bank_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('login_bank_updated_success'))
-        lead.login_bank_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead,'banks':banks})
+        service = Service.objects.get(id=request.POST.get('login_bank_updated_success'))
+        service.login_bank_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service,'banks':banks})
 
     if request.POST.get('login_bank_process_completed'):
-        lead = Lead.objects.get(id=request.POST.get('login_bank_process_completed'))
-        lead.login_bank_process_completed = True
-        lead.login_bank_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('login_bank_process_completed'))
+        service.login_bank_process_completed = True
+        service.login_bank_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('senction_letter_updated'):
         
-        lead = Lead.objects.get(id=request.POST.get('senction_letter_updated'))
+        service = Service.objects.get(id=request.POST.get('senction_letter_updated'))
         if request.FILES.get('senction_letter',''):
-            lead.senction_letter = request.FILES.get('senction_letter','')
+            service.senction_letter = request.FILES.get('senction_letter','')
         else:
-            lead.senction_letter = ''
-        lead.senction_letter_updated = True
-        lead.senction_letter_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+            service.senction_letter = ''
+        service.senction_letter_updated = True
+        service.senction_letter_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('senction_letter_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('senction_letter_updated_success'))
-        lead.senction_letter_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('senction_letter_updated_success'))
+        service.senction_letter_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('senction_amount_updated'):
-        lead = Lead.objects.get(id=request.POST.get('senction_amount_updated'))
-        lead.senction_amount = request.POST.get('senction_amount')
-        lead.senction_amount_updated = True
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('senction_amount_updated'))
+        service.senction_amount = request.POST.get('senction_amount')
+        service.senction_amount_updated = True
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
 
     if request.POST.get('senction_amount_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('senction_amount_updated_success'))
-        lead.senction_amount_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('senction_amount_updated_success'))
+        service.senction_amount_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('dsa_code_updated'):
-        lead = Lead.objects.get(id=request.POST.get('dsa_code_updated'))
-        lead.dsa_code = request.POST.get('dsa_code')
-        lead.dsa_code_updated = True
-        lead.dsa_code_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('dsa_code_updated'))
+        service.dsa_code = request.POST.get('dsa_code')
+        service.dsa_code_updated = True
+        service.dsa_code_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('dsa_code_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('dsa_code_updated_success'))
-        lead.dsa_code_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('dsa_code_updated_success'))
+        service.dsa_code_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('senction_date_updated'):
-        lead = Lead.objects.get(id=request.POST.get('senction_date_updated'))
+        service = Service.objects.get(id=request.POST.get('senction_date_updated'))
         print(request.POST.get('senction_date'))
-        lead.senction_date = datetime.datetime.strptime(request.POST.get('senction_date'),'%Y-%m-%d')
-        lead.senction_date_updated = True
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead}) 
+        service.senction_date = datetime.datetime.strptime(request.POST.get('senction_date'),'%Y-%m-%d')
+        service.senction_date_updated = True
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service}) 
 
     if request.POST.get('senction_date_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('senction_date_updated_success'))
-        lead.senction_date_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('senction_date_updated_success'))
+        service.senction_date_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('senction_process_completed'):
-        lead = Lead.objects.get(id=request.POST.get('senction_process_completed'))
-        lead.senction_process_completed = True
-        lead.senction_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service = Service.objects.get(id=request.POST.get('senction_process_completed'))
+        service.senction_process_completed = True
+        service.senction_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
         
-        lead.save()
-        return redirect('yourlead')
+        service.save()
+        return redirect('yourservice')
     
     if request.POST.get('disbursement_updated'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_updated'))
-        lead.disbursement_updated = True
-        lead.disbursement_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)  
-        lead.disbursement = request.POST.get('disbursement')
-        print('ABCD',lead.disbursement)
-        if lead.disbursement == "on":
-            lead.disbursement = True
-            lead.disbursement_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service = Service.objects.get(id=request.POST.get('disbursement_updated'))
+        service.disbursement_updated = True
+        service.disbursement_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)  
+        service.disbursement = request.POST.get('disbursement')
+        print('ABCD',service.disbursement)
+        if service.disbursement == "on":
+            service.disbursement = True
+            service.disbursement_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
         else:
-            lead.disbursement = False
-            lead.disbursement_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+            service.disbursement = False
+            service.disbursement_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc) 
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('disbursement_success'):
-        lead= Lead.objects.get(id=request.POST.get('disbursement_success'))
-        lead.disbursement_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service= Service.objects.get(id=request.POST.get('disbursement_success'))
+        service.disbursement_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('disbursement_proof_updated'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_proof_updated'))
-        lead.disbursement_proof = request.FILES.get('disbursement_proof')
-        lead.disbursement_proof_updated = True
-        lead.disbursement_proof_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('disbursement_proof_updated'))
+        service.disbursement_proof = request.FILES.get('disbursement_proof')
+        service.disbursement_proof_updated = True
+        service.disbursement_proof_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('disbursement_proof_updated_success'):
-        lead =Lead.objects.get(id=request.POST.get('disbursement_proof_updated_success'))
-        lead.disbursement_proof_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service =Service.objects.get(id=request.POST.get('disbursement_proof_updated_success'))
+        service.disbursement_proof_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('disbursement_amount_updated'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_amount_updated'))
-        lead.disbursement_amount = request.POST.get('disbursement_amount')
-        lead.disbursement_amount_updated = True
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('disbursement_amount_updated'))
+        service.disbursement_amount = request.POST.get('disbursement_amount')
+        service.disbursement_amount_updated = True
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('disbursement_amount_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_amount_updated_success'))
-        lead.disbursement_amount_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('disbursement_amount_updated_success'))
+        service.disbursement_amount_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('disbursement_date_updated'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_date_updated'))
+        service = Service.objects.get(id=request.POST.get('disbursement_date_updated'))
         print(request.POST.get('disbursement_date'))
-        # import pdb
-        # pdb.set_trace()
-        lead.disbursement_date = datetime.datetime.strptime(request.POST.get('disbursement_date'),'%Y-%m-%d')
-        lead.disbursement_date_updated = True
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead}) 
+       
+        service.disbursement_date = datetime.datetime.strptime(request.POST.get('disbursement_date'),'%Y-%m-%d')
+        service.disbursement_date_updated = True
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service}) 
 
     if request.POST.get('disbursement_date_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_date_updated_success'))
-        lead.disbursement_date_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('disbursement_date_updated_success'))
+        service.disbursement_date_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('payout_updated'):
-        lead = Lead.objects.get(id=request.POST.get('payout_updated'))  
-        lead.payout = request.POST.get('payout')  
-        lead.payout_updated = True
-        lead.payout_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('payout_updated'))  
+        service.payout = request.POST.get('payout')  
+        service.payout_updated = True
+        service.payout_updated_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
     if request.POST.get('payout_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('payout_updated_success'))
-        lead.payout_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('payout_updated_success'))
+        service.payout_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
 
 
     if request.POST.get('disbursement_rejection_reason_updated'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_rejection_reason_updated'))
-        lead.disbursement_rejection_reason = request.POST.get('disbursement_rejection_reason')
-        lead.disbursement_rejection_reason_updated = True
-        lead.disbursement_rejected_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('disbursement_rejection_reason_updated'))
+        service.disbursement_rejection_reason = request.POST.get('disbursement_rejection_reason')
+        service.disbursement_rejection_reason_updated = True
+        service.disbursement_rejected_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     if request.POST.get('disbursement_rejection_reason_updated_success'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_rejection_reason_updated_success'))
-        lead.disbursement_rejection_reason_updated = False
-        lead.save()
-        return render(request,'lead_html/lead_process_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('disbursement_rejection_reason_updated_success'))
+        service.disbursement_rejection_reason_updated = False
+        service.save()
+        return render(request,'service_html/service_process_v2.html',{'service':service})
     
     
     if request.POST.get('disbursement_process_completed'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_process_completed'))
-        lead.disbursement_process_completed_approved = True
-        lead.verification_pending = True
-        lead.verification_rejected = False
-        lead.verification_approved = False
-        lead.disbursement_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-        lead.save()
-        return redirect('yourlead')
+        service = Service.objects.get(id=request.POST.get('disbursement_process_completed'))
+        service.disbursement_process_completed_approved = True
+        service.verification_pending = True
+        service.verification_rejected = False
+        service.verification_approved = False
+        service.disbursement_process_completed_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+        service.save()
+        return redirect('yourservice')
     
     if request.POST.get('disbursement_process_rejected'):
-        lead = Lead.objects.get(id=request.POST.get('disbursement_process_rejected'))
-        lead.disbursement_process_completed_rejected = True
-        lead.disbursement_process_rejected_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-        lead.save()
-        return redirect('yourlead')
+        service = Service.objects.get(id=request.POST.get('disbursement_process_rejected'))
+        service.disbursement_process_completed_rejected = True
+        service.disbursement_process_rejected_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+        service.save()
+        return redirect('yourservice')
         
     if request.POST.get('details'):
-        lead =Lead.objects.get(id=request.POST.get('details'))
-        context = {'ruser':ruser,'lead':lead}
-        html_string = render_to_string('lead_html/pdf.html',context)
+        service =Service.objects.get(id=request.POST.get('details'))
+        context = {'ruser':ruser,'service':service}
+        html_string = render_to_string('service_html/pdf.html',context)
         html = HTML(string=html_string,base_url=request.build_absolute_uri())
         pdf = html.write_pdf(presentational_hints=True)
         response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'inline; filename="lead.pdf"'
+        response['Content-Disposition'] = 'inline; filename="service.pdf"'
         return response
 
     if request.POST.get('chat'):
-        lead =Lead.objects.get(id=request.POST.get('chat'))
-        comments = Comment.objects.filter(lead=lead.id).order_by('-id')
-        return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+        service =Service.objects.get(id=request.POST.get('chat'))
+        comments = Comment.objects.filter(service=service.id).order_by('-id')
+        return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
     
-    if request.POST.get('lead_chat_updated'):
-        lead = Lead.objects.get(id=request.POST.get('lead_chat_updated'))
-        comments = Comment.objects.filter(lead=lead.id).order_by('-id')
+    if request.POST.get('service_chat_updated'):
+        service = Service.objects.get(id=request.POST.get('service_chat_updated'))
+        comments = Comment.objects.filter(service=service.id).order_by('-id')
         print('ABCD')
-        if not request.FILES.get('lead_attachments') and not request.POST.get('lead_chat'):
+        if not request.FILES.get('service_attachments') and not request.POST.get('service_chat'):
 
             messages.error(request,'Message or Attachement is missing')
-            return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+            return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
         else:
-            comment = Comment.objects.create(lead= lead,message=request.POST.get('lead_chat'),user=request.user,attachments=request.FILES.get('lead_attachments'))
+            comment = Comment.objects.create(service= service,message=request.POST.get('service_chat'),user=request.user,attachments=request.FILES.get('service_attachments'))
             comment.save()
-            return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+            return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
             
     if count==0:
-        messages.error(request,'No Lead is Found')
-        return render(request, 'lead_html/your_leads_v2.html',{'ruser':ruser,'leads':leads,'count':count})
+        messages.error(request,'No service is Found')
+        return render(request, 'service_html/your_services_v2.html',{'ruser':ruser,'services':services,'count':count})
     else:
-        return render(request, 'lead_html/your_leads_v2.html',{'ruser':ruser,'leads':leads,'count':count})
+        return render(request, 'service_html/your_services_v2.html',{'ruser':ruser,'services':services,'count':count})
     
-    return render(request, 'lead_html/your_leads_v2.html',{'ruser':ruser,'leads':leads,'count':count})
-        # leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code)).order_by('-id')
-        # print(leads)
+        services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code)).order_by('-id')
+        print(services)
 
  
+@login_required(login_url='login')
+def services(request):
+    if request.user.is_suspended == True or request.user.role == 'BO' or request.user.role == 'ACCOUNT' :
+        return render(request,'user_html/404_page.htm')
+        
+    # balance_transfer_banks = BalanceTransferBank.objects.all()
+    # transfer_banks = TransferBank.objects.all()
+    # business_proofs = BusinessProof.objects.all()
+    # relationship_applicats = RelationshipApplicant.objects.all()
+    # topup_reasons =  TopupReason.objects.all()
+    # address_proofs = AddressProof.objects.all()
+    # co_applicant_address_proofs = CoApllicantAddressProof.objects.all()
+    # company_types = CompanyType.objects.all()
+    # businesses = Business.objects.all()
+    # khatas = Khata.objects.all()    
+    real_states =  RealEstate.objects.all()
+    startups =  StartUp.objects.all()
+    taxations =  Taxation.objects.all()
+    legals = Legal.objects.all()
+    tradmarks = Tradmark.objects.all()
+    others = Other.objects.all()
 
+
+
+    
+
+    print("fadadasdads")
+    if request.method == "POST":
+        
+        ####################################  Select Service Type ##############################################
+       
+        service_type = request.POST.get('service_type')
+            
+        if service_type == 'real_estate':
+            service_type = 'Real Estate'
+            service_sub_type = request.POST.get('real_estate_type')
+            if service_sub_type == 'rera':
+                service_sub_type = 'RERA'
+            if service_sub_type == 'layout_approval':
+                service_sub_type = 'Layout Approval'
+            if service_sub_type == 'architect':
+                service_sub_type = 'Architect & Interiors'
+            if service_sub_type == 'documentations':
+                service_sub_type = 'Documentations'
+            if service_sub_type == 'loans':
+                service_sub_type = 'Loans'
+            service_amount = request.POST.get('required_service_amount_real_estate')
+        
+        if service_type == 'startup':
+            service_type = 'Start Up'
+            service_sub_type = request.POST.get('startup_type')
+            if service_sub_type == 'pvt':
+                service_sub_type = 'PVT LTD.'
+            if service_sub_type == 'llp':
+                service_sub_type = 'LLP Co.'
+            if service_sub_type == 'one_person_co':
+                service_sub_type = 'One Person Co.'
+            if service_sub_type == 'partnership_firm':
+                service_sub_type = 'Partnership Firm'
+            if service_sub_type == 'properietship':
+                service_sub_type = 'Properietship'
+            service_amount = request.POST.get('required_service_amount_startup')
+        
+        if service_type == 'taxation':
+            service_type = 'Taxation'
+            service_sub_type = request.POST.get('taxation_type')
+            if service_sub_type == 'income_tax':
+                service_sub_type = 'Income Tax'
+            if service_sub_type == 'gst':
+                service_sub_type = 'GST'
+            service_amount = request.POST.get('required_service_amount_taxation')
+        
+        if service_type == 'legal':
+            service_type = 'Legal'
+            service_sub_type = request.POST.get('legal_type')
+            if service_sub_type == 'land_revenue':
+                service_sub_type = 'Land & Revenue'
+            
+            if service_sub_type == 'criminal_matter':
+                service_sub_type = 'Criminal Matter'
+            
+            if service_sub_type == 'civil_matter':
+                service_sub_type = 'Civil Matter'
+            
+            if service_sub_type == 'divorce':
+                service_sub_type = 'Divorce'
+            
+            if service_sub_type == 'consumer_protaction':
+                service_sub_type = 'Consumer Protaction '
+            if service_sub_type == 'nia':
+                service_sub_type = 'NIA'
+            service_amount = request.POST.get('required_service_amount_legal')
+        
+        if service_type == 'tradmark':
+            service_type = 'Tradmark'
+            service_sub_type = request.POST.get('tradmark_type')
+            if service_sub_type == 'trademark':
+                service_sub_type = 'Trademark'
+            if service_sub_type == 'patent':
+                service_sub_type = 'Patent'
+            if service_sub_type == 'copyright':
+                service_sub_type = 'Copy Right'
+            service_amount = request.POST.get('required_service_amount_tradmark')
+        
+        if service_type == 'others':
+            service_type = 'Others'
+            service_sub_type = request.POST.get('others_type')
+            if service_sub_type == 'rto':
+                service_sub_type = 'RTO'
+            if service_sub_type == 'certificate':
+                service_sub_type = 'Certificate'
+            if service_sub_type == 'deed':
+                service_sub_type = 'Deed'
+            if service_sub_type == 'registration':
+                service_sub_type = 'Registration'
+            if service_sub_type == 'passport':
+                service_sub_type = 'Passport Services'
+            if service_sub_type == 'rti':
+                service_sub_type = 'Right To Information'
+            service_amount = request.POST.get('required_service_amount_others')
+
+        
+        
+        service = Service.objects.create(
+            service_type = service_type,
+            service_amount = service_amount,
+            service_sub_type = service_sub_type,
+            created_by = request.user,
+            service_update = True,
+            verification_pending = True,
+
+        )   
+        service.save()
+
+        
+        print(service)
+    
+        
+        
+       
+        return redirect('yourservice')
+
+    return render (request,'service_html/services.html')
+        
 @login_required(login_url='login')
 def pipeline(request):
     ruser = request.user
@@ -455,50 +589,50 @@ def pipeline(request):
     current_date = datetime.date.today() 
     first = today.replace(day=1)  # first date of current month
     previous_month_date = first - datetime.timedelta(days=1)
-    leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code)).filter(login_bank_updated_at__lt=first).exclude(Q(disbursement_process_completed_approved=True)| Q(disbursement_process_completed_rejected=True)).order_by('-id')
-    count = leads.count()
+    services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code)).filter(login_bank_updated_at__lt=first).exclude(Q(disbursement_process_completed_approved=True)| Q(disbursement_process_completed_rejected=True)).order_by('-id')
+    count = services.count()
     page = request.GET.get('page', 1)
-    paginator = Paginator(leads, 2)
+    paginator = Paginator(services, 2)
     try:
-        leads = paginator.page(page)
+        services = paginator.page(page)
     except PageNotAnInteger:
-        leads = paginator.page(1)
+        services = paginator.page(1)
     except EmptyPage:
-        leads = paginator.page(paginator.num_pages)
-    print(leads)
+        services = paginator.page(paginator.num_pages)
+    print(services)
     
     print('ABCDFR',count)
 
     if request.POST.get('chat'):
-        lead =Lead.objects.get(id=request.POST.get('chat'))
-        comments = Comment.objects.filter(lead=lead.id).order_by('-id')
-        return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+        service =Service.objects.get(id=request.POST.get('chat'))
+        comments = Comment.objects.filter(service=service.id).order_by('-id')
+        return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
         
-    if request.POST.get('lead_chat_updated'):
-        lead = Lead.objects.get(id=request.POST.get('lead_chat_updated'))
-        comments = Comment.objects.filter(lead=lead.id).order_by('-id')
-        if not request.FILES.get('lead_attachments') and not request.POST.get('lead_chat'):
+    if request.POST.get('service_chat_updated'):
+        service = Service.objects.get(id=request.POST.get('service_chat_updated'))
+        comments = Comment.objects.filter(service=service.id).order_by('-id')
+        if not request.FILES.get('service_attachments') and not request.POST.get('service_chat'):
             messages.error(request,'Message or Attachement is missing')
-            return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+            return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
         else:
-            comment = Comment.objects.create(lead= lead,message=request.POST.get('lead_chat'),user=request.user,attachments=request.FILES.get('lead_attachments'))
+            comment = Comment.objects.create(service= service,message=request.POST.get('service_chat'),user=request.user,attachments=request.FILES.get('service_attachments'))
             comment.save()
-            return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+            return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
     
-    print(leads)
+    print(services)
     if ruser.role not in ['CONNECTOR','AF']:
         if count==0:
-            messages.error(request,'No Lead is Found Greater Than 30 Days')
+            messages.error(request,'No service is Found Greater Than 30 Days')
             print('ABCD') 
-            return render(request, 'lead_html/pipeline_cases_v2.html',{'ruser':ruser,'leads':leads,'count':count})
+            return render(request, 'service_html/pipeline_cases_v2.html',{'ruser':ruser,'services':services,'count':count})
         else:
-            return render(request, 'lead_html/pipeline_cases_v2.html',{'ruser':ruser,'leads':leads,'count':count})
+            return render(request, 'service_html/pipeline_cases_v2.html',{'ruser':ruser,'services':services,'count':count})
     else:
         if count==0:
-            messages.error(request,'No Lead is Found Greater Than 30 Days')
-            return render(request, 'lead_html/pipeline_cases_v2.html',{'ruser':ruser,'leads':leads,'count':count})
+            messages.error(request,'No service is Found Greater Than 30 Days')
+            return render(request, 'service_html/pipeline_cases_v2.html',{'ruser':ruser,'services':services,'count':count})
         else:
-            return render(request, 'lead_html/pipeline_cases_v2.html',{'ruser':ruser,'leads':leads,'count':count})
+            return render(request, 'service_html/pipeline_cases_v2.html',{'ruser':ruser,'services':services,'count':count})
 
 
 @login_required(login_url='login')
@@ -634,7 +768,7 @@ def usermanagement(request):
             resend_user.set_password(password_genrate)
             resend_user.save()
             current_site = get_current_site(request)
-            mail_subject_employee = 'Activate your Bharat Credit Account.'
+            mail_subject_employee = 'Activate your .'
             print(mail_subject_employee)
             message = render_to_string('email_template/register_confirm.htm', {
                 'user': resend_user,
@@ -666,9 +800,9 @@ def usermanagement(request):
 @login_required(login_url='login')
 def reports(request):
     if request.user.role == 'ADMIN': 
-        print(request.POST.get('download_lead'))
+        print(request.POST.get('download_service'))
         print(request.POST.get('download_user'))
-        if request.POST.get('download_lead'):
+        if request.POST.get('download_service'):
             ruser = request.user
             today = datetime.datetime.today()
             print(today)
@@ -692,282 +826,92 @@ def reports(request):
                 
             if request.POST.get('endDate') == '' or request.POST.get('startDate') == '':
                 messages.error(request,'Please Select Date Range')
-                return render(request,'lead_html/reports_v2.html')
+                return render(request,'service_html/reports_v2.html')
 
             if request.POST.get('startDate') > request.POST.get('endDate'):
                 messages.error(request,'Please Select Correct Date Range')
-                return render(request,'lead_html/reports_v2.html')
+                return render(request,'service_html/reports_v2.html')
 
-            leads = Lead.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
-            leads_today = Lead.objects.filter(created_at=today)
-            leads_previous_month = Lead.objects.filter(created_at__gte=previous_month_date,created_at__lte=today)
-            leads_older_months = Lead.objects.filter(created_at__gte=older_month_date,created_at__lte=previous_month_date)
-            leads_overall = Lead.objects.all()
-            print(leads)
+            services = Service.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
+            services_today = Service.objects.filter(created_at=today)
+            services_previous_month = Service.objects.filter(created_at__gte=previous_month_date,created_at__lte=today)
+            services_older_months = Service.objects.filter(created_at__gte=older_month_date,created_at__lte=previous_month_date)
+            services_overall = Service.objects.all()
+            print(services)
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="BC_lead_report.csv"'
+            response['Content-Disposition'] = 'attachment; filename="MatPit_service_report.csv"'
             writer = csv.writer(response)
-            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','CREATED BY','LOAN TYPE','PURCHASE TYPE','JOB TYPE','JOB LOCATION','RENTAL INCOME(JOB)','RENTAL INCOME(BUSINESS)','HOW MUCH IN CASH(JOB)','HOW MUCH IN CASH(BUSINESS)','HOW MUCH IN ACCOUNT(JOB)','HOW MUCH IN ACCOUNT(BUSINESS)','TAKE HOME SALARY','DURATION IN PRESENT COMPANY','EXISTING EMI AMOUNT(JOB)','EXISTING EMI AMOUNT(BUSINESS)','BUSINESS LOCATION','DECLARED ITR','HOW MUCH ITR?','HOW MUCH IN ACCOUNT (ITR)','BUSINESS VINTAGE','NATURE OF BUSINESS','GST REGISTERED','KHATA','Property Location','AREA OF EXTENET (IH)','AREA OF EXTENET (SC)','AREA OF EXTENT (PLOT)','AREA OF EXTENT(FLAT)','AREA OF EXTENT(LAP)','Number Of Units','Number of Floors','Number of Units LAP','Number of Floor LAP','Bulding Age IH','Building Age LAP','PROJECT NAME','OC & CC RECIEVED','PLAN AVAILABLE(SC)','PLAN TYPE','PLAN AVAILABLE(IH)','PLAN AVAIALABLE(LAP)'])
+            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','SERVICE TYPE','SERVICE SUB TYPE','SERVICE AMOUNT'])
             if request.POST.get('startDate') and request.POST.get('endDate'):
-                for lead in leads:
+                for service in services:
                     writer.writerow(
                         [
-                            lead.first_name, 
-                            lead.last_name, 
-                            lead.email,
-                            lead.phone,
-                            lead.created_at.date(),
-                            lead.created_by.first_name + '' + lead.created_by.last_name,
-                            lead.get_loan_type_display(),
-                            lead.get_purchase_type_display(),
-                            lead.get_job_type_display(),
-                            lead.job_location,
-                            'YES' if lead.rental_income_job else 'NO',
-                            'YES' if lead.rental_income_bus else 'NO',
-                            lead.how_much_in_cash_job,
-                            lead.how_much_in_cash_bus,
-                            lead.how_much_in_account_job,
-                            lead.how_much_in_account_bus,
-                            lead.take_home_salary,
-                            lead.get_duration_in_present_company_display(),
-                            lead.existing_emi_amount_job,
-                            lead.existing_emi_amount_bus,
-                            lead.business_location,
-                            'YES' if lead.declared_itr else 'NO',
-                            lead.how_much_itr,
-                            lead.how_much_in_account_itr,
-                            lead.business_vintage,
-                            lead.nature_of_business,
-                            'YES' if lead.gst_registered else 'NO',
-                            lead.khata,
-                            lead.property_location,
-                            lead.area_of_extent_ih,
-                            lead.area_of_extent_sc,
-                            lead.area_of_extent_plot,
-                            lead.area_of_extent_flat,
-                            lead.area_of_extent_lap,
-                            lead.number_of_unites,
-                            lead.number_of_floors,
-                            lead.number_of_units_lap,
-                            lead.number_of_floors_lap,
-                            lead.get_building_age_ih_display(),
-                            lead.get_building_age_lap_display(),
-                            lead.project_name,
-                            lead.oc_cc_received,
-                            'YES' if lead.plan_available_sc else 'NO',
-                            lead.get_plan_type_display(),
-                            'YES' if lead.plan_available_ih else 'NO',
-                            'YES' if lead.plan_available_lap else 'NO',
+                            service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
+                            service.created_at.date(),
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
             if request.POST.get('today'):
-                for lead in leads_today:
+                for service in services_today:
                     writer.writerow(
                         [
-                            lead.first_name, 
-                            lead.last_name, 
-                            lead.email,
-                            lead.phone,
-                            lead.created_at.date(),
-                            lead.created_by.first_name + '' + lead.created_by.last_name,
-                            lead.get_loan_type_display(),
-                            lead.get_purchase_type_display(),
-                            lead.get_job_type_display(),
-                            lead.job_location,
-                            'YES' if lead.rental_income_job else 'NO',
-                            'YES' if lead.rental_income_bus else 'NO',
-                            lead.how_much_in_cash_job,
-                            lead.how_much_in_cash_bus,
-                            lead.how_much_in_account_job,
-                            lead.how_much_in_account_bus,
-                            lead.take_home_salary,
-                            lead.get_duration_in_present_company_display(),
-                            lead.existing_emi_amount_job,
-                            lead.existing_emi_amount_bus,
-                            lead.business_location,
-                            'YES' if lead.declared_itr else 'NO',
-                            lead.how_much_itr,
-                            lead.how_much_in_account_itr,
-                            lead.business_vintage,
-                            lead.nature_of_business,
-                            'YES' if lead.gst_registered else 'NO',
-                            lead.khata,
-                            lead.property_location,
-                            lead.area_of_extent_ih,
-                            lead.area_of_extent_sc,
-                            lead.area_of_extent_plot,
-                            lead.area_of_extent_flat,
-                            lead.area_of_extent_lap,
-                            lead.number_of_unites,
-                            lead.number_of_floors,
-                            lead.number_of_units_lap,
-                            lead.number_of_floors_lap,
-                            lead.get_building_age_ih_display(),
-                            lead.get_building_age_lap_display(),
-                            lead.project_name,
-                            lead.oc_cc_received,
-                            'YES' if lead.plan_available_sc else 'NO',
-                            lead.get_plan_type_display(),
-                            'YES' if lead.plan_available_ih else 'NO',
-                            'YES' if lead.plan_available_lap else 'NO',
+                           service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
+                            service.created_at.date(),
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
-            if leads_previous_month:
-                for lead in leads_previous_month:
+            if services_previous_month:
+                for service in services_previous_month:
                     writer.writerow(
                         [
-                            lead.first_name, 
-                            lead.last_name, 
-                            lead.email,
-                            lead.phone,
-                            lead.created_at.date(),
-                            lead.created_by.first_name + '' + lead.created_by.last_name,
-                            lead.get_loan_type_display(),
-                            lead.get_purchase_type_display(),
-                            lead.get_job_type_display(),
-                            lead.job_location,
-                            'YES' if lead.rental_income_job else 'NO',
-                            'YES' if lead.rental_income_bus else 'NO',
-                            lead.how_much_in_cash_job,
-                            lead.how_much_in_cash_bus,
-                            lead.how_much_in_account_job,
-                            lead.how_much_in_account_bus,
-                            lead.take_home_salary,
-                            lead.get_duration_in_present_company_display(),
-                            lead.existing_emi_amount_job,
-                            lead.existing_emi_amount_bus,
-                            lead.business_location,
-                            'YES' if lead.declared_itr else 'NO',
-                            lead.how_much_itr,
-                            lead.how_much_in_account_itr,
-                            lead.business_vintage,
-                            lead.nature_of_business,
-                            'YES' if lead.gst_registered else 'NO',
-                            lead.khata,
-                            lead.property_location,
-                            lead.area_of_extent_ih,
-                            lead.area_of_extent_sc,
-                            lead.area_of_extent_plot,
-                            lead.area_of_extent_flat,
-                            lead.area_of_extent_lap,
-                            lead.number_of_unites,
-                            lead.number_of_floors,
-                            lead.number_of_units_lap,
-                            lead.number_of_floors_lap,
-                            lead.get_building_age_ih_display(),
-                            lead.get_building_age_lap_display(),
-                            lead.project_name,
-                            lead.oc_cc_received,
-                            'YES' if lead.plan_available_sc else 'NO',
-                            lead.get_plan_type_display(),
-                            'YES' if lead.plan_available_ih else 'NO',
-                            'YES' if lead.plan_available_lap else 'NO',
+                           service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
+                            service.created_at.date(),
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
 
-            if leads_older_months:
-                for lead in leads_older_months:
+            if services_older_months:
+                for service in services_older_months:
                     writer.writerow(
                         [
-                            lead.first_name, 
-                            lead.last_name, 
-                            lead.email,
-                            lead.phone,
-                            lead.created_at.date(),
-                            lead.created_by.first_name + '' + lead.created_by.last_name,
-                            lead.get_loan_type_display(),
-                            lead.get_purchase_type_display(),
-                            lead.get_job_type_display(),
-                            lead.job_location,
-                            'YES' if lead.rental_income_job else 'NO',
-                            'YES' if lead.rental_income_bus else 'NO',
-                            lead.how_much_in_cash_job,
-                            lead.how_much_in_cash_bus,
-                            lead.how_much_in_account_job,
-                            lead.how_much_in_account_bus,
-                            lead.take_home_salary,
-                            lead.get_duration_in_present_company_display(),
-                            lead.existing_emi_amount_job,
-                            lead.existing_emi_amount_bus,
-                            lead.business_location,
-                            'YES' if lead.declared_itr else 'NO',
-                            lead.how_much_itr,
-                            lead.how_much_in_account_itr,
-                            lead.business_vintage,
-                            lead.nature_of_business,
-                            'YES' if lead.gst_registered else 'NO',
-                            lead.khata,
-                            lead.property_location,
-                            lead.area_of_extent_ih,
-                            lead.area_of_extent_sc,
-                            lead.area_of_extent_plot,
-                            lead.area_of_extent_flat,
-                            lead.area_of_extent_lap,
-                            lead.number_of_unites,
-                            lead.number_of_floors,
-                            lead.number_of_units_lap,
-                            lead.number_of_floors_lap,
-                            lead.get_building_age_ih_display(),
-                            lead.get_building_age_lap_display(),
-                            lead.project_name,
-                            lead.oc_cc_received,
-                            'YES' if lead.plan_available_sc else 'NO',
-                            lead.get_plan_type_display(),
-                            'YES' if lead.plan_available_ih else 'NO',
-                            'YES' if lead.plan_available_lap else 'NO',
+                            service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
+                            service.created_at.date(),
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
 
-            if leads_overall:
-                for lead in leads_overall:
+            if services_overall:
+                for service in services_overall:
                     writer.writerow(
                         [
-                            lead.first_name, 
-                            lead.last_name, 
-                            lead.email,
-                            lead.phone,
-                            lead.created_at.date(),
-                            lead.created_by.first_name + '' + lead.created_by.last_name,
-                            lead.get_loan_type_display(),
-                            lead.get_purchase_type_display(),
-                            lead.get_job_type_display(),
-                            lead.job_location,
-                            'YES' if lead.rental_income_job else 'NO',
-                            'YES' if lead.rental_income_bus else 'NO',
-                            lead.how_much_in_cash_job,
-                            lead.how_much_in_cash_bus,
-                            lead.how_much_in_account_job,
-                            lead.how_much_in_account_bus,
-                            lead.take_home_salary,
-                            lead.get_duration_in_present_company_display(),
-                            lead.existing_emi_amount_job,
-                            lead.existing_emi_amount_bus,
-                            lead.business_location,
-                            'YES' if lead.declared_itr else 'NO',
-                            lead.how_much_itr,
-                            lead.how_much_in_account_itr,
-                            lead.business_vintage,
-                            lead.nature_of_business,
-                            'YES' if lead.gst_registered else 'NO',
-                            lead.khata,
-                            lead.property_location,
-                            lead.area_of_extent_ih,
-                            lead.area_of_extent_sc,
-                            lead.area_of_extent_plot,
-                            lead.area_of_extent_flat,
-                            lead.area_of_extent_lap,
-                            lead.number_of_unites,
-                            lead.number_of_floors,
-                            lead.number_of_units_lap,
-                            lead.number_of_floors_lap,
-                            lead.get_building_age_ih_display(),
-                            lead.get_building_age_lap_display(),
-                            lead.project_name,
-                            lead.oc_cc_received,
-                            'YES' if lead.plan_available_sc else 'NO',
-                            lead.get_plan_type_display(),
-                            'YES' if lead.plan_available_ih else 'NO',
-                            'YES' if lead.plan_available_lap else 'NO',
+                            service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
+                            service.created_at.date(),
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
 
@@ -986,18 +930,18 @@ def reports(request):
 
             if request.POST.get('endDate') == '' or request.POST.get('startDate') == '':
                 messages.error(request,'Please Select Date Range')
-                return render(request,'lead_html/reports_v2.html')
+                return render(request,'service_html/reports_v2.html')
 
             if request.POST.get('startDate') > request.POST.get('endDate'):
                 messages.error(request,'Please Select Correct Date Range')
-                return render(request,'lead_html/reports_v2.html')
+                return render(request,'service_html/reports_v2.html')
             users = CustomUser.objects.filter(created_at__gte=start_date,created_at__lte=end_date)
             print(users)
 
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="BC_Users_report.csv"'
+            response['Content-Disposition'] = 'attachment; filename="MatPit_Users_report.csv"'
             writer = csv.writer(response)
-            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','REFERRD BY','REFFERAL CODE','MANAGER NAME','ROLE','PROFESSIONAL OCCUPATION','HOUSING LOAN','MORTGAGE LOAN','VEHICAL LOAN','LEADS' ])
+            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','REFERRD BY','REFFERAL CODE','MANAGER NAME','ROLE','PROFESSIONAL OCCUPATION','services' ])
             for user in users:
                 writer.writerow(
                     [
@@ -1010,253 +954,19 @@ def reports(request):
                         user.referral_code,
                         user.manager.first_name if not user.role == 'ADMIN' else '',
                         user.role,
-                        ','.join( str(occupation) for occupation in  user.professional_occupation.all()),
-                        user.housing_loan,
-                        user.mortgage_loan,
-                        user.vehical_loan,
-                        user.lead_user.count(),
-
+                        user.professional_occupation,
+                        user.service_user.count
                         ]
                         )
             return response
-        return render(request,'lead_html/reports_v2.html')
+        return render(request,'service_html/reports_v2.html')
     else:
-        return render(request,'lead_html/reports_v2.html')
+        return render(request,'service_html/reports_v2.html')
 
 @login_required(login_url='login')
-def upload_lead(request):
-    print('abcd')
-    if request.POST.get('upload'):
-        
-        csv_file = request.FILES('file')
-
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request,'This is not a CSV File')
-        
-        data_set = csv_file.read().decode('UTF-8')
-        io_string = io.StringIO(data_set)
-        next(io_string)
-        for column in csv.reader(io_string,delimiter=',',quotechar="|"):
-            first_name = column[0]    
-            last_name = column[1]    
-            email = column[2]
-            phone = column[3]
-            loan_type = column[4]
-            if loan_type == 'construction':
-                loan_type = 'SC'
-            if loan_type == 'purchase':
-                loan_type = 'P'
-            if loan_type == 'lap':
-                loan_type = 'LAP'
-            
-
-            plan_type = column[4]
-            if plan_type == 'govt':
-                plan_type = 'ABG'
-            else:
-                plan_type = 'Normal'
-
-            plan_available_sc =  column[5]
-            if plan_available_sc == "on":
-                plan_available_sc = True
-            else:
-                plan_available_sc = False
-            
-            area_of_extent_sc = column[6]
-                    
-            purchase_type = column[7]
-            
-            if purchase_type == 'plot':
-                purchase_type = 'Pl'
-            
-            area_of_extent_plot = column[8]
-                    
-            if purchase_type == 'ih':
-                purchase_type = 'IH'
-            
-            number_of_unites = column[9]
-            number_of_floors = column[10]
-            area_of_extent_ih = column[11]
-            
-            building_age_ih = column[12]
-            if building_age_ih == 'lessthantenyearsih':
-                building_age_ih = 'l10_ih'
-            if building_age_ih == 'morethantenyearsih':
-                building_age_ih = 'm10_ih'
-            
-            plan_available_ih = column[13]
-            if plan_available_ih == "on":
-                plan_available_ih = True
-            else:
-                plan_available_ih = False
-            
-            purchase_type = column[14]
-            if purchase_type == 'flat':
-                purchase_type = 'F'
-            
-            project_name = column[15]
-            oc_cc_received = column[16]
-            area_of_extent_flat = column[17]
-            number_of_units_lap = column[18]
-            number_of_floors_lap = column[19]
-            area_of_extent_lap = column[20]
-            
-            building_age_lap = column[21]
-            if building_age_lap == 'lessthantenyears':
-                building_age_lap = 'l10_lap'
-            if building_age_lap == 'morethantenyears':
-                building_age_lap = 'm10_lap'
-
-            plan_available_lap = column[22]
-            if plan_available_lap == "on":
-                plan_available_lap = True
-            else:
-                plan_available_lap = False    
-
-            
-            #     pancard_image.save()
-            # if request.FILES['cancelled_cheque_image']:
-            #     cancelled_cheque_image = request.FILES['cancelled_cheque_image']
-            
-
-            job_type = column[23]
-            if job_type == '2':
-                job_type = 'Sal'
-            if job_type == '3':
-                job_type ='SE'
-
-            job_location = column[24]
-            rental_income_job = column[25]
-            if rental_income_job == "on":
-                rental_income_job = True
-            else:
-                rental_income_job = False
-
-            take_home_salary = column[26]
-            duration_in_present_company = column[27]
-            if duration_in_present_company == 'lessthantwoyears':
-                duration_in_present_company = 'l2'
-            else:
-                duration_in_present_company = 'm2'
-            
-            how_much_in_cash_job = column[28]
-            how_much_in_account_job = column[29]           
-            existing_emi_amount_job = column[30]           
-            business_location = column[31]
-            
-            rental_income_bus = column[32]
-            if rental_income_bus == "on":
-                rental_income_bus = True
-            else:
-                rental_income_bus = False
-            
-            how_much_in_cash_bus = column[33]
-            how_much_in_account_bus = column[34]  
-            
-            declared_itr = column[35]
-            if declared_itr =="on":
-                declared_itr = True
-            else:
-                declared_itr = False
-            
-            how_much_itr = column[36]
-            
-            business_vintage = column[37]
-            nature_of_business = column[38]
-            
-            if nature_of_business == 'NONE':
-                nature_of_business = 'NONE'
-            else:
-                nature_of_business = 'NONE'
-            
-            gst_registered = column[39]
-            if gst_registered == "on":
-                gst_registered = True
-            else:
-                gst_registered = False
-            
-            existing_emi_amount_bus = column[40]
-        
-            khata = column[41]
-            if khata == 'akhata':
-                khata = 'A'
-            if khata == 'bda':
-                khata = 'BDAYR'
-            if khata == 'bmrda':
-                khata = 'BMRDA'
-            if khata == 'bcon':
-                khata = 'BCON'
-            if khata == 'bncon':
-                khata = 'BNCON'
-            if khata == 'cmc':
-                khata = 'CMC'
-            if khata == 'manual':
-                khata = 'Manual'
-
-            property_location = column[42]
-
-            lead_update = True
-
-            leads = Lead.objects.update_or_create(
-                first_name=first_name,
-                last_name = last_name,
-                created_by = request.user,
-                referral_code = request.user.referral_code,
-                referred_by = request.user.referred_by,
-                email = email,
-                phone = phone,
-                adhaar_image = adhaar_image,
-                pancard_image = pancard_image,
-                loan_type=loan_type,
-                purchase_type=purchase_type,
-                job_type=job_type,
-                job_location=job_location,
-                rental_income_job=rental_income_job,
-                how_much_in_cash_job=how_much_in_cash_job,
-                how_much_in_account_job=how_much_in_account_job,
-                take_home_salary=take_home_salary,
-                duration_in_present_company=duration_in_present_company,
-                existing_emi_amount_job=existing_emi_amount_job,
-                rental_income_bus=rental_income_bus,
-                how_much_in_cash_bus=how_much_in_cash_bus,
-                how_much_in_account_bus=how_much_in_account_bus,
-                existing_emi_amount_bus=existing_emi_amount_bus,
-                business_location=business_location,
-                declared_itr=declared_itr,
-                how_much_itr = how_much_itr,
-                business_vintage=business_vintage,
-                nature_of_business=nature_of_business,
-                gst_registered=gst_registered,
-                khata=khata,
-                property_location=property_location,
-                area_of_extent_ih=area_of_extent_ih,
-                area_of_extent_sc=area_of_extent_sc,
-                area_of_extent_plot=area_of_extent_plot,
-                area_of_extent_flat=area_of_extent_flat,
-                area_of_extent_lap=area_of_extent_lap,
-                number_of_unites=number_of_unites,
-                number_of_floors=number_of_floors,
-                building_age_ih=building_age_ih,
-                building_age_lap=building_age_lap,
-                project_name=project_name,
-                oc_cc_received=oc_cc_received,
-                plan_available_sc=plan_available_sc,
-                plan_available_ih=plan_available_ih,
-                plan_available_lap=plan_available_lap,
-                plan_type = plan_type,
-                lead_update=lead_update
-            )
-        lead.save()
-        return render(request,'lead_html/test.html')
 
 @login_required(login_url='login')
 def dashboard(request):
-
-   
-
-    
-    
-    
 
     if request.user.role == 'BO':
         return redirect('bodashboard')
@@ -1370,88 +1080,83 @@ def dashboard(request):
         total_referrals_oct = direct_referrals_oct + indirect_referrals_oct
         total_referrals_nov = direct_referrals_nov + indirect_referrals_nov
         total_referrals_dec = direct_referrals_dec + indirect_referrals_dec
-
         
-        leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code))
+        services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code))
         
-        direct_leads = Lead.objects.filter(created_by=ruser).count()
-        direct_leads_previous_month = Lead.objects.filter(created_by=ruser,created_at__gte=start_date,created_at__lt=end_date).count()
-        direct_leads_current_month = Lead.objects.filter(created_by=ruser,created_at__gte=previous_month_date,created_at__lt=today).count()
-        direct_leads_today = Lead.objects.filter(created_by=ruser,created_at__gt=yesterday,created_at__lt=tomorrow).count()
-        direct_leads_yesterday = Lead.objects.filter(created_by=ruser,created_at=yesterday).count()
-        direct_leads_custom = Lead.objects.filter(created_by=ruser,created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
+        direct_services = Service.objects.filter(created_by=ruser).count()
+        direct_services_previous_month = Service.objects.filter(created_by=ruser,created_at__gte=start_date,created_at__lt=end_date).count()
+        direct_services_current_month = Service.objects.filter(created_by=ruser,created_at__gte=previous_month_date,created_at__lt=today).count()
+        direct_services_today = Service.objects.filter(created_by=ruser,created_at__gt=yesterday,created_at__lt=tomorrow).count()
+        direct_services_yesterday = Service.objects.filter(created_by=ruser,created_at=yesterday).count()
+        direct_services_custom = Service.objects.filter(created_by=ruser,created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
         
-        if direct_leads_current_month > 0:
-            direct_leads_percentage = (direct_leads_previous_month)*100/direct_leads_current_month
+        if direct_services_current_month > 0:
+            direct_services_percentage = (direct_services_previous_month)*100/direct_services_current_month
         else:
-            direct_leads_percentage = 0
+            direct_services_percentage = 0
         
-        direct_leads_jan = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=jan,created_at__lt=feb).count()
-        direct_leads_feb = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=feb,created_at__lt=mar).count()
-        direct_leads_mar = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=mar,created_at__lt=apr).count()
-        direct_leads_apr = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=apr,created_at__lt=may).count()
-        direct_leads_may = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=may,created_at__lt=jun).count()
-        direct_leads_jun = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=jun,created_at__lt=july).count()
-        direct_leads_jul = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=july,created_at__lt=aug).count()
-        direct_leads_aug = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=aug,created_at__lt=sept).count()
-        direct_leads_sept = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=sept,created_at__lt=octo).count()
-        direct_leads_oct = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=octo,created_at__lt=nov).count()
-        direct_leads_nov = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=nov,created_at__lt=dec).count()
-        direct_leads_dec = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=dec,created_at__lt=next_year_month).count()
+        direct_services_jan = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=jan,created_at__lt=feb).count()
+        direct_services_feb = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=feb,created_at__lt=mar).count()
+        direct_services_mar = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=mar,created_at__lt=apr).count()
+        direct_services_apr = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=apr,created_at__lt=may).count()
+        direct_services_may = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=may,created_at__lt=jun).count()
+        direct_services_jun = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=jun,created_at__lt=july).count()
+        direct_services_jul = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=july,created_at__lt=aug).count()
+        direct_services_aug = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=aug,created_at__lt=sept).count()
+        direct_services_sept = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=sept,created_at__lt=octo).count()
+        direct_services_oct = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=octo,created_at__lt=nov).count()
+        direct_services_nov = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=nov,created_at__lt=dec).count()
+        direct_services_dec = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=dec,created_at__lt=next_year_month).count()
         
-        indirect_leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code)).count() 
-        indirect_leads_previous_month = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=start_date,created_at__lt=end_date).count() 
-        indirect_leads_current_month = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=previous_month_date,created_at__lt=today).count() 
-        indirect_leads_today = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gt=yesterday,created_at__lt=tomorrow).count()
-        indirect_leads_yesterday = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at=yesterday).count()
-        indirect_leads_custom = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
-        if indirect_leads_current_month>0:
-            indirect_leads_percentage = (indirect_leads_previous_month)*100/indirect_leads_current_month
+        indirect_services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code)).count() 
+        indirect_services_previous_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=start_date,created_at__lt=end_date).count() 
+        indirect_services_current_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=previous_month_date,created_at__lt=today).count() 
+        indirect_services_today = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gt=yesterday,created_at__lt=tomorrow).count()
+        indirect_services_yesterday = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at=yesterday).count()
+        indirect_services_custom = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
+        if indirect_services_current_month>0:
+            indirect_services_percentage = (indirect_services_previous_month)*100/indirect_services_current_month
         else:
-            indirect_leads_percentage = 0
-        indirect_leads_jan = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jan,created_at__lte=feb).count()
-        indirect_leads_feb = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=feb,created_at__lte=mar).count()
-        indirect_leads_mar = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=mar,created_at__lte=apr).count()
-        indirect_leads_apr = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=apr,created_at__lte=may).count()
-        indirect_leads_may = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=may,created_at__lte=jun).count()
-        indirect_leads_jun = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jun,created_at__lte=july).count()
-        indirect_leads_jul = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=july,created_at__lte=aug).count()
-        indirect_leads_aug = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=aug,created_at__lte=sept).count()
-        indirect_leads_sept = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=sept,created_at__lte=octo).count()
-        indirect_leads_oct = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=octo,created_at__lte=nov).count()
-        indirect_leads_nov = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=nov,created_at__lte=dec).count()
-        indirect_leads_dec = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=dec,created_at__lt=next_year_month).count()
+            indirect_services_percentage = 0
+        indirect_services_jan = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jan,created_at__lte=feb).count()
+        indirect_services_feb = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=feb,created_at__lte=mar).count()
+        indirect_services_mar = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=mar,created_at__lte=apr).count()
+        indirect_services_apr = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=apr,created_at__lte=may).count()
+        indirect_services_may = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=may,created_at__lte=jun).count()
+        indirect_services_jun = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jun,created_at__lte=july).count()
+        indirect_services_jul = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=july,created_at__lte=aug).count()
+        indirect_services_aug = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=aug,created_at__lte=sept).count()
+        indirect_services_sept = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=sept,created_at__lte=octo).count()
+        indirect_services_oct = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=octo,created_at__lte=nov).count()
+        indirect_services_nov = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=nov,created_at__lte=dec).count()
+        indirect_services_dec = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=dec,created_at__lt=next_year_month).count()
 
 
-        total_leads = direct_leads + indirect_leads
-        total_leads_previous_month = direct_leads_previous_month + indirect_leads_previous_month
-        total_leads_current_month = direct_leads_current_month + indirect_leads_current_month
-        total_leads_today = direct_leads_today + indirect_leads_today
-        total_leads_yesterday = direct_leads_yesterday + indirect_leads_yesterday
-        total_leads_custom = direct_leads_custom + indirect_leads_custom
+        total_services = direct_services + indirect_services
+        total_services_previous_month = direct_services_previous_month + indirect_services_previous_month
+        total_services_current_month = direct_services_current_month + indirect_services_current_month
+        total_services_today = direct_services_today + indirect_services_today
+        total_services_yesterday = direct_services_yesterday + indirect_services_yesterday
+        total_services_custom = direct_services_custom + indirect_services_custom
 
-        if total_leads_current_month>0:
-            total_leads_percentage = (total_leads_previous_month)*100/total_leads_current_month
+        if total_services_current_month>0:
+            total_services_percentage = (total_services_previous_month)*100/total_services_current_month
         else:
-            total_leads_percentage = 0
+            total_services_percentage = 0
 
-        total_leads_jan = direct_leads_jan + indirect_leads_jan
-        total_leads_feb = direct_leads_feb + indirect_leads_feb
-        total_leads_mar = direct_leads_mar + indirect_leads_mar
-        total_leads_apr = direct_leads_apr + indirect_leads_apr
-        total_leads_may = direct_leads_may + indirect_leads_may
-        total_leads_jun = direct_leads_jun + indirect_leads_jun
-        total_leads_jul = direct_leads_jul + indirect_leads_jul
-        total_leads_aug = direct_leads_aug + indirect_leads_aug
-        total_leads_sept = direct_leads_sept + indirect_leads_sept
-        total_leads_oct = direct_leads_oct + indirect_leads_oct
-        total_leads_nov = direct_leads_nov + indirect_leads_nov
-        total_leads_dec = direct_leads_dec + indirect_leads_dec
+        total_services_jan = direct_services_jan + indirect_services_jan
+        total_services_feb = direct_services_feb + indirect_services_feb
+        total_services_mar = direct_services_mar + indirect_services_mar
+        total_services_apr = direct_services_apr + indirect_services_apr
+        total_services_may = direct_services_may + indirect_services_may
+        total_services_jun = direct_services_jun + indirect_services_jun
+        total_services_jul = direct_services_jul + indirect_services_jul
+        total_services_aug = direct_services_aug + indirect_services_aug
+        total_services_sept = direct_services_sept + indirect_services_sept
+        total_services_oct = direct_services_oct + indirect_services_oct
+        total_services_nov = direct_services_nov + indirect_services_nov
+        total_services_dec = direct_services_dec + indirect_services_dec
         
-        monthly_housing_loan = ruser.housing_loan
-        monthly_mortgage_loan = ruser.mortgage_loan
-        monthly_vehical_loan = ruser.vehical_loan
-        monthly_personal_loan = ruser.personal_loan
 
         context = {
             'user':ruser,
@@ -1480,32 +1185,28 @@ def dashboard(request):
             'total_referrals_current_month':total_referrals_current_month,
             'total_referrals_custom':total_referrals_custom,
             'total_referrals_percentage':int(total_referrals_percentage),
-            'leads':leads,
-            'direct_leads':direct_leads,
-            'direct_leads_today':direct_leads_today,
-            'direct_leads_yesterday':direct_leads_yesterday,
-            'direct_leads_custom':direct_leads_custom,
-            'direct_leads_previous_month':direct_leads_previous_month,
-            'direct_leads_current_month':direct_leads_current_month,
-            'direct_leads_percentage':int(direct_leads_percentage),
-            'indirect_leads':indirect_leads,
-            'indirect_leads_today':indirect_leads_today,
-            'indirect_leads_yesterday':indirect_leads_yesterday,
-            'indirect_leads_previous_month':indirect_leads_previous_month,
-            'indirect_leads_current_month':indirect_leads_current_month,
-            'indirect_leads_custom':indirect_leads_custom,
-            'indirect_leads_percentage':int(indirect_leads_percentage),
-            'total_leads':total_leads,
-            'total_leads_today':total_leads_today,
-            'total_leads_yesterday':total_leads_yesterday,
-            'total_leads_custom':total_leads_custom,
-            'total_leads_previous_month':total_leads_previous_month,
-            'total_leads_current_month':total_leads_current_month,
-            'total_leads_percentage':int(total_leads_percentage),
-            'monthly_housing_loan':monthly_housing_loan,
-            'monthly_mortgage_loan':monthly_mortgage_loan,
-            'monthly_vehical_loan':monthly_vehical_loan,
-            'monthly_personal_loan':monthly_personal_loan,
+            'services':services,
+            'direct_services':direct_services,
+            'direct_services_today':direct_services_today,
+            'direct_services_yesterday':direct_services_yesterday,
+            'direct_services_custom':direct_services_custom,
+            'direct_services_previous_month':direct_services_previous_month,
+            'direct_services_current_month':direct_services_current_month,
+            'direct_services_percentage':int(direct_services_percentage),
+            'indirect_services':indirect_services,
+            'indirect_services_today':indirect_services_today,
+            'indirect_services_yesterday':indirect_services_yesterday,
+            'indirect_services_previous_month':indirect_services_previous_month,
+            'indirect_services_current_month':indirect_services_current_month,
+            'indirect_services_custom':indirect_services_custom,
+            'indirect_services_percentage':int(indirect_services_percentage),
+            'total_services':total_services,
+            'total_services_today':total_services_today,
+            'total_services_yesterday':total_services_yesterday,
+            'total_services_custom':total_services_custom,
+            'total_services_previous_month':total_services_previous_month,
+            'total_services_current_month':total_services_current_month,
+            'total_services_percentage':int(total_services_percentage),
             'direct_referrals_jan' : direct_referrals_jan ,
             'direct_referrals_feb' : direct_referrals_feb ,
             'direct_referrals_mar' : direct_referrals_mar ,
@@ -1530,30 +1231,30 @@ def dashboard(request):
             'indirect_referrals_oct' : indirect_referrals_oct ,
             'indirect_referrals_nov' : indirect_referrals_nov ,
             'indirect_referrals_dec' : indirect_referrals_dec ,
-            'direct_leads_jan' : direct_leads_jan ,
-            'direct_leads_feb' : direct_leads_feb ,
-            'direct_leads_mar' : direct_leads_mar ,
-            'direct_leads_apr' : direct_leads_apr ,
-            'direct_leads_may' : direct_leads_may ,
-            'direct_leads_jun' : direct_leads_jun ,
-            'direct_leads_jul' : direct_leads_jul ,
-            'direct_leads_aug' : direct_leads_aug ,
-            'direct_leads_sept': direct_leads_sept,
-            'direct_leads_oct' : direct_leads_oct ,
-            'direct_leads_nov' : direct_leads_nov ,
-            'direct_leads_dec' : direct_leads_dec ,
-            'indirect_leads_jan' : indirect_leads_jan ,
-            'indirect_leads_feb' : indirect_leads_feb ,
-            'indirect_leads_mar' : indirect_leads_mar ,
-            'indirect_leads_apr' : indirect_leads_apr ,
-            'indirect_leads_may' : indirect_leads_may ,
-            'indirect_leads_jun' : indirect_leads_jun ,
-            'indirect_leads_jul' : indirect_leads_jul ,
-            'indirect_leads_aug' : indirect_leads_aug ,
-            'indirect_leads_sept': indirect_leads_sept,
-            'indirect_leads_oct' : indirect_leads_oct ,
-            'indirect_leads_nov' : indirect_leads_nov ,
-            'indirect_leads_dec' : indirect_leads_dec ,
+            'direct_services_jan' : direct_services_jan ,
+            'direct_services_feb' : direct_services_feb ,
+            'direct_services_mar' : direct_services_mar ,
+            'direct_services_apr' : direct_services_apr ,
+            'direct_services_may' : direct_services_may ,
+            'direct_services_jun' : direct_services_jun ,
+            'direct_services_jul' : direct_services_jul ,
+            'direct_services_aug' : direct_services_aug ,
+            'direct_services_sept': direct_services_sept,
+            'direct_services_oct' : direct_services_oct ,
+            'direct_services_nov' : direct_services_nov ,
+            'direct_services_dec' : direct_services_dec ,
+            'indirect_services_jan' : indirect_services_jan ,
+            'indirect_services_feb' : indirect_services_feb ,
+            'indirect_services_mar' : indirect_services_mar ,
+            'indirect_services_apr' : indirect_services_apr ,
+            'indirect_services_may' : indirect_services_may ,
+            'indirect_services_jun' : indirect_services_jun ,
+            'indirect_services_jul' : indirect_services_jul ,
+            'indirect_services_aug' : indirect_services_aug ,
+            'indirect_services_sept': indirect_services_sept,
+            'indirect_services_oct' : indirect_services_oct ,
+            'indirect_services_nov' : indirect_services_nov ,
+            'indirect_services_dec' : indirect_services_dec ,
             'total_referrals_jan': total_referrals_jan ,
             'total_referrals_feb': total_referrals_feb ,
             'total_referrals_mar': total_referrals_mar ,
@@ -1566,22 +1267,22 @@ def dashboard(request):
             'total_referrals_oct': total_referrals_oct ,
             'total_referrals_nov': total_referrals_nov ,
             'total_referrals_dec': total_referrals_dec ,
-            'total_leads_jan': total_leads_jan ,
-            'total_leads_feb': total_leads_feb ,
-            'total_leads_mar': total_leads_mar ,
-            'total_leads_apr': total_leads_apr ,
-            'total_leads_may': total_leads_may ,
-            'total_leads_jun': total_leads_jun ,
-            'total_leads_jul': total_leads_jul ,
-            'total_leads_aug': total_leads_aug ,
-            'total_leads_sept': total_leads_sept,
-            'total_leads_oct': total_leads_oct ,
-            'total_leads_nov': total_leads_nov ,
-            'total_leads_dec': total_leads_dec,
+            'total_services_jan': total_services_jan ,
+            'total_services_feb': total_services_feb ,
+            'total_services_mar': total_services_mar ,
+            'total_services_apr': total_services_apr ,
+            'total_services_may': total_services_may ,
+            'total_services_jun': total_services_jun ,
+            'total_services_jul': total_services_jul ,
+            'total_services_aug': total_services_aug ,
+            'total_services_sept': total_services_sept,
+            'total_services_oct': total_services_oct ,
+            'total_services_nov': total_services_nov ,
+            'total_services_dec': total_services_dec,
         }
         return render(request,"user_html/con_dashboard_v2.html",context)
     if request.user.role == 'AF' and request.user.is_verified:
-        lead_notification_count = Notification.objects.filter(notified_user = request.user.id,read_lead_notification=True).count()
+        service_notification_count = Notification.objects.filter(notified_user = request.user.id,read_service_notification=True).count()
         ruser = request.user    
         today = datetime.date.today()
         jan = today.replace(day=1,month=1)
@@ -1693,86 +1394,82 @@ def dashboard(request):
         total_referrals_dec = direct_referrals_dec + indirect_referrals_dec
 
         
-        leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code))
+        services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code))
         
-        direct_leads = Lead.objects.filter(created_by=ruser).count()
-        direct_leads_previous_month = Lead.objects.filter(created_by=ruser,created_at__gte=start_date,created_at__lt=end_date).count()
-        direct_leads_current_month = Lead.objects.filter(created_by=ruser,created_at__gte=previous_month_date,created_at__lt=today).count()
-        direct_leads_today = Lead.objects.filter(created_by=ruser,created_at__gt=yesterday,created_at__lt=tomorrow).count()
-        direct_leads_yesterday = Lead.objects.filter(created_by=ruser,created_at=yesterday).count()
-        direct_leads_custom = Lead.objects.filter(created_by=ruser,created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
+        direct_services = Service.objects.filter(created_by=ruser).count()
+        direct_services_previous_month = Service.objects.filter(created_by=ruser,created_at__gte=start_date,created_at__lt=end_date).count()
+        direct_services_current_month = Service.objects.filter(created_by=ruser,created_at__gte=previous_month_date,created_at__lt=today).count()
+        direct_services_today = Service.objects.filter(created_by=ruser,created_at__gt=yesterday,created_at__lt=tomorrow).count()
+        direct_services_yesterday = Service.objects.filter(created_by=ruser,created_at=yesterday).count()
+        direct_services_custom = Service.objects.filter(created_by=ruser,created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
         
-        if direct_leads_current_month > 0:
-            direct_leads_percentage = (direct_leads_previous_month)*100/direct_leads_current_month
+        if direct_services_current_month > 0:
+            direct_services_percentage = (direct_services_previous_month)*100/direct_services_current_month
         else:
-            direct_leads_percentage = 0
+            direct_services_percentage = 0
         
-        direct_leads_jan = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=jan,created_at__lt=feb).count()
-        direct_leads_feb = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=feb,created_at__lt=mar).count()
-        direct_leads_mar = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=mar,created_at__lt=apr).count()
-        direct_leads_apr = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=apr,created_at__lt=may).count()
-        direct_leads_may = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=may,created_at__lt=jun).count()
-        direct_leads_jun = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=jun,created_at__lt=july).count()
-        direct_leads_jul = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=july,created_at__lt=aug).count()
-        direct_leads_aug = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=aug,created_at__lt=sept).count()
-        direct_leads_sept = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=sept,created_at__lt=octo).count()
-        direct_leads_oct = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=octo,created_at__lt=nov).count()
-        direct_leads_nov = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=nov,created_at__lt=dec).count()
-        direct_leads_dec = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=dec,created_at__lt=next_year_month).count()
+        direct_services_jan = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=jan,created_at__lt=feb).count()
+        direct_services_feb = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=feb,created_at__lt=mar).count()
+        direct_services_mar = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=mar,created_at__lt=apr).count()
+        direct_services_apr = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=apr,created_at__lt=may).count()
+        direct_services_may = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=may,created_at__lt=jun).count()
+        direct_services_jun = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=jun,created_at__lt=july).count()
+        direct_services_jul = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=july,created_at__lt=aug).count()
+        direct_services_aug = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=aug,created_at__lt=sept).count()
+        direct_services_sept = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=sept,created_at__lt=octo).count()
+        direct_services_oct = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=octo,created_at__lt=nov).count()
+        direct_services_nov = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=nov,created_at__lt=dec).count()
+        direct_services_dec = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=dec,created_at__lt=next_year_month).count()
         
-        indirect_leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code)).count() 
-        indirect_leads_previous_month = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=start_date,created_at__lt=end_date).count() 
-        indirect_leads_current_month = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=previous_month_date,created_at__lt=today).count() 
-        indirect_leads_today = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gt=yesterday,created_at__lt=tomorrow).count()
-        indirect_leads_yesterday = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at=yesterday).count()
-        indirect_leads_custom = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
-        if indirect_leads_current_month>0:
-            indirect_leads_percentage = (indirect_leads_previous_month)*100/indirect_leads_current_month
+        indirect_services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code)).count() 
+        indirect_services_previous_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=start_date,created_at__lt=end_date).count() 
+        indirect_services_current_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=previous_month_date,created_at__lt=today).count() 
+        indirect_services_today = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gt=yesterday,created_at__lt=tomorrow).count()
+        indirect_services_yesterday = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at=yesterday).count()
+        indirect_services_custom = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
+        if indirect_services_current_month>0:
+            indirect_services_percentage = (indirect_services_previous_month)*100/indirect_services_current_month
         else:
-            indirect_leads_percentage = 0
-        indirect_leads_jan = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jan,created_at__lte=feb).count()
-        indirect_leads_feb = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=feb,created_at__lte=mar).count()
-        indirect_leads_mar = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=mar,created_at__lte=apr).count()
-        indirect_leads_apr = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=apr,created_at__lte=may).count()
-        indirect_leads_may = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=may,created_at__lte=jun).count()
-        indirect_leads_jun = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jun,created_at__lte=july).count()
-        indirect_leads_jul = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=july,created_at__lte=aug).count()
-        indirect_leads_aug = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=aug,created_at__lte=sept).count()
-        indirect_leads_sept = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=sept,created_at__lte=octo).count()
-        indirect_leads_oct = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=octo,created_at__lte=nov).count()
-        indirect_leads_nov = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=nov,created_at__lte=dec).count()
-        indirect_leads_dec = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=dec,created_at__lt=next_year_month).count()
+            indirect_services_percentage = 0
+        indirect_services_jan = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jan,created_at__lte=feb).count()
+        indirect_services_feb = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=feb,created_at__lte=mar).count()
+        indirect_services_mar = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=mar,created_at__lte=apr).count()
+        indirect_services_apr = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=apr,created_at__lte=may).count()
+        indirect_services_may = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=may,created_at__lte=jun).count()
+        indirect_services_jun = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jun,created_at__lte=july).count()
+        indirect_services_jul = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=july,created_at__lte=aug).count()
+        indirect_services_aug = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=aug,created_at__lte=sept).count()
+        indirect_services_sept = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=sept,created_at__lte=octo).count()
+        indirect_services_oct = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=octo,created_at__lte=nov).count()
+        indirect_services_nov = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=nov,created_at__lte=dec).count()
+        indirect_services_dec = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=dec,created_at__lt=next_year_month).count()
 
 
-        total_leads = direct_leads + indirect_leads
-        total_leads_previous_month = direct_leads_previous_month + indirect_leads_previous_month
-        total_leads_current_month = direct_leads_current_month + indirect_leads_current_month
-        total_leads_today = direct_leads_today + indirect_leads_today
-        total_leads_yesterday = direct_leads_yesterday + indirect_leads_yesterday
-        total_leads_custom = direct_leads_custom + indirect_leads_custom
+        total_services = direct_services + indirect_services
+        total_services_previous_month = direct_services_previous_month + indirect_services_previous_month
+        total_services_current_month = direct_services_current_month + indirect_services_current_month
+        total_services_today = direct_services_today + indirect_services_today
+        total_services_yesterday = direct_services_yesterday + indirect_services_yesterday
+        total_services_custom = direct_services_custom + indirect_services_custom
 
-        if total_leads_current_month>0:
-            total_leads_percentage = (total_leads_previous_month)*100/total_leads_current_month
+        if total_services_current_month>0:
+            total_services_percentage = (total_services_previous_month)*100/total_services_current_month
         else:
-            total_leads_percentage = 0
+            total_services_percentage = 0
 
-        total_leads_jan = direct_leads_jan + indirect_leads_jan
-        total_leads_feb = direct_leads_feb + indirect_leads_feb
-        total_leads_mar = direct_leads_mar + indirect_leads_mar
-        total_leads_apr = direct_leads_apr + indirect_leads_apr
-        total_leads_may = direct_leads_may + indirect_leads_may
-        total_leads_jun = direct_leads_jun + indirect_leads_jun
-        total_leads_jul = direct_leads_jul + indirect_leads_jul
-        total_leads_aug = direct_leads_aug + indirect_leads_aug
-        total_leads_sept = direct_leads_sept + indirect_leads_sept
-        total_leads_oct = direct_leads_oct + indirect_leads_oct
-        total_leads_nov = direct_leads_nov + indirect_leads_nov
-        total_leads_dec = direct_leads_dec + indirect_leads_dec
-        
-        monthly_housing_loan = ruser.housing_loan
-        monthly_mortgage_loan = ruser.mortgage_loan
-        monthly_vehical_loan = ruser.vehical_loan
-        monthly_personal_loan = ruser.personal_loan
+        total_services_jan = direct_services_jan + indirect_services_jan
+        total_services_feb = direct_services_feb + indirect_services_feb
+        total_services_mar = direct_services_mar + indirect_services_mar
+        total_services_apr = direct_services_apr + indirect_services_apr
+        total_services_may = direct_services_may + indirect_services_may
+        total_services_jun = direct_services_jun + indirect_services_jun
+        total_services_jul = direct_services_jul + indirect_services_jul
+        total_services_aug = direct_services_aug + indirect_services_aug
+        total_services_sept = direct_services_sept + indirect_services_sept
+        total_services_oct = direct_services_oct + indirect_services_oct
+        total_services_nov = direct_services_nov + indirect_services_nov
+        total_services_dec = direct_services_dec + indirect_services_dec
+    
 
         context = {
             'user':ruser,
@@ -1801,32 +1498,28 @@ def dashboard(request):
             'total_referrals_current_month':total_referrals_current_month,
             'total_referrals_custom':total_referrals_custom,
             'total_referrals_percentage':int(total_referrals_percentage),
-            'leads':leads,
-            'direct_leads':direct_leads,
-            'direct_leads_today':direct_leads_today,
-            'direct_leads_yesterday':direct_leads_yesterday,
-            'direct_leads_custom':direct_leads_custom,
-            'direct_leads_previous_month':direct_leads_previous_month,
-            'direct_leads_current_month':direct_leads_current_month,
-            'direct_leads_percentage':int(direct_leads_percentage),
-            'indirect_leads':indirect_leads,
-            'indirect_leads_today':indirect_leads_today,
-            'indirect_leads_yesterday':indirect_leads_yesterday,
-            'indirect_leads_previous_month':indirect_leads_previous_month,
-            'indirect_leads_current_month':indirect_leads_current_month,
-            'indirect_leads_custom':indirect_leads_custom,
-            'indirect_leads_percentage':int(indirect_leads_percentage),
-            'total_leads':total_leads,
-            'total_leads_today':total_leads_today,
-            'total_leads_yesterday':total_leads_yesterday,
-            'total_leads_custom':total_leads_custom,
-            'total_leads_previous_month':total_leads_previous_month,
-            'total_leads_current_month':total_leads_current_month,
-            'total_leads_percentage':int(total_leads_percentage),
-            'monthly_housing_loan':monthly_housing_loan,
-            'monthly_mortgage_loan':monthly_mortgage_loan,
-            'monthly_vehical_loan':monthly_vehical_loan,
-            'monthly_personal_loan':monthly_personal_loan,
+            'services':services,
+            'direct_services':direct_services,
+            'direct_services_today':direct_services_today,
+            'direct_services_yesterday':direct_services_yesterday,
+            'direct_services_custom':direct_services_custom,
+            'direct_services_previous_month':direct_services_previous_month,
+            'direct_services_current_month':direct_services_current_month,
+            'direct_services_percentage':int(direct_services_percentage),
+            'indirect_services':indirect_services,
+            'indirect_services_today':indirect_services_today,
+            'indirect_services_yesterday':indirect_services_yesterday,
+            'indirect_services_previous_month':indirect_services_previous_month,
+            'indirect_services_current_month':indirect_services_current_month,
+            'indirect_services_custom':indirect_services_custom,
+            'indirect_services_percentage':int(indirect_services_percentage),
+            'total_services':total_services,
+            'total_services_today':total_services_today,
+            'total_services_yesterday':total_services_yesterday,
+            'total_services_custom':total_services_custom,
+            'total_services_previous_month':total_services_previous_month,
+            'total_services_current_month':total_services_current_month,
+            'total_services_percentage':int(total_services_percentage),
             'direct_referrals_jan' : direct_referrals_jan ,
             'direct_referrals_feb' : direct_referrals_feb ,
             'direct_referrals_mar' : direct_referrals_mar ,
@@ -1851,30 +1544,30 @@ def dashboard(request):
             'indirect_referrals_oct' : indirect_referrals_oct ,
             'indirect_referrals_nov' : indirect_referrals_nov ,
             'indirect_referrals_dec' : indirect_referrals_dec ,
-            'direct_leads_jan' : direct_leads_jan ,
-            'direct_leads_feb' : direct_leads_feb ,
-            'direct_leads_mar' : direct_leads_mar ,
-            'direct_leads_apr' : direct_leads_apr ,
-            'direct_leads_may' : direct_leads_may ,
-            'direct_leads_jun' : direct_leads_jun ,
-            'direct_leads_jul' : direct_leads_jul ,
-            'direct_leads_aug' : direct_leads_aug ,
-            'direct_leads_sept': direct_leads_sept,
-            'direct_leads_oct' : direct_leads_oct ,
-            'direct_leads_nov' : direct_leads_nov ,
-            'direct_leads_dec' : direct_leads_dec ,
-            'indirect_leads_jan' : indirect_leads_jan ,
-            'indirect_leads_feb' : indirect_leads_feb ,
-            'indirect_leads_mar' : indirect_leads_mar ,
-            'indirect_leads_apr' : indirect_leads_apr ,
-            'indirect_leads_may' : indirect_leads_may ,
-            'indirect_leads_jun' : indirect_leads_jun ,
-            'indirect_leads_jul' : indirect_leads_jul ,
-            'indirect_leads_aug' : indirect_leads_aug ,
-            'indirect_leads_sept': indirect_leads_sept,
-            'indirect_leads_oct' : indirect_leads_oct ,
-            'indirect_leads_nov' : indirect_leads_nov ,
-            'indirect_leads_dec' : indirect_leads_dec ,
+            'direct_services_jan' : direct_services_jan ,
+            'direct_services_feb' : direct_services_feb ,
+            'direct_services_mar' : direct_services_mar ,
+            'direct_services_apr' : direct_services_apr ,
+            'direct_services_may' : direct_services_may ,
+            'direct_services_jun' : direct_services_jun ,
+            'direct_services_jul' : direct_services_jul ,
+            'direct_services_aug' : direct_services_aug ,
+            'direct_services_sept': direct_services_sept,
+            'direct_services_oct' : direct_services_oct ,
+            'direct_services_nov' : direct_services_nov ,
+            'direct_services_dec' : direct_services_dec ,
+            'indirect_services_jan' : indirect_services_jan ,
+            'indirect_services_feb' : indirect_services_feb ,
+            'indirect_services_mar' : indirect_services_mar ,
+            'indirect_services_apr' : indirect_services_apr ,
+            'indirect_services_may' : indirect_services_may ,
+            'indirect_services_jun' : indirect_services_jun ,
+            'indirect_services_jul' : indirect_services_jul ,
+            'indirect_services_aug' : indirect_services_aug ,
+            'indirect_services_sept': indirect_services_sept,
+            'indirect_services_oct' : indirect_services_oct ,
+            'indirect_services_nov' : indirect_services_nov ,
+            'indirect_services_dec' : indirect_services_dec ,
             'total_referrals_jan': total_referrals_jan ,
             'total_referrals_feb': total_referrals_feb ,
             'total_referrals_mar': total_referrals_mar ,
@@ -1887,18 +1580,18 @@ def dashboard(request):
             'total_referrals_oct': total_referrals_oct ,
             'total_referrals_nov': total_referrals_nov ,
             'total_referrals_dec': total_referrals_dec ,
-            'total_leads_jan': total_leads_jan ,
-            'total_leads_feb': total_leads_feb ,
-            'total_leads_mar': total_leads_mar ,
-            'total_leads_apr': total_leads_apr ,
-            'total_leads_may': total_leads_may ,
-            'total_leads_jun': total_leads_jun ,
-            'total_leads_jul': total_leads_jul ,
-            'total_leads_aug': total_leads_aug ,
-            'total_leads_sept': total_leads_sept,
-            'total_leads_oct': total_leads_oct ,
-            'total_leads_nov': total_leads_nov ,
-            'total_leads_dec': total_leads_dec,
+            'total_services_jan': total_services_jan ,
+            'total_services_feb': total_services_feb ,
+            'total_services_mar': total_services_mar ,
+            'total_services_apr': total_services_apr ,
+            'total_services_may': total_services_may ,
+            'total_services_jun': total_services_jun ,
+            'total_services_jul': total_services_jul ,
+            'total_services_aug': total_services_aug ,
+            'total_services_sept': total_services_sept,
+            'total_services_oct': total_services_oct ,
+            'total_services_nov': total_services_nov ,
+            'total_services_dec': total_services_dec,
             
         }
         return render(request,"user_html/af_dashboard_v2.html",context)
@@ -2015,88 +1708,86 @@ def dashboard(request):
         total_referrals_oct = direct_referrals_oct + indirect_referrals_oct
         total_referrals_nov = direct_referrals_nov + indirect_referrals_nov
         total_referrals_dec = direct_referrals_dec + indirect_referrals_dec
-
         
-        leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code))
+        services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code))
         
-        direct_leads = Lead.objects.filter(created_by=ruser).count()
-        direct_leads_previous_month = Lead.objects.filter(created_by=ruser,created_at__gte=start_date,created_at__lt=end_date).count()
-        direct_leads_current_month = Lead.objects.filter(created_by=ruser,created_at__gte=previous_month_date,created_at__lt=today).count()
-        direct_leads_today = Lead.objects.filter(created_by=ruser,created_at__gt=yesterday,created_at__lt=tomorrow).count()
-        direct_leads_yesterday = Lead.objects.filter(created_by=ruser,created_at=yesterday).count()
-        direct_leads_custom = Lead.objects.filter(created_by=ruser,created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
+        direct_services = Service.objects.filter(created_by=ruser).count()
+        direct_service_amount = sum([float(service.service_amount) if service.service_amount else 0 for service in Service.objects.filter(created_by=ruser)])
+        direct_services_previous_month = Service.objects.filter(created_by=ruser,created_at__gte=start_date,created_at__lt=end_date).count()
+        direct_services_current_month = Service.objects.filter(created_by=ruser,created_at__gte=previous_month_date,created_at__lt=today).count()
+        direct_services_today = Service.objects.filter(created_by=ruser,created_at__gt=yesterday,created_at__lt=tomorrow).count()
+        direct_services_yesterday = Service.objects.filter(created_by=ruser,created_at=yesterday).count()
+        direct_services_custom = Service.objects.filter(created_by=ruser,created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
         
-        if direct_leads_current_month > 0:
-            direct_leads_percentage = (direct_leads_previous_month)*100/direct_leads_current_month
+        if direct_services_current_month > 0:
+            direct_services_percentage = (direct_services_previous_month)*100/direct_services_current_month
         else:
-            direct_leads_percentage = 0
+            direct_services_percentage = 0
         
-        direct_leads_jan = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=jan,created_at__lt=feb).count()
-        direct_leads_feb = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=feb,created_at__lt=mar).count()
-        direct_leads_mar = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=mar,created_at__lt=apr).count()
-        direct_leads_apr = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=apr,created_at__lt=may).count()
-        direct_leads_may = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=may,created_at__lt=jun).count()
-        direct_leads_jun = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=jun,created_at__lt=july).count()
-        direct_leads_jul = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=july,created_at__lt=aug).count()
-        direct_leads_aug = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=aug,created_at__lt=sept).count()
-        direct_leads_sept = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=sept,created_at__lt=octo).count()
-        direct_leads_oct = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=octo,created_at__lt=nov).count()
-        direct_leads_nov = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=nov,created_at__lt=dec).count()
-        direct_leads_dec = Lead.objects.filter(referred_by=ruser.referral_code,created_at__gte=dec,created_at__lt=next_year_month).count()
+        direct_services_jan = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=jan,created_at__lt=feb).count()
+        direct_services_feb = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=feb,created_at__lt=mar).count()
+        direct_services_mar = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=mar,created_at__lt=apr).count()
+        direct_services_apr = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=apr,created_at__lt=may).count()
+        direct_services_may = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=may,created_at__lt=jun).count()
+        direct_services_jun = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=jun,created_at__lt=july).count()
+        direct_services_jul = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=july,created_at__lt=aug).count()
+        direct_services_aug = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=aug,created_at__lt=sept).count()
+        direct_services_sept = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=sept,created_at__lt=octo).count()
+        direct_services_oct = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=octo,created_at__lt=nov).count()
+        direct_services_nov = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=nov,created_at__lt=dec).count()
+        direct_services_dec = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=dec,created_at__lt=next_year_month).count()
         
-        indirect_leads = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code)).count() 
-        indirect_leads_previous_month = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=start_date,created_at__lt=end_date).count() 
-        indirect_leads_current_month = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=previous_month_date,created_at__lt=today).count() 
-        indirect_leads_today = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gt=yesterday,created_at__lt=tomorrow).count()
-        indirect_leads_yesterday = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at=yesterday).count()
-        indirect_leads_custom = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
-        if indirect_leads_current_month>0:
-            indirect_leads_percentage = (indirect_leads_previous_month)*100/indirect_leads_current_month
+        indirect_services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code)).count() 
+        indirect_service_amount = sum([float(service.service_amount) if service.service_amount else 0 for service in Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code))])
+        indirect_services_previous_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=start_date,created_at__lt=end_date).count() 
+        indirect_services_current_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=previous_month_date,created_at__lt=today).count() 
+        indirect_services_today = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gt=yesterday,created_at__lt=tomorrow).count()
+        indirect_services_yesterday = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at=yesterday).count()
+        indirect_services_custom = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=custom_start_date,created_at__lte=custom_end_date).count()
+        if indirect_services_current_month>0:
+            indirect_services_percentage = (indirect_services_previous_month)*100/indirect_services_current_month
         else:
-            indirect_leads_percentage = 0
-        indirect_leads_jan = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jan,created_at__lte=feb).count()
-        indirect_leads_feb = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=feb,created_at__lte=mar).count()
-        indirect_leads_mar = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=mar,created_at__lte=apr).count()
-        indirect_leads_apr = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=apr,created_at__lte=may).count()
-        indirect_leads_may = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=may,created_at__lte=jun).count()
-        indirect_leads_jun = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jun,created_at__lte=july).count()
-        indirect_leads_jul = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=july,created_at__lte=aug).count()
-        indirect_leads_aug = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=aug,created_at__lte=sept).count()
-        indirect_leads_sept = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=sept,created_at__lte=octo).count()
-        indirect_leads_oct = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=octo,created_at__lte=nov).count()
-        indirect_leads_nov = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=nov,created_at__lte=dec).count()
-        indirect_leads_dec = Lead.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=dec,created_at__lt=next_year_month).count()
+            indirect_services_percentage = 0
+        indirect_services_jan = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jan,created_at__lte=feb).count()
+        indirect_services_feb = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=feb,created_at__lte=mar).count()
+        indirect_services_mar = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=mar,created_at__lte=apr).count()
+        indirect_services_apr = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=apr,created_at__lte=may).count()
+        indirect_services_may = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=may,created_at__lte=jun).count()
+        indirect_services_jun = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=jun,created_at__lte=july).count()
+        indirect_services_jul = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=july,created_at__lte=aug).count()
+        indirect_services_aug = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=aug,created_at__lte=sept).count()
+        indirect_services_sept = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=sept,created_at__lte=octo).count()
+        indirect_services_oct = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=octo,created_at__lte=nov).count()
+        indirect_services_nov = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=nov,created_at__lte=dec).count()
+        indirect_services_dec = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=dec,created_at__lt=next_year_month).count()
 
 
-        total_leads = direct_leads + indirect_leads
-        total_leads_previous_month = direct_leads_previous_month + indirect_leads_previous_month
-        total_leads_current_month = direct_leads_current_month + indirect_leads_current_month
-        total_leads_today = direct_leads_today + indirect_leads_today
-        total_leads_yesterday = direct_leads_yesterday + indirect_leads_yesterday
-        total_leads_custom = direct_leads_custom + indirect_leads_custom
+        total_services = direct_services + indirect_services
+        total_service_amount = direct_service_amount + indirect_service_amount
+        total_services_previous_month = direct_services_previous_month + indirect_services_previous_month
+        total_services_current_month = direct_services_current_month + indirect_services_current_month
+        total_services_today = direct_services_today + indirect_services_today
+        total_services_yesterday = direct_services_yesterday + indirect_services_yesterday
+        total_services_custom = direct_services_custom + indirect_services_custom
 
-        if total_leads_current_month>0:
-            total_leads_percentage = (total_leads_previous_month)*100/total_leads_current_month
+        if total_services_current_month>0:
+            total_services_percentage = (total_services_previous_month)*100/total_services_current_month
         else:
-            total_leads_percentage = 0
+            total_services_percentage = 0
 
-        total_leads_jan = direct_leads_jan + indirect_leads_jan
-        total_leads_feb = direct_leads_feb + indirect_leads_feb
-        total_leads_mar = direct_leads_mar + indirect_leads_mar
-        total_leads_apr = direct_leads_apr + indirect_leads_apr
-        total_leads_may = direct_leads_may + indirect_leads_may
-        total_leads_jun = direct_leads_jun + indirect_leads_jun
-        total_leads_jul = direct_leads_jul + indirect_leads_jul
-        total_leads_aug = direct_leads_aug + indirect_leads_aug
-        total_leads_sept = direct_leads_sept + indirect_leads_sept
-        total_leads_oct = direct_leads_oct + indirect_leads_oct
-        total_leads_nov = direct_leads_nov + indirect_leads_nov
-        total_leads_dec = direct_leads_dec + indirect_leads_dec
+        total_services_jan = direct_services_jan + indirect_services_jan
+        total_services_feb = direct_services_feb + indirect_services_feb
+        total_services_mar = direct_services_mar + indirect_services_mar
+        total_services_apr = direct_services_apr + indirect_services_apr
+        total_services_may = direct_services_may + indirect_services_may
+        total_services_jun = direct_services_jun + indirect_services_jun
+        total_services_jul = direct_services_jul + indirect_services_jul
+        total_services_aug = direct_services_aug + indirect_services_aug
+        total_services_sept = direct_services_sept + indirect_services_sept
+        total_services_oct = direct_services_oct + indirect_services_oct
+        total_services_nov = direct_services_nov + indirect_services_nov
+        total_services_dec = direct_services_dec + indirect_services_dec
         
-        monthly_housing_loan = ruser.housing_loan
-        monthly_mortgage_loan = ruser.mortgage_loan
-        monthly_vehical_loan = ruser.vehical_loan
-        monthly_personal_loan = ruser.personal_loan
 
         context = {
             'user':ruser,
@@ -2125,32 +1816,31 @@ def dashboard(request):
             'total_referrals_current_month':total_referrals_current_month,
             'total_referrals_custom':total_referrals_custom,
             'total_referrals_percentage':int(total_referrals_percentage),
-            'leads':leads,
-            'direct_leads':direct_leads,
-            'direct_leads_today':direct_leads_today,
-            'direct_leads_yesterday':direct_leads_yesterday,
-            'direct_leads_custom':direct_leads_custom,
-            'direct_leads_previous_month':direct_leads_previous_month,
-            'direct_leads_current_month':direct_leads_current_month,
-            'direct_leads_percentage':int(direct_leads_percentage),
-            'indirect_leads':indirect_leads,
-            'indirect_leads_today':indirect_leads_today,
-            'indirect_leads_yesterday':indirect_leads_yesterday,
-            'indirect_leads_previous_month':indirect_leads_previous_month,
-            'indirect_leads_current_month':indirect_leads_current_month,
-            'indirect_leads_custom':indirect_leads_custom,
-            'indirect_leads_percentage':int(indirect_leads_percentage),
-            'total_leads':total_leads,
-            'total_leads_today':total_leads_today,
-            'total_leads_yesterday':total_leads_yesterday,
-            'total_leads_custom':total_leads_custom,
-            'total_leads_previous_month':total_leads_previous_month,
-            'total_leads_current_month':total_leads_current_month,
-            'total_leads_percentage':int(total_leads_percentage),
-            'monthly_housing_loan':monthly_housing_loan,
-            'monthly_mortgage_loan':monthly_mortgage_loan,
-            'monthly_vehical_loan':monthly_vehical_loan,
-            'monthly_personal_loan':monthly_personal_loan,
+            'services':services,
+            'direct_services':direct_services,
+            'direct_service_amount':direct_service_amount,
+            'direct_services_today':direct_services_today,
+            'direct_services_yesterday':direct_services_yesterday,
+            'direct_services_custom':direct_services_custom,
+            'direct_services_previous_month':direct_services_previous_month,
+            'direct_services_current_month':direct_services_current_month,
+            'direct_services_percentage':int(direct_services_percentage),
+            'indirect_services':indirect_services,
+            'indirect_service_amount':indirect_service_amount,
+            'indirect_services_today':indirect_services_today,
+            'indirect_services_yesterday':indirect_services_yesterday,
+            'indirect_services_previous_month':indirect_services_previous_month,
+            'indirect_services_current_month':indirect_services_current_month,
+            'indirect_services_custom':indirect_services_custom,
+            'indirect_services_percentage':int(indirect_services_percentage),
+            'total_services':total_services,
+            'total_service_amount':total_service_amount,
+            'total_services_today':total_services_today,
+            'total_services_yesterday':total_services_yesterday,
+            'total_services_custom':total_services_custom,
+            'total_services_previous_month':total_services_previous_month,
+            'total_services_current_month':total_services_current_month,
+            'total_services_percentage':int(total_services_percentage),
             'direct_referrals_jan' : direct_referrals_jan ,
             'direct_referrals_feb' : direct_referrals_feb ,
             'direct_referrals_mar' : direct_referrals_mar ,
@@ -2175,30 +1865,30 @@ def dashboard(request):
             'indirect_referrals_oct' : indirect_referrals_oct ,
             'indirect_referrals_nov' : indirect_referrals_nov ,
             'indirect_referrals_dec' : indirect_referrals_dec ,
-            'direct_leads_jan' : direct_leads_jan ,
-            'direct_leads_feb' : direct_leads_feb ,
-            'direct_leads_mar' : direct_leads_mar ,
-            'direct_leads_apr' : direct_leads_apr ,
-            'direct_leads_may' : direct_leads_may ,
-            'direct_leads_jun' : direct_leads_jun ,
-            'direct_leads_jul' : direct_leads_jul ,
-            'direct_leads_aug' : direct_leads_aug ,
-            'direct_leads_sept': direct_leads_sept,
-            'direct_leads_oct' : direct_leads_oct ,
-            'direct_leads_nov' : direct_leads_nov ,
-            'direct_leads_dec' : direct_leads_dec ,
-            'indirect_leads_jan' : indirect_leads_jan ,
-            'indirect_leads_feb' : indirect_leads_feb ,
-            'indirect_leads_mar' : indirect_leads_mar ,
-            'indirect_leads_apr' : indirect_leads_apr ,
-            'indirect_leads_may' : indirect_leads_may ,
-            'indirect_leads_jun' : indirect_leads_jun ,
-            'indirect_leads_jul' : indirect_leads_jul ,
-            'indirect_leads_aug' : indirect_leads_aug ,
-            'indirect_leads_sept': indirect_leads_sept,
-            'indirect_leads_oct' : indirect_leads_oct ,
-            'indirect_leads_nov' : indirect_leads_nov ,
-            'indirect_leads_dec' : indirect_leads_dec ,
+            'direct_services_jan' : direct_services_jan ,
+            'direct_services_feb' : direct_services_feb ,
+            'direct_services_mar' : direct_services_mar ,
+            'direct_services_apr' : direct_services_apr ,
+            'direct_services_may' : direct_services_may ,
+            'direct_services_jun' : direct_services_jun ,
+            'direct_services_jul' : direct_services_jul ,
+            'direct_services_aug' : direct_services_aug ,
+            'direct_services_sept': direct_services_sept,
+            'direct_services_oct' : direct_services_oct ,
+            'direct_services_nov' : direct_services_nov ,
+            'direct_services_dec' : direct_services_dec ,
+            'indirect_services_jan' : indirect_services_jan ,
+            'indirect_services_feb' : indirect_services_feb ,
+            'indirect_services_mar' : indirect_services_mar ,
+            'indirect_services_apr' : indirect_services_apr ,
+            'indirect_services_may' : indirect_services_may ,
+            'indirect_services_jun' : indirect_services_jun ,
+            'indirect_services_jul' : indirect_services_jul ,
+            'indirect_services_aug' : indirect_services_aug ,
+            'indirect_services_sept': indirect_services_sept,
+            'indirect_services_oct' : indirect_services_oct ,
+            'indirect_services_nov' : indirect_services_nov ,
+            'indirect_services_dec' : indirect_services_dec ,
             'total_referrals_jan': total_referrals_jan ,
             'total_referrals_feb': total_referrals_feb ,
             'total_referrals_mar': total_referrals_mar ,
@@ -2211,119 +1901,119 @@ def dashboard(request):
             'total_referrals_oct': total_referrals_oct ,
             'total_referrals_nov': total_referrals_nov ,
             'total_referrals_dec': total_referrals_dec ,
-            'total_leads_jan': total_leads_jan ,
-            'total_leads_feb': total_leads_feb ,
-            'total_leads_mar': total_leads_mar ,
-            'total_leads_apr': total_leads_apr ,
-            'total_leads_may': total_leads_may ,
-            'total_leads_jun': total_leads_jun ,
-            'total_leads_jul': total_leads_jul ,
-            'total_leads_aug': total_leads_aug ,
-            'total_leads_sept': total_leads_sept,
-            'total_leads_oct': total_leads_oct ,
-            'total_leads_nov': total_leads_nov ,
-            'total_leads_dec': total_leads_dec,
+            'total_services_jan': total_services_jan ,
+            'total_services_feb': total_services_feb ,
+            'total_services_mar': total_services_mar ,
+            'total_services_apr': total_services_apr ,
+            'total_services_may': total_services_may ,
+            'total_services_jun': total_services_jun ,
+            'total_services_jul': total_services_jul ,
+            'total_services_aug': total_services_aug ,
+            'total_services_sept': total_services_sept,
+            'total_services_oct': total_services_oct ,
+            'total_services_nov': total_services_nov ,
+            'total_services_dec': total_services_dec,
             
         }
 
         return render(request,"user_html/dashboard_v2.html",context)
 
 def test(request):
-    return render(request,'lead_html/test.html')
+    return render(request,'service_html/test.html')
 
 @login_required(login_url='login')
-def lead_verify(request):
+def service_verify(request):
     if request.user.role == 'ACCOUNT' or request.user.role == 'ADMIN' :
-        leads = Lead.objects.filter(verification_pending=True)
-        print(leads)
-        count = leads.count()
+        services = Service.objects.filter(verification_pending=True)
+        print(services)
+        count = services.count()
         page = request.GET.get('page', 1)
-        paginator = Paginator(leads, 10)
+        paginator = Paginator(services, 10)
         try:
-            leads = paginator.page(page)
+            services = paginator.page(page)
         except PageNotAnInteger:
-            leads = paginator.page(1)
+            services = paginator.page(1)
         except EmptyPage:
-            leads = paginator.page(paginator.num_pages)
+            services = paginator.page(paginator.num_pages)
         if request.method == 'POST':
             if request.POST.get('verification_approve'):
-                    verified_lead =Lead.objects.get(id=request.POST.get('verification_approve'))
-                    verified_lead.verification_pending = False
-                    verified_lead.verification_approved = True
-                    verified_lead.verification_rejected = False
+                    verified_service =Service.objects.get(id=request.POST.get('verification_approve'))
+                    verified_service.verification_pending = False
+                    verified_service.verification_approved = True
+                    verified_service.verification_rejected = False
                     print(request)
-                    verified_lead.verification_approved_by = request.user
-                    verified_lead.verification_approved_at = datetime.datetime.utcnow().replace(tzinfo=utc)  
-                    verified_lead.save()
+                    verified_service.verification_approved_by = request.user
+                    verified_service.verification_approved_at = datetime.datetime.utcnow().replace(tzinfo=utc)  
+                    verified_service.save()
                     return redirect('account')
             
             if request.POST.get('verification_reject'):
-                rejected_lead = Lead.objects.get(id=request.POST.get('verification_reject'))
-                rejected_lead.verification_pending = False
-                rejected_lead.verification_rejected = True
-                rejected_lead.verification_approved = False
-                rejected_lead.disbursement_process_completed_approved = False
-                rejected_lead.verification_rejected_by = request.user
-                rejected_lead.verification_rejected_at = datetime.datetime.utcnow().replace(tzinfo=utc)
-                rejected_lead.verification_rejection_reason = request.POST.get('verification_rejection_reason')
-                rejected_lead.save()
-                messages.error(request,'Lead is rejected due to the reason {0}'.format(rejected_lead.verification_rejection_reason))
-                return render(request,'lead_html/lead_process_v2.html',{'lead':rejected_lead})
+                rejected_service = Service.objects.get(id=request.POST.get('verification_reject'))
+                rejected_service.verification_pending = False
+                rejected_service.verification_rejected = True
+                rejected_service.verification_approved = False
+                rejected_service.disbursement_process_completed_approved = False
+                rejected_service.verification_rejected_by = request.user
+                rejected_service.verification_rejected_at = datetime.datetime.utcnow().replace(tzinfo=utc)
+                rejected_service.verification_rejection_reason = request.POST.get('verification_rejection_reason')
+                rejected_service.save()
+                messages.error(request,'service is rejected due to the reason {0}'.format(rejected_service.verification_rejection_reason))
+                return render(request,'service_html/service_process_v2.html',{'service':rejected_service})
         
         if request.POST.get('chat'):
-            lead =Lead.objects.get(id=request.POST.get('chat'))
-            comments = Comment.objects.filter(lead=lead.id).order_by('-id')
-            return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+            service =Service.objects.get(id=request.POST.get('chat'))
+            comments = Comment.objects.filter(service=service.id).order_by('-id')
+            return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
         
-        if request.POST.get('lead_chat_updated'):
-            lead = Lead.objects.get(id=request.POST.get('lead_chat_updated'))
-            comments = Comment.objects.filter(lead=lead.id).order_by('-id')
-            if not request.FILES.get('lead_attachments') and not request.POST.get('lead_chat'):
+        if request.POST.get('service_chat_updated'):
+            service = Service.objects.get(id=request.POST.get('service_chat_updated'))
+            comments = Comment.objects.filter(service=service.id).order_by('-id')
+            if not request.FILES.get('service_attachments') and not request.POST.get('service_chat'):
                 messages.error(request,'Message or Attachement is missing')
-                return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
+                return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
             else:
-                comment = Comment.objects.create(lead= lead,message=request.POST.get('lead_chat'),user=request.user,attachments=request.FILES.get('lead_attachments'))
+                comment = Comment.objects.create(service= service,message=request.POST.get('service_chat'),user=request.user,attachments=request.FILES.get('service_attachments'))
                 comment.save()
-                return render(request,'chat_html/chat_v2.html',{'lead':lead,'comments':comments})
-        return render(request,'lead_html/lead_verify_v2.html',{'leads':leads,'count':count})
+                return render(request,'chat_html/chat_v2.html',{'service':service,'comments':comments})
+        return render(request,'service_html/service_verify_v2.html',{'services':services,'count':count})
     else:
         return render(request,'user_html/404_page.htm')
 
 @login_required(login_url='login')
 def accountdashboard(request):
-    leads = Lead.objects.filter(verification_approved=True).order_by('-id')
+    services = Service.objects.filter(verification_approved=True).order_by('-id')
     if request.POST.get('other'):
-        lead = Lead.objects.get(id=request.POST.get('other'))
-        lead.save()
+        service = Service.objects.get(id=request.POST.get('other'))
+        service.save()
         context = {
-            'lead':lead
+            'service':service
         }
-        return render (request,'lead_html/other_details_v2.html',context)
+        return render (request,'service_html/other_details_v2.html',context)
     
     if request.POST.get('other_details'):
-        lead = Lead.objects.get(id=request.POST.get('other_details'))
-        lead.actual_disbursement = request.POST.get('actual_disbursement')
-        lead.payout_recieved_percentage = request.POST.get('payout_recieved_percentage')
-        lead.payout_recieved_date = datetime.datetime.strptime(request.POST.get('payout_recieved_date'),'%Y-%m-%d')
-        lead.incentives_percentage = request.POST.get('incentives_percentage')
-        lead.payout_paid = round(float(int(lead.actual_disbursement) * int(lead.payout))/100,2)
-        lead.payout_recieved = round(float(lead.actual_disbursement) * float(lead.payout_recieved_percentage)/100,2)
-        lead.incentives = round(float(lead.actual_disbursement) * float(lead.incentives_percentage)/100,2)
-        lead.net_revenue = round(float(lead.payout_recieved) - float(lead.payout_paid) + float(lead.incentives),2)
+        service = Service.objects.get(id=request.POST.get('other_details'))
+        service.actual_disbursement = request.POST.get('actual_disbursement')
+        service.payout_recieved_percentage = request.POST.get('payout_recieved_percentage')
+        service.payout_recieved_date = datetime.datetime.strptime(request.POST.get('payout_recieved_date'),'%Y-%m-%d')
+        service.incentives_percentage = request.POST.get('incentives_percentage')
+        service.payout_paid = round(float(int(service.actual_disbursement) * int(service.payout))/100,2)
+        service.payout_recieved = round(float(service.actual_disbursement) * float(service.payout_recieved_percentage)/100,2)
+        service.incentives = round(float(service.actual_disbursement) * float(service.incentives_percentage)/100,2)
+        service.net_revenue = round(float(service.payout_recieved) - float(service.payout_paid) + float(service.incentives),2)
         
-        lead.other_details_updated = True
-        lead.save()
+        service.other_details_updated = True
+        service.save()
         context = {
-            'lead':lead
+            'service':service
         }
         return redirect('account')
     
     if request.POST.get('completed'):
-        lead = Lead.objects.get(id=request.POST.get('completed'))
-        return render (request,'lead_html/mic_dashboard_v2.html',{'lead':lead})
+        service = Service.objects.get(id=request.POST.get('completed'))
+        return render (request,'service_html/mic_dashboard_v2.html',{'service':service})
     
 
-    return render(request,'lead_html/accounts_v2.html',{'leads':leads})
+    return render(request,'service_html/accounts_v2.html',{'services':services})
 @login_required(login_url='login')
 def bodashboard(request):
     users = User.objects.filter(profile_update=True,is_verified=False,is_rejected=False,manager__isnull=False).exclude(role__in=[request.user.role,'ADMIN'])
@@ -2470,16 +2160,25 @@ def profile(request):
         return render(request,'user_html/404_page.htm')
 
     if request.method == 'POST': 
+        if request.POST.get('first_name'):
+            profile.first_name = request.POST.get('first_name')
+        if request.POST.get('last_name'):
+            profile.last_name = request.POST.get('last_name')
+        if request.POST.get('father_name'):
+            profile.father_name = request.POST.get('father_name')
+        if request.POST.get('professional_occupation'):
+            profile.professional_occupation = request.POST.get('professional_occupation')
+        if request.POST.get('phone'):
+            profile.phone = request.POST.get('phone')
+        if request.POST.get('email'):
+            profile.email = request.POST.get('email')
+        if request.POST.get('account_number'):
+            profile.account_number = request.POST.get('account_number')
+        if request.POST.get('account_name'):
+            profile.account_name = request.POST.get('account_name')
+        if request.POST.get('ifsc_code'):
+            profile.ifsc_code = request.POST.get('ifsc_code')
         
-        profile.account_number = request.POST.get('account_number')
-        profile.account_name = request.POST.get('account_name')
-        profile.ifsc_code = request.POST.get('ifsc_code')
-        profile.is_gst = request.POST.get('is_gst')
-        if profile.is_gst == 'on':
-            profile.is_gst = True
-        else:
-            profile.is_gst = False
-        profile.gstin = request.POST.get('gstin')
         if request.FILES.get('gst_proof_image',''):
             profile.gst_proof_image = request.FILES['gst_proof_image']
         else:
@@ -2535,6 +2234,19 @@ def profile(request):
         }
         return render (request,'user_html/profile_v2.html',context)
 
+def enquiry(request):
+    enquiry = request.user
+    if request.user.is_suspended == True:
+        return render(request,'user_html/404_page.htm')
+
+    if request.method == 'POST': 
+        pass
+    else:      
+        context = {
+                'user':enquiry,
+            }
+        return render (request,'user_html/enquiry.html',context)
+
 @property
 def image_url(self):
     """
@@ -2561,6 +2273,7 @@ def register(request):
     
     if request.user.is_verified and (request.user.role!='CONNECTOR' and request.user.role!='BO'):
         if request.method == 'POST':
+            
             form = UserAdminCreationForm(request.POST,request=request)
             try:
                 if form.is_valid():
@@ -2596,7 +2309,7 @@ def register(request):
                     
                     
                     current_site = get_current_site(request)
-                    mail_subject = 'Activate your Bharat Credit Account.'
+                    mail_subject = 'Activate your Matput Account.'
                     
                     
                     message = render_to_string('email_template/register_confirm.htm', {

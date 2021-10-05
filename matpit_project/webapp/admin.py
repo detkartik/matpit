@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
-from .models import Category, Lead, CustomUser,Comment,Notification
+from .models import Category, Service, CustomUser,Comment,Notification,ServiceType,RealEstate,StartUp,Taxation,Legal,Tradmark,Other
 # class CustomUserAdmin(UserAdmin):
 #     """Define admin model for custom User model with no user field."""
 #     fieldsets = (
@@ -26,7 +26,14 @@ from .models import Category, Lead, CustomUser,Comment,Notification
 # admin.site.register(get_user_model(), CustomUserAdmin)
 admin.site.register(CustomUser)
 admin.site.register(Category)
-admin.site.register(Lead)
+admin.site.register(Service)
+admin.site.register(ServiceType)
+admin.site.register(RealEstate)
+admin.site.register(StartUp)
+admin.site.register(Taxation)
+admin.site.register(Legal)
+admin.site.register(Tradmark)
+admin.site.register(Other)
 admin.site.register(Comment)
 admin.site.register(Notification)
 

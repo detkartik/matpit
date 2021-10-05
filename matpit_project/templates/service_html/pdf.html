@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %} 
+<head>
+  <title>Lead</title>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Matpit |</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <style>
+      h2{
+        
+        color: #0fa2e0;
+      }
+       header {
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+.badge{
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+}
+
+.col {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+b{
+ 
+  line-height: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+.column {
+  float: left;
+  width: auto;
+  margin-right: 40px;
+}
+
+/* Clear floats after the columns */
+
+ .company-details {
+    text-align: right
+}
+
+ .company-details .name {
+    margin-top: 0;
+    margin-bottom: 0
+}
+.upm {
+  margin-top: 50px;
+}
+      
+  address {
+  position: absolute;
+  right: 20mm;
+}
+.back {
+  background:rgb(100, 163, 68);
+   padding: 10px;
+}
+.font-white {
+  color:white;
+}
+</style>
+		<!-- Custom Theme Style -->
+	
+  <!-- link normalize here-->
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <a target="_blank" href="{% url 'yourservice' %}">
+            <img src="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png" alt="" style="max-width: 200px;">
+            <!-- <img src="/media/images/logo.png" alt=""> -->
+              </a>
+        </div>
+        <div class="col company-details">
+          <h3 class="name">
+            <a> MatPit Consultancy  </a>
+        </h3>
+        <div> 204, Jeet Apartment, Airforce Road, Ratanada, Jodhpur - 342011, Near Oasis Garden
+        </div>
+        <div>+91 (7727) 80-92-71</div>
+        <div>https://matpit.com/</div>
+        </div>
+      </div>
+    </div>
+    
+</header>
+  <hr>
+    <h2 class="category-titles"><i class="fa fa-pencil" aria-hidden="true"></i>
+      Personal Details</h2> 
+    <div class="row">
+      <div class="col">
+        <span><b>Name: </b></span> <a>{{service.created_by.first_name}}</a> <a> {{service.created_by.last_name}}</a>
+        <br/>
+        <span> <b> Email: </b></span> <a>{{service.created_by.email}}</a>
+      </div>
+      <div class="col">
+        <span> <b> Phone: </b></span> <a>{{service.created_by.phone}}</a>
+        <br/>
+        <span><b>Created On: </b></span><a> {{service.created_at}}</a>
+        <br/>
+      </div>
+    </div>
+
+    <div class="container"> 
+      <h2 class="category-titles"><i class="fa fa-briefcase" aria-hidden="true"></i>
+        Service Details</h2>  
+      <div class="container back">
+        <div class="row">
+          <div class="column">
+            <span> <b class="font-white "> Service Type:</b> </span>
+          <a class="font-white ">{{service.service_type}}</a>
+          </div>
+          <div class="column">
+          <span class="service_sub_type"> <b class="font-white "> Service Sub Type: </b> </span>
+          <a class="font-white ">{{service.service_sub_type}}</a>
+          </div>
+          <div class="column">
+          <span class="service_amount"> <b class="font-white "> Service Amount: </b> </span>
+          <a class="font-white ">{{service.service_amount}}</a>
+          </div>
+        </div>
+      </div>  
+      <br>
+   
+    <hr>
+    <br>
+    <br>
+    <span>
+     Service Created By:
+      {{ruser.first_name}}  {{ruser.last_name}},
+      {{ ruser.email }}, 
+      {{ ruser.phone }}
+    </span> 
+    
+
+    {% if service.file_pickup_process_completed and service.login_bank_process_completed and service.senction_process_completed and service.disbursement_process_completed_approved %}
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <a target="_blank" href="{% url 'yourservice' %}">
+              <img src="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png" alt="" style="max-width: 200px;">
+              <!-- <img src="/media/images/logo.png" alt=""> -->
+                </a>
+          </div>
+          <div class="col company-details">
+            <h3 class="name">
+              <a>
+              Arboshiki
+              </a>
+          </h3>
+          <div>455 Foggy Heights, AZ 85004, US</div>
+          <div>456-789</div>
+          <div>company@example.com</div>
+          </div>
+        </div>
+      </div>
+      
+  </header>
+    <div>
+      <hr>
+      <br>
+      {% if service.file_pickup_process_completed %}
+      <div class="row">
+        <h2 class="category-titles"><i class="fa fa fa-files-o" aria-hidden="true"></i>
+          File Pickup</h2>
+        <div class="col">
+          <span><b>Customer Contacted: </b></span> <a>{{service.customer_contacted|yesno:"Yes,No"}}</a>
+          <br/>
+          <br>
+          <span><b>File Picked: </b></span> <a>{{service.file_picked|yesno:"Yes,No"}}</a>  
+        </div>
+        <div class="col">
+          {% if service.remark_message %}
+          <span><b>Remark Message: </b></span> <a>{{service.remark_message}}</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    <br>
+    
+    {% if service.login_bank_process_completed %}
+    <div class="row">       
+        {% if service.login_bank %}
+        <h2 class="category-titles"><i class="fa fa-university" aria-hidden="true"></i>
+          Login Bank </h2>
+        <span><b>Login Bank: </b></span> <a>{{service.login_bank.name}}</a>
+        {% endif %}
+    </div>
+    {% endif %}
+   
+    {% if service.senction_process_completed %}
+    <div class="row">
+      <h2 class="category-titles"><i class="fa fa-envelope" aria-hidden="true"></i>
+        Senction Letter</h2>
+      <div class="col">
+        {% if service.senction_amount %}
+        <span><b>Senction Amount: </b></span> <a>{{service.senction_amount}}</a>
+        {% endif %}
+        </span>
+        <br>
+        <span>
+          {% if service.senction_letter %}
+          <br>
+          <a type='button' class="button" target="_blank"  href="{{service.senction_letter.url}}">Senction Letter</a>
+          {% else %}
+          <span class="badge bg-green">Senction Letter not uploaded</span>
+          {% endif %}   
+      </div>
+      <div class="col">
+        
+      </div>     
+    </div>
+    {% endif %}
+      
+    {% if service.disbursement_process_completed_approved %}
+        <div class="row">
+          <h2 class="category-titles"><i class="fa fa-tasks" aria-hidden="true"></i>
+            Disbursement Process</h2>
+          <div class="col">
+          <span><b>Disbursement: </b></span> <a>{{service.disbursement|yesno:"Yes,No"}}</a>
+          <br>
+          {% if service.disbursement_amount %}
+          <br>
+          <span><b>Disbursement Amount: </b></span> <a>{{service.disbursement_amount}}</a>
+          {% endif %}
+          <br>
+          {% if service.disbursement_proof %}
+          <br>
+          <a type='button' class="button" target="_blank"  href="{{service.disbursement_proof.url}}">Disbursement Proof</a>
+          {% else %}
+          <span class="badge bg-green">Disbursement Proof not uploaded</span>
+          {% endif %}  
+            </div>
+            <div class="col"></div>
+        </div> 
+    {% endif %}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <span>
+      Lead Created By:
+      {{ruser.first_name}}  {{ruser.last_name}},
+      {{ ruser.email }}, 
+      {{ ruser.phone }}
+    </span> 
+    </div>
+    {% endif %}
+      <!-- Lead Process -->
+    
+  </body>
+
+
+</html>

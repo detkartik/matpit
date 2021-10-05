@@ -73,8 +73,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">2376 <i class="ti-angle-down fs-3 text-danger"></i></span>
-                                        <h6>Total Visits</h6></div>
+                                    <div class="col-8"><span class="display-6">{{direct_referrals}} <i class="ti-angle-down fs-3 text-danger"></i></span>
+                                        <h6>Direct Referrals</h6></div>
                                     <div class="col-4 align-self-center text-end  pl-0">
                                         <div id="total-visits"></div>
                                     </div>
@@ -88,8 +88,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">3670 <i class="ti-angle-up fs-3 text-success"></i></span>
-                                        <h6>Page Views</h6></div>
+                                    <div class="col-8"><span class="display-6"> {{indirect_referrals}} <i class="ti-angle-up fs-3 text-success"></i></span>
+                                        <h6>Indirect Referrals</h6></div>
                                     <div class="col-4 align-self-center text-end pl-0">
                                         <div id="page-views"></div>
                                     </div>
@@ -103,8 +103,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">1562 <i class="ti-angle-up fs-3 text-success"></i></span>
-                                        <h6>Unique Visits</h6></div>
+                                    <div class="col-8"><span class="display-6">{{direct_services}} <i class="ti-angle-up fs-3 text-success"></i></span>
+                                        <h6>Direct Services</h6></div>
                                     <div class="col-4 align-self-center text-end pl-0">
                                         <div id="unique-visits"></div>
                                     </div>
@@ -118,8 +118,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">35% <i class="ti-angle-down fs-3 text-danger"></i></span>
-                                        <h6>Bounce Rate</h6></div>
+                                    <div class="col-8"><span class="display-6">{{indirect_services}} <i class="ti-angle-down fs-3 text-danger"></i></span>
+                                        <h6>Indirect Services</h6></div>
                                     <div class="col-4 align-self-center text-end pl-0">
                                         <div id="bounce-rate"></div>
                                     </div>
@@ -151,6 +151,7 @@
                                         </ul>
                                     </div>
                                 </div>
+
                                 <div id="total-revenue"></div>
                             </div>
                         </div>
@@ -161,12 +162,12 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Sales Prediction</h4>
+                                        <h4 class="card-title">Total Services </h4>
                                         <div class="row">
                                             <div class="col-5 col-md-6 align-self-center">
-                                                <span class="display-6 text-primary text-truncate d-block">$3528</span>
-                                                <h6 class="text-muted text-truncate">10% Increased</h6>
-                                                <h5 class="text-truncate">(150-165 Sales)</h5>
+                                                <span class="display-6 text-primary text-truncate d-block">{{total_service_amount}}</span>
+                                                <h6 class="text-muted text-truncate">{{total_services_percentage}}% Increased</h6>
+                                                <h5 class="text-truncate">({{total_services}} Services)</h5>
                                             </div>
                                             <div class="col-7 col-md-6 d-flex justify-content-end">
                                                 <div id="sales-prediction"></div>
@@ -178,12 +179,11 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Sales Difference</h4>
+                                        <h4 class="card-title">Total Referrals</h4>
                                         <div class="row">
                                             <div class="col-5 col-md-6 align-self-center">
-                                                <span class="display-6 text-success text-truncate d-block">$4316</span>
-                                                <h6 class="text-muted text-truncate">10% Increased</h6>
-                                                <h5 class="text-truncate">(150-165 Sales)</h5>
+                                                <span class="display-6 text-success text-truncate d-block">{{total_referrals}}</span>
+                                                <h6 class="text-muted text-truncate">{{total_referrals_percentage}}% Increased</h6>
                                             </div>
                                             <div class="col-7 col-md-6 d-flex justify-content-end">
                                                 <div id="sales-difference"></div>
@@ -197,352 +197,6 @@
                     <!-- Column -->
                 </div>
                 <!-- Row -->
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Total Visits</h4>
-                                <div id="visitfromworld" style="width:100%!important; height:415px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Browser Stats</h4>
-                                <div class="table-responsive">
-                                    <table class="table browser mt-4 table-borderless no-wrap v-middle">
-                                        <tbody>
-                                            <tr>
-                                                <td style="width:40px"><img src="{% static '/monster/src/assets/images/browser/chrome-logo.png" alt=logo /></td>
-                                                <td class="fw-normal">Google Chrome</td>
-                                                <td class="text-end"><span class="badge bg-light-info text-info">23%</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><img src="{% static '/monster/src/assets/images/browser/firefox-logo.png" alt=logo /></td>
-                                                <td class="fw-normal">Mozila Firefox</td>
-                                                <td class="text-end"><span class="badge bg-light-success text-success">15%</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><img src="{% static '/monster/src/assets/images/browser/safari-logo.png" alt=logo /></td>
-                                                <td class="fw-normal">Apple Safari</td>
-                                                <td class="text-end"><span class="badge bg-light-primary text-primary">07%</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><img src="{% static '/monster/src/assets/images/browser/internet-logo.png" alt=logo /></td>
-                                                <td class="fw-normal">Internet Explorer</td>
-                                                <td class="text-end"><span class="badge bg-light-warning text-warning">09%</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><img src="{% static '/monster/src/assets/images/browser/opera-logo.png" alt=logo /></td>
-                                                <td class="fw-normal">Opera mini</td>
-                                                <td class="text-end"><span class="badge bg-light-danger text-danger">23%</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><img src="{% static '/monster/src/assets/images/browser/internet-logo.png" alt=logo /></td>
-                                                <td class="fw-normal">Microsoft edge</td>
-                                                <td class="text-end"><span class="badge bg-light-megna text-megna">09%</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="calendar" class="dashboard-calendar"></div>
-                                <!-- BEGIN MODAL -->
-                                <div class="modal fade none-border" id="my-event">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header d-flex align-items-center">
-                                                <h4 class="modal-title"><strong>Add Event</strong></h4>
-                                                <button type="button" class="close ms-auto" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
-                                            </div>
-                                            <div class="modal-body"></div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-white waves-effect" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
-                                                <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-bs-dismiss="modal">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Modal Add Category -->
-                                <div class="modal fade none-border" id="add-new-event">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header d-flex align-items-center">
-                                                <h4 class="modal-title"><strong>Add</strong> a category</h4>
-                                                <button type="button" class="close ms-auto" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label class="control-label">Category Name</label>
-                                                            <input class="form-control form-white" placeholder="Enter name" type="text" name="category-name" />
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="control-label">Choose Category Color</label>
-                                                            <select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
-                                                                <option value="success">Success</option>
-                                                                <option value="danger">Danger</option>
-                                                                <option value="info">Info</option>
-                                                                <option value="primary">Primary</option>
-                                                                <option value="warning">Warning</option>
-                                                                <option value="inverse">Inverse</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-bs-dismiss="modal">Save</button>
-                                                <button type="button" class="btn btn-white waves-effect" data-bs-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- END MODAL -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex flex-row">
-                                    <div class=""><img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="100"></div>
-                                    <div class="ps-3">
-                                        <h3 class="font-weight-medium">Daniel Kristeen</h3>
-                                        <h6 class="text-muted">UI/UX Designer</h6>
-                                        <button class="btn btn-light-info text-info">Follow</button>
-                                    </div>
-                                </div>
-                                <div class="row mt-4 pt-2">
-                                    <div class="col text-center border-end">
-                                        <h2 class="fw-light">14</h2>
-                                        <h6 class="text-muted">Photos</h6>
-                                    </div>
-                                    <div class="col text-center border-end">
-                                        <h2 class="fw-light">54</h2>
-                                        <h6 class="text-muted">Videos</h6>
-                                    </div>
-                                    <div class="col text-center">
-                                        <h2 class="fw-light">145</h2>
-                                        <h6 class="text-muted">Tasks</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body border-top">
-                                <p class="text-center scrollable text-muted" style="overflow: hidden; width: auto; height: 115px;">
-                                    Lorem ipsum dolor sit ametetur adipisicing elit, sed do eiusmod tempor incididunt adipisicing elit, sed do eiusmod tempor incididunLorem ipsum dolor sit ametetur adipisicing elit, sed do eiusmod tempor incididuntt
-                                </p>
-                                <ul class="list-icons d-flex flex-item text-center list-style-none">
-                                    <li class="col my-1">
-                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Website"><i data-feather="globe" class="ps-2"></i></a>
-                                    </li>
-                                    <li class="col my-1">
-                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="twitter"><i data-feather="twitter" class="ps-2"></i></a>
-                                    </li>
-                                    <li class="col my-1">
-                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Facebook"><i data-feather="facebook" class="ps-2"></i></a>
-                                    </li>
-                                    <li class="col my-1">
-                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Youtube"><i data-feather="youtube" class="ps-2"></i></a>
-                                    </li>
-                                    <li class="col my-1">
-                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="social" data-original-title="Linkd-in"><i data-feather="linkedin" class="ps-2"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="card-body border-top mt-4">
-                                <div class="row text-center">
-                                    <div class="col-12 mb-4">
-                                        <h4>Followers</h4></div>
-                                    <div class="col-3"><span class="round" data-bs-toggle="tooltip" title="Varun"><img class="rounded-3" src="{% static '/monster/src/assets/images/users/4.jpg" alt="user" width="45"/></span></div>
-                                    <div class="col-3"><span class="round" data-bs-toggle="tooltip" title="Alia"><img class="rounded-3" src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" width="45"/></span></div>
-                                    <div class="col-3"><span class="round" data-bs-toggle="tooltip" title="Akshay"><img class="rounded-3" src="{% static '/monster/src/assets/images/users/3.jpg" alt="user" width="45"/></span></div>
-                                    <div class="col-3"><span class="round d-inline-block text-center text-white bg-info rounded-3" data-bs-toggle="tooltip" title="More">5+</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Row -->
-                <!-- Row -->
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Recent Chats</h4>
-                                <div class="chat-box scrollable" style="height: 375px;">
-                                    <!--chat Row -->
-                                    <ul class="chat-list m-0 p-0">
-                                        <!--chat Row -->
-                                        <li class="mt-4">
-                                            <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle" /></div>
-                                            <div class="chat-content ps-3 d-inline-block">
-                                                <h6 class="text-muted text-nowrap">James Anderson</h6>
-                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-info">Lorem Ipsum is simply dummy text of the printing & type setting industry.</div>
-                                            </div>
-                                            <div class="chat-time d-inline-block text-end text-muted">10:56 am</div>
-                                        </li>
-                                        <!--chat Row -->
-                                        <li class="mt-4">
-                                            <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" class="rounded-circle" /></div>
-                                            <div class="chat-content ps-3 d-inline-block">
-                                                <h6 class="text-muted text-nowrap">Bianca Doe</h6>
-                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-success">It’s Great opportunity to work.</div>
-                                            </div>
-                                            <div class="chat-time d-inline-block text-end text-muted">10:57 am</div>
-                                        </li>
-                                        <!--chat Row -->
-                                        <li class="odd mt-4">
-                                            <div class="chat-content ps-3 d-inline-block text-end">
-                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-inverse">I would love to join the team.</div>
-                                                <br/>
-                                            </div>
-                                            <div class="chat-time d-inline-block text-end text-muted">10:58 am</div>
-                                        </li>
-                                        <!--chat Row -->
-                                        <li class="odd mt-4">
-                                            <div class="chat-content ps-3 d-inline-block text-end">
-                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-inverse">Whats budget of the new project.</div>
-                                                <br/>
-                                            </div>
-                                            <div class="chat-time d-inline-block text-end text-muted">10:59 am</div>
-                                        </li>
-                                        <!--chat Row -->
-                                        <li class="mt-4">
-                                            <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/3.jpg" alt="user" class="rounded-circle" /></div>
-                                            <div class="chat-content ps-3 d-inline-block">
-                                                <h6 class="text-muted text-nowrap">Angelina Rhodes</h6>
-                                                <div class="box mb-2 d-inline-block text-dark message fw-normal fs-3 bg-light-primary">Well we have good budget for the project</div>
-                                            </div>
-                                            <div class="chat-time d-inline-block text-end text-muted">11:00 am</div>
-                                        </li>
-                                        <!--chat Row -->
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-body border-top">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <textarea placeholder="Type your message here" class="form-control border-0"></textarea>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fas fa-paper-plane"></i> </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Recent Messages</h4>
-                                <div class="message-box scrollable" style="height: 476px;">
-                                    <div class="message-widget message-scroll">
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle online"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has been.</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:30 AM</span> 
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle busy"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Sonu Nigam</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">I've sung a song! See you at</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:10 AM</span> 
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <span class="round bg-info d-inline-block text-white text-center rounded-circle">A</span> <span class="profile-status rounded-circle away"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Arijit Sinh</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Simply dummy text of the printing and typesetting industry.</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:08 AM</span> 
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/4.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle offline"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Just see the my admin!</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:02 AM</span> 
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/1.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle online"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Welcome to the Elite Admin</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:30 AM</span> 
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/2.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle busy"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Sonu Nigam</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">I've sung a song! See you at</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:10 AM</span> 
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center border-bottom p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/3.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle away"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Arijit Sinh</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">I am a singer!</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:08 AM</span> 
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#" class="d-flex align-items-center p-3">
-                                            <div class="user-img position-relative d-inline-block mr-0 mr-md-3"> <img src="{% static '/monster/src/assets/images/users/4.jpg" alt="user" class="rounded-circle w-100"> <span class="profile-status rounded-circle offline"></span> </div>
-                                            <div class="w-85 d-md-flex align-items-center v-middle ps-3">
-                                                <div class="w-85">
-                                                    <h5 class="mb-0 mt-1 font-weight-medium">Pavan kumar</h5> 
-                                                    <span class="fs-3 text-nowrap d-block text-truncate mail-desc text-muted fw-normal">Just see the my admin!</span> 
-                                                </div>
-                                                <span class="fs-2 text-nowrap ms-auto time fw-normal">9:02</span> 
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- Row -->
             </div>
             <!-- ============================================================== -->

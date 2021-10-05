@@ -61,7 +61,7 @@
             <!-- ============================================================== -->
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Lead id: {{lead.id}}</h4>
+                    <h4 class="card-title">Service id: {{service.id}}</h4>
                     <div class="chat-box scrollable ps-container ps-theme-default ps-active-y" style="height: 375px;" data-ps-id="26214be5-afd9-5cb9-0ef1-39ed2356aa14">
                         <!--chat Row -->
                         <ul class="chat-list m-0 p-0">
@@ -70,7 +70,7 @@
                             <li class="mt-4">
                                 <div class="chat-img d-inline-block align-top"><img src="{% static '/monster/src/assets/images/users/2.jpg' %}" alt="user" class="rounded-circle"></div>
                                 <div class="chat-content ps-3 d-inline-block">
-                                    <h5 class="text-muted fs-3 font-weight-medium">{{comment.user.first_name}} {{comment.user.last_name}} <span class="badge badge-pill bg-success">{{user.role}}</span></h5>
+                                    <h5 class="text-muted fs-3 font-weight-medium">{{comment.user.first_name}} {{comment.user.last_name}} <span class="badge badge-pill bg-success">{{comment.user.role}}</span></h5>
                                     {% if comment.attachments  %}
                                     <div class="box mb-2 d-inline-block text-dark fw-normal message fs-3 bg-light-success"><a  href="{{comment.attachments.url}}" target='_blank'> <img src="{{comment.attachments.url}}" alt="" style="height: 30px;" > </a> </div>
                                     {% endif %}

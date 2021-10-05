@@ -76,6 +76,15 @@ TEMPLATES = [
     },
 ]
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-primary',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+
 WSGI_APPLICATION = 'matpit_project.wsgi.application'
 
 AUTH_USER_MODEL = 'webapp.CustomUser'
@@ -85,15 +94,14 @@ AUTH_USER_MODEL = 'webapp.CustomUser'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'matpit',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': config('DB_ENGINE'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
         
     }
 }
+
 
 ACCOUNT_ACTIVATION_DAYS = 3
 

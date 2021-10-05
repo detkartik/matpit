@@ -9,7 +9,7 @@
     <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
     <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
     <meta name="robots" content="noindex,nofollow">
-    <title>Enquiry Form</title>
+    <title>Profile</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/monsteradmin/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
@@ -79,11 +79,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="border-bottom title-part-padding">
-                                <h4 class="card-title mb-0">Enquiry Form</h4>
+                                <h4 class="card-title mb-0">Profile</h4>
                             </div>
                             <div class="card-body wizard-content">
                                 <h6 class="card-subtitle mb-3"></h6>
-                                <form action="#" id='profile' method='POST' enctype="multipart/form-data" class="tab-wizard wizard-circle">
+                                <form action="#" id='profile' method='POST'  enctype="multipart/form-data" class="tab-wizard wizard-circle">
                                    {% csrf_token %}
                                     <!-- Step 1 -->
                                     <h6>Personal Info</h6>
@@ -95,7 +95,11 @@
                                                 >First Name <span class="required">*</span>
                                             </label>
                                             <div class="col-form-label col-md-6 col-sm-6">
-                                                {{ user.first_name }}
+                                                {% if not user.first_name %}
+                                                <input type="text" name="first_name" class="form-control" >
+                                                {% else  %}
+                                                <label class="col-form-label col-md-6 col-sm-6" > {{ user.first_name }}</label>
+                                               {% endif %}
                                                 </div>
                                         </div>
                                         <div class="form-group row">
@@ -105,40 +109,14 @@
                                                 >Last Name <span class="required">*</span>
                                             </label>
                                             <div class="col-form-label col-md-6 col-sm-6">
-                                                {{ user.last_name }}
+                                                {% if not user.last_name  %}
+                                                <input type="text" name="last_name" class="form-control" >
+                                                {% else  %}
+                                                <label class="col-form-label col-md-6 col-sm-6" > {{ user.last_name  }}</label>
+                                               {% endif %}
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="first-name"
-                                                >Pan Number <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {{ user.pan_number}}
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="first-name"
-                                                >ID Type <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {{ user.id_type }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="role"
-                                                >ID Number <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {{ user.id_number }}
-                                            </div>
-                                        </div>
+                                       
                                         <div class="form-group row">
                                             <label
                                                 class="col-form-label col-md-3 col-sm-3 label-align"
@@ -146,23 +124,60 @@
                                                 >Father/Spouse Name <span class="required">*</span>
                                             </label>
                                             <div class="col-form-label col-md-6 col-sm-6">
-                                                {{ user.father_name }}
+                                                {% if not user.father_name  %}
+                                                <input type="text" name="father_name" class="form-control" >
+                                                {% else  %}
+                                                <label class="col-form-label col-md-6 col-sm-6" > {{ user.father_name }}</label>
+                                               {% endif %}
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label
                                                 class="col-form-label col-md-3 col-sm-3 label-align"
                                                 for="role"
-                                                >Profession <span class="required">*</span>
+                                                >Professional Occupation <span class="required">*</span>
                                             </label>
                                             <div class="col-form-label col-md-6 col-sm-6">
-                                                {{ user.profession }}
+                                                {% if not user.professional_occupation  %}
+                                                <input type="text" name="professional_occupation" class="form-control" >
+                                                {% else  %}
+                                                <label class="col-form-label col-md-6 col-sm-6" > {{ user.professional_occupation }}</label>
+                                               {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-form-label col-md-3 col-sm-3 label-align"
+                                                for="role"
+                                                >Phone Number <span class="required">*</span>
+                                            </label>
+                                            <div class="col-form-label col-md-6 col-sm-6">
+                                                {% if not user.phone  %}
+                                                <input type="number" name="phone" class="form-control" >
+                                                {% else  %}
+                                                <label class="col-form-label col-md-6 col-sm-6" > {{ user.phone }}</label>
+                                               {% endif %}
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="form-group row">
+                                            <label
+                                            class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="role"
+                                            >Email <span class="required">*</span>
+                                             </label>
+                                            <div class="col-form-label col-md-6 col-sm-6">
+                                                {% if not user.email  %}
+                                                <input type="email" name="email" class="form-control" >
+                                                {% else  %}
+                                                <label class="col-form-label col-md-6 col-sm-6" > {{ user.email }}</label>
+                                            {% endif %}
                                             </div>
                                         </div>
                                     </section>
                                     
-                                    <!-- Step 3 -->
-                                    <h6>Visitor Type</h6>
+                                    <!-- Step 2 -->
+                                    <h6>Bank Details</h6>
                                     <section>
                                         <div class="form-group row">
                                             <label
@@ -208,74 +223,10 @@
                                                 {% endif %}
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label
-                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
-                                                    for="gst"
-                                                    >GST Registered?<span class="required">*</span>
-                                            </label>
-                                            {% if not user.is_gst %}
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="custom-control custom-switch  custom-switch-lg">
-                                                    <input type="checkbox" class="custom-control-input gst_registered" id="customSwitch4" onchange="GSTRegistered()" name="is_gst" class="form-control" checked>
-                                                    <label class="custom-control-label" for="customSwitch4">Yes</label>
-                                                </div>
-                                            </div>
-                                            {% else %}
-                                            <label class="col-md-6 col-sm-6">Yes</label>
-                                            {% endif %}
-                                        </div>
-                                        <script type="text/javascript">
-                                            
-                                            function GSTRegistered()
-                                            {
-                                                if($('.gst_registered').is(":checked")) {
-                                                    $(".gstin").show();
-                                                    $(".gst_proof").show();
-                                                }
-                                                    
-                                                else{
-                                                    $(".gstin").hide();
-                                                    $(".gst_proof").hide();
-
-                                                }
-                                                    
-                                            }
-                                        </script>
-                                        
-                                        
-                                        <div class="form-group row gstin">
-                                            <label
-                                                    class="col-form-label col-md-3 col-sm-3 label-align" class="form-control"
-                                                    for="gstin"
-                                                    >GSTIN<span class="required">*</span>
-                                            </label>
-                                            {% if not user.gstin %}
-                                            <div class="col-md-6 col-sm-6" class="form-control">
-                                            <input  type="text"  name="gstin" class="form-control"/>
-                                            </div>
-                                            {% else %}
-                                            <label class="col-md-6 col-sm-6">{{user.gstin}}</label>
-                                            {% endif %}
-                                        </div>
-                                        <div class="form-group row gst_proof">
-                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="gst_proof">GST Proof 
-                                            </label>
-                                            {% if not user.gst_proof_image %}
-                                            <div class="col-md-6 col-sm-6 ">
-                                            <input type="file" id="gst_proof" name="gst_proof_image">
-                                            </div>
-                                            {% else %}
-                                            <div class="col-md-6 col-sm-6 ">
-                                                <img width="300px" height="300px" src="{{user.gst_proof_image.url}}" alt="">
-                                            </div>
-                                            
-                                            {% endif %}
-                                        </div>
                                     </section>
-                                    <!-- Step 4 -->
+                                    <!-- Step 3 -->
                                     
-                                    <h6>Purpose of Visit</h6>
+                                    <h6>Documents To Upload</h6>
                                     <section>
                                         <div class="form-group row">
                                             <label
@@ -326,161 +277,6 @@
                                             </div>
                                         </div>
                                     </section>
-
-                                    <h6>Interested In</h6>
-                                    <section>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="adhaar-image"
-                                                > Adhaar Pic <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.adhaar_image %}
-                                                <img width="300px" height="300px" src="{{user.adhaar_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="adhaar_image" name="adhaar_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="pancard_image"
-                                                >Pan Card <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.pancard_image %}
-                                                <img width="300px" height="300px" src="{{user.pancard_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="pancard_image" name="pancard_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="cancelled_cheque_image"
-                                                >Cancelled Cheque Image <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.cancelled_cheque_image %}
-                                                <img width="300px" height="300px" src="{{user.cancelled_cheque_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="cancelled_cheque_image" name="cancelled_cheque_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </section>
-                                    <h6>Where Did you Here About Us?</h6>
-                                    <section>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="adhaar-image"
-                                                > Adhaar Pic <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.adhaar_image %}
-                                                <img width="300px" height="300px" src="{{user.adhaar_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="adhaar_image" name="adhaar_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="pancard_image"
-                                                >Pan Card <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.pancard_image %}
-                                                <img width="300px" height="300px" src="{{user.pancard_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="pancard_image" name="pancard_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="cancelled_cheque_image"
-                                                >Cancelled Cheque Image <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.cancelled_cheque_image %}
-                                                <img width="300px" height="300px" src="{{user.cancelled_cheque_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="cancelled_cheque_image" name="cancelled_cheque_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </section>
-                                     <h6>Finance Status</h6>
-                                    <section>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="adhaar-image"
-                                                > Adhaar Pic <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.adhaar_image %}
-                                                <img width="300px" height="300px" src="{{user.adhaar_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="adhaar_image" name="adhaar_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="pancard_image"
-                                                >Pan Card <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.pancard_image %}
-                                                <img width="300px" height="300px" src="{{user.pancard_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="pancard_image" name="pancard_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-form-label col-md-3 col-sm-3 label-align"
-                                                for="cancelled_cheque_image"
-                                                >Cancelled Cheque Image <span class="required">*</span>
-                                            </label>
-                                            <div class="col-form-label col-md-6 col-sm-6">
-                                                {% if user.cancelled_cheque_image %}
-                                                <img width="300px" height="300px" src="{{user.cancelled_cheque_image.url}}" alt="">
-                                                {% else %}
-                                                <div class="col-md-6 col-sm-6 ">
-                                                    <input type="file" id="cancelled_cheque_image" name="cancelled_cheque_image">
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </section>
-
                                 </form>
                             </div>
                         </div>
@@ -565,10 +361,10 @@
             return form.valid();
         },
         onFinished: function(event, currentIndex) {
-            var profile_submitted = '{{user.profile_update|safe}}'
+            var profile_submitted = '{{user.profile_update|safe}}'            
             console.log(profile_submitted)
-            if (profile_submitted===True){
-                $('.actions a[href="#finish"]').hide() 
+            if (profile_submitted==true){
+            $('.actions a[href="#finish"]').hide() 
             }
             else{
                 $('.actions a[href="#finish"]').replaceWith('<button class="btn btn-primary" type="submit" id="profile">Submit</button>') 
@@ -620,7 +416,7 @@
         onFinished: function(event, currentIndex) {
             var profile_submitted = '{{user.profile_update|safe}}'
             console.log(profile_submitted)
-            if (profile_submitted===True){
+            if (profile_submitted==true){
                 $('.actions a[href="#finish"]').hide()
             }
             else{
@@ -669,7 +465,7 @@
         onFinished: function(event, currentIndex) {
             var profile_submitted = '{{user.profile_update|safe}}'
             console.log(profile_submitted)
-            if (profile_submitted===True){
+            if (profile_submitted==true){
                 $('.actions a[href="#finish"]').hide()
             }
             else{
@@ -716,7 +512,7 @@
         onFinished: function(event, currentIndex) {
             var profile_submitted = '{{user.profile_update|safe}}'
             console.log(profile_submitted)
-            if (profile_submitted===True){
+            if (profile_submitted==true){
                 console.log('addasdasdasdas')
                 $('.actions a[href="#finish"]').hide();
             }

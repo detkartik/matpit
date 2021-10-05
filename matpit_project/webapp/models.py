@@ -60,6 +60,7 @@ class CustomUser(AbstractUser):
     first_name =models.CharField(max_length=100,blank=True,null=True) 
     last_name = models.CharField(max_length=100,blank=True,null=True) 
     email = models.EmailField(max_length=250,unique=False, default='')
+    father_name = models.CharField(max_length=100,blank=True,null=True) 
     phone = models.CharField(max_length=10,validators=[RegexValidator(r'^\d{1,10}$')],unique=True, default='') 
     created_at = models.DateTimeField(auto_now_add=True) 
     updated_at = models.DateTimeField(auto_now=True) 
@@ -89,15 +90,7 @@ class CustomUser(AbstractUser):
     professional_occupation = models.TextField(blank=True,null=True)
     state = models.CharField(max_length=50, null=True, blank=True)
     pincode = models.CharField(max_length=6, validators=[RegexValidator(r'^\d{1,10}$')],null=True, blank=True)
-    housing_loan = models.CharField(max_length=10,validators=[RegexValidator(r'^\d{1,10}$')],null=True,blank=True) 
-    mortgage_loan = models.CharField(max_length=10,validators=[RegexValidator(r'^\d{1,10}$')],null=True,blank=True) 
-    vehical_loan = models.CharField(max_length=10,validators=[RegexValidator(r'^\d{1,10}$')],null=True,blank=True) 
-    personal_loan = models.CharField(max_length=10,validators=[RegexValidator(r'^\d{1,10}$')],null=True,blank=True)
     terms_condition = models.BooleanField(default=False)
-    is_gst = models.BooleanField(default=False)
-    gstin = models.CharField(max_length=100,null=True,blank=True)
-    gst_proof_image = models.ImageField(upload_to='gst_proof_pics/',blank=True,null=True)
-
     active_user = models.BooleanField(
         help_text='Whether the user is active or not',
         default=False)
@@ -110,30 +103,66 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
 
-class Lead(models.Model):
+class ServiceType(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    def __str__(self):
+        return self.name
+
+class RealEstate(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    created = models.DateTimeField(auto_now_add=True)  
+    def __str__(self):
+        return self.name
+
+class StartUp(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    created = models.DateTimeField(auto_now_add=True) 
+    def __str__(self):
+        return self.name
+class Taxation(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    created = models.DateTimeField(auto_now_add=True)  
+    def __str__(self):
+        return self.name
+class Legal(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    created = models.DateTimeField(auto_now_add=True) 
+    def __str__(self):
+        return self.name
+
+class Tradmark(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    created = models.DateTimeField(auto_now_add=True) 
+    def __str__(self):
+        return self.name
+
+class Other(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    created = models.DateTimeField(auto_now_add=True) 
+    def __str__(self):
+        return self.name
+
+class City(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    def __str__(self):
+        return self.name
+
+
+
+
+class Service(models.Model):
     
-    
+    ######################## Service #############################################
+    service_type = models.CharField(max_length=100,blank=True,null=True)
+    service_sub_type = models.CharField(max_length=100,blank=True,null=True)
+    service_amount = models.CharField(max_length=100,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True) 
-    created_by = models.ForeignKey(CustomUser,related_name='lead_user',null=True, blank=True,on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser,related_name='service_user',null=True, blank=True,on_delete=models.CASCADE)
     referral_code = models.CharField(max_length=32, blank=True, null=True ) 
-    referred_by = models.CharField(max_length=100,null=True,blank=True,unique=False)   
-    ############################## Lead Updated ################################
-    lead_update = models.BooleanField(default=False)
-    
-    ################################### Step 1 : File Pickup #############################
-    customer_contacted = models.BooleanField(default=False)
-    customer_contact_updated = models.BooleanField(default=False)
-    customer_contected_time = models.DateTimeField(auto_now=True)
-    file_picked = models.BooleanField(default=False)
-    file_picked_updated = models.BooleanField(default=False)
-    file_picked_time = models.DateTimeField(auto_now=True)
-    remark_message = models.CharField(max_length=100,blank=True,null=True)
-    remark_message_updated = models.BooleanField(default=False)
-    remark_message_updated_at = models.DateTimeField(auto_now=True)
-    file_pickup_process_completed = models.BooleanField(default=False)
-    file_pickup_process_completed_at = models.DateTimeField(auto_now=True)
-   
-    
+    referred_by = models.CharField(max_length=100,null=True,blank=True,unique=False) 
+    ############################## service Updated ################################
+    service_update = models.BooleanField(default=False)
+
     ########################## For the Account and MIS Report #######################################################
     payout = models.CharField(max_length=100,blank=True,null=True)
     payout_updated = models.BooleanField(default=False)
@@ -160,16 +189,11 @@ class Lead(models.Model):
     def __str__(self):
         return str(self.id)
 
-    
-
-    
-
-
 class Notification(models.Model):
-    lead = models.ForeignKey(Lead,related_name='notify_lead',on_delete=CASCADE)
+    service = models.ForeignKey(Service,related_name='notify_service',on_delete=CASCADE)
     notified_user = models.CharField(max_length=100,blank=True,null=True)
     read_chat_notification = models.BooleanField(default=False)
-    read_lead_notification = models.BooleanField(default=False)
+    read_service_notification = models.BooleanField(default=False)
 
     def __str__(self):
         return '{}'.format(self.notified_user)
@@ -177,7 +201,7 @@ class Notification(models.Model):
 
 
 class Comment(models.Model):
-    lead = models.ForeignKey(Lead,on_delete=models.CASCADE,related_name='comments')
+    service = models.ForeignKey(Service,on_delete=models.CASCADE,related_name='comments')
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='customer')
     message = models.TextField() 
     attachments = models.FileField(upload_to='attachments/',blank=True,null=True)
@@ -188,4 +212,4 @@ class Comment(models.Model):
         ordering = ('created',) 
 
     def __str__(self): 
-        return 'Comment by {} on {}'.format(self.user.first_name, self.lead)
+        return 'Comment by {} on {}'.format(self.user.first_name, self.service)

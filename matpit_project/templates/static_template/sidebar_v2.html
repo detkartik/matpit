@@ -20,16 +20,16 @@
                             <div class="dropdown-menu animated flipInY">
                                 {% if user.profile_update == True %}
                                 <a class="dropdown-item" href="{% url 'profile' %}">
-                                    <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i> Enquiry Form
+                                    <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i> Profile
                                 </a>
                                 {% else %}
                                 <a class="dropdown-item" href="{% url 'profile' %}">
-                                    <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i> Enquiry Form
+                                    <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i> Profile
                                     <span style="color:red" > Incomplete </span> 
                                 </a>
                                 {% endif %}
 
-                                <a class="dropdown-item" href="{% url 'yourlead' %}">
+                                <a class="dropdown-item" href="{% url 'yourservice' %}">
                                     <i data-feather="credit-card" class="feather-sm text-info me-1 ms-1"></i> Your Services
                                 </a>
                                 <a class="dropdown-item" href="{% url 'password_change' %}">
@@ -63,65 +63,11 @@
                 </li> -->
                 <li class="nav-devider"></li>
                 <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Services</span></li>
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i data-feather="sidebar" class="feather-icon"></i><span class="hide-menu"> Real Estate </span></a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="{% url 'rera' %}" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Rera consultancy </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> layout approval </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu">  Architect & Interiors </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu">  Documentations </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu">  Loans </span></a></li>
-                       
-                    </ul>
-                </li>
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i data-feather="sidebar" class="feather-icon"></i><span class="hide-menu"> StartUps </span></a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> PVT. LTD. Co. </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> LLP Co. </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu">  LTD. Co. </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu">  ONE Person Co. </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu">  Partnership Firm </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu">  Properietship </span></a></li>
-                       
-                    </ul>
-                </li>
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i data-feather="sidebar" class="feather-icon"></i><span class="hide-menu"> Taxations </span></a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Income Tax </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> GST </span></a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i data-feather="sidebar" class="feather-icon"></i><span class="hide-menu"> Legal </span></a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Land and Revenue </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Criminal Matters </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Civil Matters </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Divorce </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Consumer Protection </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Consumer Protection </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> NI Act </span></a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i data-feather="sidebar" class="feather-icon"></i><span class="hide-menu"> Trademark </span></a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Trademark </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Patent </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Copy Right </span></a></li>
-                    </ul>
-                </li>
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i data-feather="sidebar" class="feather-icon"></i><span class="hide-menu"> Others </span></a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> RTO </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Certificate </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Deed </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Registration </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Passport Services </span></a></li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="mdi mdi-view-parallel"></i><span class="hide-menu"> Right To Information </span></a></li>
-                    </ul>
-                </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'services' %}" aria-expanded="false"><i data-feather="layout" class="feather-icon"></i><span class="hide-menu">Services </span></a></li>
                 {% if user.role == 'ADMIN' %}
                 <li class="nav-devider"></li>
                 <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Account Management</span></li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'verify_lead' %}" aria-expanded="false"><i data-feather="layout" class="feather-icon"></i><span class="hide-menu">Verify Services </span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'verify_service' %}" aria-expanded="false"><i data-feather="layout" class="feather-icon"></i><span class="hide-menu">Verify Services </span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'account' %}" aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span class="hide-menu">Account</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'micdashboard' %}" aria-expanded="false"><i data-feather="layout" class="feather-icon"></i><span class="hide-menu">MIC Dashboard</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'reports' %}" aria-expanded="false"><i data-feather="book" class="feather-icon"></i><span class="hide-menu">Reports</span></a></li>
@@ -134,7 +80,7 @@
                 
                 <li class="nav-devider"></li>
                 <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Service Management</span></li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'yourlead' %}" aria-expanded="false"><i data-feather="layout" class="feather-icon"></i><span class="hide-menu">You Services</span></a></li>                
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'yourservice' %}" aria-expanded="false"><i data-feather="layout" class="feather-icon"></i><span class="hide-menu">You Services</span></a></li>                
                 <li class="nav-devider"></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'logout' %}" aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span class="hide-menu">Log Out</span></a></li>
             </ul>
