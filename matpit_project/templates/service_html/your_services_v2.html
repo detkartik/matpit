@@ -9,7 +9,7 @@
     <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, monster admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, ">
     <meta name="description" content="Monster is powerful and clean admin dashboard template, inpired from Google's Material Design">
     <meta name="robots" content="noindex,nofollow">
-    <title>Your Leads</title>
+    <title>Your Services</title>
      <!-- Favicon icon -->
      <link rel="icon" type="image/png" sizes="16x16" href="https://matpit.com/wp-content/uploads/2021/08/cropped-matpit-logo-120x124.png">
 
@@ -85,7 +85,6 @@
                                   <th class="border-bottom border-top">Created On</th>
                                   <th class="border-bottom border-top">Created By</th>
                                   <th class="border-bottom border-top">View Details</th>
-                                  <th class="border-bottom border-top">Process</th>
                                   <th class="border-bottom border-top">Status</th>
                                   <th class="border-bottom border-top">Chat</th>
                                 </tr>
@@ -96,28 +95,40 @@
                                     {% csrf_token %}
                                     <tr>
                                         <td class="service_type">
-                                            <span class="mb-1 badge rounded-pill bg-warning text-dark">{{service.service_type|upper}}</span>
+                                            <span class="mb-1 badge text-dark">{{service.service_type|upper}}</span>
                                         </td>
                                        
                                         <td class="service_sub_type">
-                                            <span class="mb-1 badge rounded-pill bg-warning text-dark">{{service.service_sub_type|upper}}</span>
+                                            <span class="mb-1 badge waves-effect waves-light btn-rounded btn-danger text-dark">{{service.service_sub_type|upper}}</span>
                                         </td>
 
-                                        
+                                        <td class="service_amount">
+                                            <span class="mb-1 badgetext-dark">{{service.service_amount}}</span>
+                                        </td>
+
                                         <td class="created_at">
                                             <span>{{service.created_at|date}}</span>   
                                         </td>
 
                                         <td class="created_by">
-                                            <span class= 'ms-3 fw-normal'>{{service.created_by.phone}}</span>
+                                            <span class= 'ms-3 fw-normal'>{{service.created_by.first_name}} {{service.created_by.last_name}}</span>
                                             <br>
-                                            <span class="mb badge bg-green">{{service.created_by.role}}</span>
                                         </td>
                                         <!-- DETAILS -->
                                         <td class="view_details">
                                             <button type="submit" name="details" value="{{service.id}}" class="btn waves-effect waves-light btn-rounded btn-info">Details </button>
                                         </td>
-                                       
+                                        <td class='status'>
+                                            {% if service.verification_approved %}
+                                            <span class="mb-1 badge bg-light text-dark">Approved</span>
+                                            {% endif %}
+                                            {% if service.verification_rejected %}
+                                            <span class="mb-1 badge bg-danger">Not Approved</span>
+                                            {% endif %}
+                                            {% if service.verification_pending %}
+                                            <span class="mb-1 badge bg-warning text-dark">Verification Pending</span>
+                                            {% endif %}
+                                        </td>
                                         <td class="chat">
                                             <button
                                                 type="submit"

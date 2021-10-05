@@ -10,7 +10,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<title>Credit! |</title>
+		<title>Matpit |</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
@@ -113,13 +113,12 @@ b{
         </div>
         <div class="col company-details">
           <h3 class="name">
-            <a>
-            Arboshiki
-            </a>
+            <a> MatPit Consultancy  </a>
         </h3>
-        <div>455 Foggy Heights, AZ 85004, US</div>
-        <div>456-789</div>
-        <div>company@example.com</div>
+        <div> 204, Jeet Apartment, Airforce Road, Ratanada, Jodhpur - 342011, Near Oasis Garden
+        </div>
+        <div>+91 (7727) 80-92-71</div>
+        <div>https://matpit.com/</div>
         </div>
       </div>
     </div>
@@ -130,278 +129,51 @@ b{
       Personal Details</h2> 
     <div class="row">
       <div class="col">
-        <span><b>Name: </b></span> <a>{{lead.first_name}}</a> <a> {{lead.last_name}}</a>
+        <span><b>Name: </b></span> <a>{{service.created_by.first_name}}</a> <a> {{service.created_by.last_name}}</a>
         <br/>
-        <span> <b> Email: </b></span> <a>{{lead.email}}</a>
+        <span> <b> Email: </b></span> <a>{{service.created_by.email}}</a>
       </div>
       <div class="col">
-        <span> <b> Phone: </b></span> <a>{{lead.phone}}</a>
+        <span> <b> Phone: </b></span> <a>{{service.created_by.phone}}</a>
         <br/>
-        <span><b>Created On: </b></span><a> {{lead.created_at}}</a>
+        <span><b>Created On: </b></span><a> {{service.created_at}}</a>
         <br/>
       </div>
     </div>
 
     <div class="container"> 
       <h2 class="category-titles"><i class="fa fa-briefcase" aria-hidden="true"></i>
-        Financial Details</h2>  
+        Service Details</h2>  
       <div class="container back">
         <div class="row">
           <div class="column">
-            <span> <b class="font-white "> Loan Type:</b> </span>
-          <a class="font-white ">{{lead.get_loan_type_display}}</a>
+            <span> <b class="font-white "> Service Type:</b> </span>
+          <a class="font-white ">{{service.service_type}}</a>
           </div>
           <div class="column">
-          {% if lead.loan_type == 'P' %}
-          <span class="get_purchase_type"> <b class="font-white ">Purchase Type:</b> </span>
-          <a class="font-white ">{{lead.get_purchase_type_display}}</a> 
-          {% endif %}
+          <span class="service_sub_type"> <b class="font-white "> Service Sub Type: </b> </span>
+          <a class="font-white ">{{service.service_sub_type}}</a>
           </div>
           <div class="column">
-          <span class="job_type"> <b class="font-white "> Job Type: </b> </span>
-          <a class="font-white ">{{lead.get_job_type_display}}</a>
+          <span class="service_amount"> <b class="font-white "> Service Amount: </b> </span>
+          <a class="font-white ">{{service.service_amount}}</a>
           </div>
         </div>
       </div>  
       <br>
-          <div class="row">
-            <div class="col">
-          {% if lead.job_type == 'Sal' %}
-          <span class="job_location"> <b> Job Location: </b> </span>   
-            <a>{{lead.job_location}}</a>
-          <br/>
-          <span class="job_rental_income"> <b> Rental Income: </b> </span>
-            <a>{{lead.rental_income_job}}</a>
-          <br/>
-        
-          <span class="how_much_in_cash_job"> <b> How Much In Cash: </b> </span>    
-            <a>{{lead.how_much_in_cash_job}}</a>
-          <br/>
-
-          <span class="how_much_in_account_job"> <b> How Much In Account: </b> </span>
-            <a>{{lead.how_much_in_account_job}}</a>
-          <br/>
-          </div>
-          <div class="col">
-          <span class="take_home_salary"> <b> Take Home Salary: </b> </span>
-            <a>{{lead.take_home_salary}}</a>
-           <br/>
-          
-          <span class="duration_in_present_company"> <b> Duration In Present Company: </b>  </span>
-            <a>{{lead.get_duration_in_present_company_display}}</a>
-          <br/>
-        
-          <span class="existing_emi_amount_job"> <b> Existing EMI Amount: </b>
-            <a>{{lead.existing_emi_amount_job}}</a>
-          <br/>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div class="container">
-    <div class="row">
-    <div class="col">
-          {% if lead.job_type == 'SE' %}  
-          <span class="loan"> <b> Business Location: </b> </span>  
-            <a>{{lead.business_location}}</a>
-          <br/>
-
-          <span class="rental_income_bus"> <b> Rental Income: </b> </span>
-            <a>{{lead.rental_income_bus}}</a>
-          <br/>
-
-          <span class="how_much_in_cash_bus"> <b> How Much In Cash: </b> </span>
-            <a>{{lead.how_much_in_cash_bus}}</a>
-          <br/>
-        
-    
-          <span class="how_much_in_account_bus"> <b> How Much In Account: </b> </span>
-            <a>{{lead.how_much_in_account_bus}}</a>
-          <br/>
-
-          <span class="declared_itr"> <b> Declared ITR: </b> </span>
-            <a>{{lead.declared_itr}}</a>
-          <br/>
-    
-          <span class="how_much_itr"> <b> How Much In Cash(ITR): </b> </span>
-            <a>{{lead.how_much_itr}}</a>
-          <br/>
-        </div>
-        <div class="col"> 
-      
-
-          <span class="business_vintage"> <b> Business Vintage: </b> </span>
-            <a>{{lead.business_vintage}}</a>
-          <br/>
-          
-          <span class="nature_of_business"> <b> Nature Of Business: </b> </span>
-            <a>{{lead.get_nature_of_business_display}}</a>
-          <br/>
-          
-          <span class="gst_registered"> <b> GST Registered: </b> </span>
-            <a>{{lead.gst_registered}}</a>
-          <br/>
-          
-          <span class="existing_emi_amount_bus"><b>  Existing EMI Amount: </b> </span>
-            <a>{{lead.existing_emi_amount_bus}}</a>
-          <br/>
-          {% endif %}
-    </div>
-    </div>
-  </div>
-    <!-- Summary -->
-    <div class="container">
-      <h2 class="category-titles"> <i class="fa fa-building-o" aria-hidden="true"></i>
-        Property Details</h2>
-      <div class="category-description">
-        <div class="row">
-          <div class="col">
-            <span> <b> Khata:</b> </span>      
-            {{lead.get_khata_display}}
-        <br/>
-          </div>
-          <div class="col">
-            <span> <b> Property Location: </b> </span> 
-            {{lead.property_location}}
-          </div>
-        </div>
-        
-      </div>
-    </div>
-    <!-- Skills -->
-    <div class="container">
-      <h2 class="category-titles"><i class="fa fa-calculator" aria-hidden="true"></i>
-        Technical Details</h2>
-      {% if lead.loan_type == 'SC' %}
-      <div class="row">
-        <div class="col">
-          <span> <b>Area of Extent :</b> </span> 
-       {{lead.area_of_extent_sc}} 
-      </div>
-        <div class="col">
-          <span> <b>Plan Available :</b> </span>
-          {{lead.plan_available_sc}}
-        </div>
-      </div>
-      {% endif %}
-      
-
-      {% if lead.loan_type == 'LAP' %}
-      <div class="row">
-        <div class="col">
-          <span class="number_of_units_lap"> <b> Number of Unit (Loan Against Property): </b> </span> 
-            <a>{{lead.number_of_units_lap}}</a>
-          <br/>
-          
-          <span class="number_of_floors_lap"> <b> Number of Floors (Loan Against Property): </b> </span>
-            <a>{{lead.number_of_floors_lap}}</a>
-          <br/>
-          
-          <span class="area_of_extent_lap"> <b> Area of Extent (Loan Against Property):  </b> </span>
-            <a>{{lead.area_of_extent_lap}}</a>
-          <br/>
-        </div>
-        <div class="col">
-          <span class="building_age_lap"> <b> Building Age: </b> </span>
-            <a>{{lead.get_building_age_lap_display}}</a>
-          <br/>
-          <span class="plan_available_lap"> <b> Plan Available </b> </span>
-            <a>{{lead.get_plan_available_lap_display}}</a>
-          <br/>
-        </div>
-      </div>
-      {% endif %}
-          
-
-      {% if lead.loan_type == 'P' %}
-      {% if lead.purchase_type == 'Pl' %}
-      <div class="row">
-        <div class="col">
-          <span> <b>Area of Extent :</b> </span> {{lead.area_of_extent_plot}}
-        </div>
-        <div class="col">
-        </div>
-      </div>
-      {% endif %}
-
-      {% if lead.purchase_type == 'IH' %}
-      <div class="row">
-        <div class="col">
-          <span class="number_of_units"> <b> Number of Unit (Individual House): </b> </span>  
-            <a>{{lead.number_of_unites}}</a>
-          <br/>
-
-          <span class="number_of_floors">  <b> Number of Floors (Individual House):  </b> </span>
-            <a>{{lead.number_of_floors}}</a>
-          <br/>
-
-          <span class="area_of_extent_ih"> <b> Area of Extent ( Individual House):  </b> </span>
-            <a>{{lead.area_of_extent_ih}}</a>
-          <br/>
-        </div>
-        <div class="col">
-          <span class="building_age_ih"> <b> Building Age (Individual House): </b> </span>
-            <a>{{lead.get_building_age_ih_display}}</a>
-          <br/>
-
-          <span class="plan_available_ih"> <b> Plan Available (Individual House):  </b> </span>
-            <a>{{lead.plan_available_ih}}</a>
-          <br/>
-        </div>
-      </div>
-      {% endif %}
-
-      {% if lead.purchase_type == 'F' %}
-      <div class="row">
-        <div class="col">
-          <span class="project_name"> <b> Project Name: </b> </span> 
-          <a>{{lead.project_name}}</a>
-        <br/>
-        
-        <span class="oc_cc_received"> <b> OC & CC Recieved: </b> </span>
-          <a>{{lead.oc_cc_received}}</a>
-          <br/>
-        </div>
-        <div class="col">
-          <span class="area_of_extent_ih"> <b> Area Of Extent (Flat): </b>
-            <a>{{lead.area_of_extent_flat}}</a>
-        </div>
-      </div> 
-      {% endif %}
-    {% endif %}
-    </div>
-    <br>
-    <!-- Identity Card -->
-      <div>
-        <h2 class="category-titles"><i class="fa fa-address-card-o" aria-hidden="true"></i>
-          Identity Cards</h2>
-        <span>
-          {% if lead.pancard_image %}
-          <a type='button' class="button" target="_blank"  href="{{lead.pancard_image.url}}">Pan Card</a>
-          {% else %}
-          <span class="badge bg-green">Pancard not uploaded</span>
-          {% endif %}
-          {% if lead.adhaar_image %}
-          <a type='button' class="button" target="_blank"  href="{{lead.adhaar_image.url}}">Aadhar Card</a>
-          {% else %}
-          <span class="badge bg-green">Aadharcard not uploaded</span>
-          {% endif %}          
-        </span>
-      </div>
-      <br>
-      <br>
+   
     <hr>
     <br>
     <br>
     <span>
-      Lead Created By:
+     Service Created By:
       {{ruser.first_name}}  {{ruser.last_name}},
       {{ ruser.email }}, 
       {{ ruser.phone }}
     </span> 
     
 
-    {% if lead.file_pickup_process_completed and lead.login_bank_process_completed and lead.senction_process_completed and lead.disbursement_process_completed_approved %}
+    {% if service.file_pickup_process_completed and service.login_bank_process_completed and service.senction_process_completed and service.disbursement_process_completed_approved %}
     
     <br>
     <br>
@@ -439,49 +211,49 @@ b{
     <div>
       <hr>
       <br>
-      {% if lead.file_pickup_process_completed %}
+      {% if service.file_pickup_process_completed %}
       <div class="row">
         <h2 class="category-titles"><i class="fa fa fa-files-o" aria-hidden="true"></i>
           File Pickup</h2>
         <div class="col">
-          <span><b>Customer Contacted: </b></span> <a>{{lead.customer_contacted|yesno:"Yes,No"}}</a>
+          <span><b>Customer Contacted: </b></span> <a>{{service.customer_contacted|yesno:"Yes,No"}}</a>
           <br/>
           <br>
-          <span><b>File Picked: </b></span> <a>{{lead.file_picked|yesno:"Yes,No"}}</a>  
+          <span><b>File Picked: </b></span> <a>{{service.file_picked|yesno:"Yes,No"}}</a>  
         </div>
         <div class="col">
-          {% if lead.remark_message %}
-          <span><b>Remark Message: </b></span> <a>{{lead.remark_message}}</a>
+          {% if service.remark_message %}
+          <span><b>Remark Message: </b></span> <a>{{service.remark_message}}</a>
           {% endif %}
         </div>
       </div>
       {% endif %}
     <br>
     
-    {% if lead.login_bank_process_completed %}
+    {% if service.login_bank_process_completed %}
     <div class="row">       
-        {% if lead.login_bank %}
+        {% if service.login_bank %}
         <h2 class="category-titles"><i class="fa fa-university" aria-hidden="true"></i>
           Login Bank </h2>
-        <span><b>Login Bank: </b></span> <a>{{lead.login_bank.name}}</a>
+        <span><b>Login Bank: </b></span> <a>{{service.login_bank.name}}</a>
         {% endif %}
     </div>
     {% endif %}
    
-    {% if lead.senction_process_completed %}
+    {% if service.senction_process_completed %}
     <div class="row">
       <h2 class="category-titles"><i class="fa fa-envelope" aria-hidden="true"></i>
         Senction Letter</h2>
       <div class="col">
-        {% if lead.senction_amount %}
-        <span><b>Senction Amount: </b></span> <a>{{lead.senction_amount}}</a>
+        {% if service.senction_amount %}
+        <span><b>Senction Amount: </b></span> <a>{{service.senction_amount}}</a>
         {% endif %}
         </span>
         <br>
         <span>
-          {% if lead.senction_letter %}
+          {% if service.senction_letter %}
           <br>
-          <a type='button' class="button" target="_blank"  href="{{lead.senction_letter.url}}">Senction Letter</a>
+          <a type='button' class="button" target="_blank"  href="{{service.senction_letter.url}}">Senction Letter</a>
           {% else %}
           <span class="badge bg-green">Senction Letter not uploaded</span>
           {% endif %}   
@@ -492,21 +264,21 @@ b{
     </div>
     {% endif %}
       
-    {% if lead.disbursement_process_completed_approved %}
+    {% if service.disbursement_process_completed_approved %}
         <div class="row">
           <h2 class="category-titles"><i class="fa fa-tasks" aria-hidden="true"></i>
             Disbursement Process</h2>
           <div class="col">
-          <span><b>Disbursement: </b></span> <a>{{lead.disbursement|yesno:"Yes,No"}}</a>
+          <span><b>Disbursement: </b></span> <a>{{service.disbursement|yesno:"Yes,No"}}</a>
           <br>
-          {% if lead.disbursement_amount %}
+          {% if service.disbursement_amount %}
           <br>
-          <span><b>Disbursement Amount: </b></span> <a>{{lead.disbursement_amount}}</a>
+          <span><b>Disbursement Amount: </b></span> <a>{{service.disbursement_amount}}</a>
           {% endif %}
           <br>
-          {% if lead.disbursement_proof %}
+          {% if service.disbursement_proof %}
           <br>
-          <a type='button' class="button" target="_blank"  href="{{lead.disbursement_proof.url}}">Disbursement Proof</a>
+          <a type='button' class="button" target="_blank"  href="{{service.disbursement_proof.url}}">Disbursement Proof</a>
           {% else %}
           <span class="badge bg-green">Disbursement Proof not uploaded</span>
           {% endif %}  

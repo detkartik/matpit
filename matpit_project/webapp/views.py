@@ -839,163 +839,49 @@ def reports(request):
             services_overall = Service.objects.all()
             print(services)
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="BC_service_report.csv"'
+            response['Content-Disposition'] = 'attachment; filename="MatPit_service_report.csv"'
             writer = csv.writer(response)
-            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','CREATED BY','LOAN TYPE','PURCHASE TYPE','JOB TYPE','JOB LOCATION','RENTAL INCOME(JOB)','RENTAL INCOME(BUSINESS)','HOW MUCH IN CASH(JOB)','HOW MUCH IN CASH(BUSINESS)','HOW MUCH IN ACCOUNT(JOB)','HOW MUCH IN ACCOUNT(BUSINESS)','TAKE HOME SALARY','DURATION IN PRESENT COMPANY','EXISTING EMI AMOUNT(JOB)','EXISTING EMI AMOUNT(BUSINESS)','BUSINESS LOCATION','DECLARED ITR','HOW MUCH ITR?','HOW MUCH IN ACCOUNT (ITR)','BUSINESS VINTAGE','NATURE OF BUSINESS','GST REGISTERED','KHATA','Property Location','AREA OF EXTENET (IH)','AREA OF EXTENET (SC)','AREA OF EXTENT (PLOT)','AREA OF EXTENT(FLAT)','AREA OF EXTENT(LAP)','Number Of Units','Number of Floors','Number of Units LAP','Number of Floor LAP','Bulding Age IH','Building Age LAP','PROJECT NAME','OC & CC RECIEVED','PLAN AVAILABLE(SC)','PLAN TYPE','PLAN AVAILABLE(IH)','PLAN AVAIALABLE(LAP)'])
+            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','SERVICE TYPE','SERVICE SUB TYPE','SERVICE AMOUNT'])
             if request.POST.get('startDate') and request.POST.get('endDate'):
                 for service in services:
                     writer.writerow(
                         [
-                            service.first_name, 
-                            service.last_name, 
-                            service.email,
-                            service.phone,
+                            service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
                             service.created_at.date(),
-                            service.created_by.first_name + '' + service.created_by.last_name,
-                            service.get_loan_type_display(),
-                            service.get_purchase_type_display(),
-                            service.get_job_type_display(),
-                            service.job_location,
-                            'YES' if service.rental_income_job else 'NO',
-                            'YES' if service.rental_income_bus else 'NO',
-                            service.how_much_in_cash_job,
-                            service.how_much_in_cash_bus,
-                            service.how_much_in_account_job,
-                            service.how_much_in_account_bus,
-                            service.take_home_salary,
-                            service.get_duration_in_present_company_display(),
-                            service.existing_emi_amount_job,
-                            service.existing_emi_amount_bus,
-                            service.business_location,
-                            'YES' if service.declared_itr else 'NO',
-                            service.how_much_itr,
-                            service.how_much_in_account_itr,
-                            service.business_vintage,
-                            service.nature_of_business,
-                            'YES' if service.gst_registered else 'NO',
-                            service.khata,
-                            service.property_location,
-                            service.area_of_extent_ih,
-                            service.area_of_extent_sc,
-                            service.area_of_extent_plot,
-                            service.area_of_extent_flat,
-                            service.area_of_extent_lap,
-                            service.number_of_unites,
-                            service.number_of_floors,
-                            service.number_of_units_lap,
-                            service.number_of_floors_lap,
-                            service.get_building_age_ih_display(),
-                            service.get_building_age_lap_display(),
-                            service.project_name,
-                            service.oc_cc_received,
-                            'YES' if service.plan_available_sc else 'NO',
-                            service.get_plan_type_display(),
-                            'YES' if service.plan_available_ih else 'NO',
-                            'YES' if service.plan_available_lap else 'NO',
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
             if request.POST.get('today'):
                 for service in services_today:
                     writer.writerow(
                         [
-                            service.first_name, 
-                            service.last_name, 
-                            service.email,
-                            service.phone,
+                           service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
                             service.created_at.date(),
-                            service.created_by.first_name + '' + service.created_by.last_name,
-                            service.get_loan_type_display(),
-                            service.get_purchase_type_display(),
-                            service.get_job_type_display(),
-                            service.job_location,
-                            'YES' if service.rental_income_job else 'NO',
-                            'YES' if service.rental_income_bus else 'NO',
-                            service.how_much_in_cash_job,
-                            service.how_much_in_cash_bus,
-                            service.how_much_in_account_job,
-                            service.how_much_in_account_bus,
-                            service.take_home_salary,
-                            service.get_duration_in_present_company_display(),
-                            service.existing_emi_amount_job,
-                            service.existing_emi_amount_bus,
-                            service.business_location,
-                            'YES' if service.declared_itr else 'NO',
-                            service.how_much_itr,
-                            service.how_much_in_account_itr,
-                            service.business_vintage,
-                            service.nature_of_business,
-                            'YES' if service.gst_registered else 'NO',
-                            service.khata,
-                            service.property_location,
-                            service.area_of_extent_ih,
-                            service.area_of_extent_sc,
-                            service.area_of_extent_plot,
-                            service.area_of_extent_flat,
-                            service.area_of_extent_lap,
-                            service.number_of_unites,
-                            service.number_of_floors,
-                            service.number_of_units_lap,
-                            service.number_of_floors_lap,
-                            service.get_building_age_ih_display(),
-                            service.get_building_age_lap_display(),
-                            service.project_name,
-                            service.oc_cc_received,
-                            'YES' if service.plan_available_sc else 'NO',
-                            service.get_plan_type_display(),
-                            'YES' if service.plan_available_ih else 'NO',
-                            'YES' if service.plan_available_lap else 'NO',
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
             if services_previous_month:
                 for service in services_previous_month:
                     writer.writerow(
                         [
-                            service.first_name, 
-                            service.last_name, 
-                            service.email,
-                            service.phone,
+                           service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
                             service.created_at.date(),
-                            service.created_by.first_name + '' + service.created_by.last_name,
-                            service.get_loan_type_display(),
-                            service.get_purchase_type_display(),
-                            service.get_job_type_display(),
-                            service.job_location,
-                            'YES' if service.rental_income_job else 'NO',
-                            'YES' if service.rental_income_bus else 'NO',
-                            service.how_much_in_cash_job,
-                            service.how_much_in_cash_bus,
-                            service.how_much_in_account_job,
-                            service.how_much_in_account_bus,
-                            service.take_home_salary,
-                            service.get_duration_in_present_company_display(),
-                            service.existing_emi_amount_job,
-                            service.existing_emi_amount_bus,
-                            service.business_location,
-                            'YES' if service.declared_itr else 'NO',
-                            service.how_much_itr,
-                            service.how_much_in_account_itr,
-                            service.business_vintage,
-                            service.nature_of_business,
-                            'YES' if service.gst_registered else 'NO',
-                            service.khata,
-                            service.property_location,
-                            service.area_of_extent_ih,
-                            service.area_of_extent_sc,
-                            service.area_of_extent_plot,
-                            service.area_of_extent_flat,
-                            service.area_of_extent_lap,
-                            service.number_of_unites,
-                            service.number_of_floors,
-                            service.number_of_units_lap,
-                            service.number_of_floors_lap,
-                            service.get_building_age_ih_display(),
-                            service.get_building_age_lap_display(),
-                            service.project_name,
-                            service.oc_cc_received,
-                            'YES' if service.plan_available_sc else 'NO',
-                            service.get_plan_type_display(),
-                            'YES' if service.plan_available_ih else 'NO',
-                            'YES' if service.plan_available_lap else 'NO',
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
 
@@ -1003,52 +889,14 @@ def reports(request):
                 for service in services_older_months:
                     writer.writerow(
                         [
-                            service.first_name, 
-                            service.last_name, 
-                            service.email,
-                            service.phone,
+                            service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
                             service.created_at.date(),
-                            service.created_by.first_name + '' + service.created_by.last_name,
-                            service.get_loan_type_display(),
-                            service.get_purchase_type_display(),
-                            service.get_job_type_display(),
-                            service.job_location,
-                            'YES' if service.rental_income_job else 'NO',
-                            'YES' if service.rental_income_bus else 'NO',
-                            service.how_much_in_cash_job,
-                            service.how_much_in_cash_bus,
-                            service.how_much_in_account_job,
-                            service.how_much_in_account_bus,
-                            service.take_home_salary,
-                            service.get_duration_in_present_company_display(),
-                            service.existing_emi_amount_job,
-                            service.existing_emi_amount_bus,
-                            service.business_location,
-                            'YES' if service.declared_itr else 'NO',
-                            service.how_much_itr,
-                            service.how_much_in_account_itr,
-                            service.business_vintage,
-                            service.nature_of_business,
-                            'YES' if service.gst_registered else 'NO',
-                            service.khata,
-                            service.property_location,
-                            service.area_of_extent_ih,
-                            service.area_of_extent_sc,
-                            service.area_of_extent_plot,
-                            service.area_of_extent_flat,
-                            service.area_of_extent_lap,
-                            service.number_of_unites,
-                            service.number_of_floors,
-                            service.number_of_units_lap,
-                            service.number_of_floors_lap,
-                            service.get_building_age_ih_display(),
-                            service.get_building_age_lap_display(),
-                            service.project_name,
-                            service.oc_cc_received,
-                            'YES' if service.plan_available_sc else 'NO',
-                            service.get_plan_type_display(),
-                            'YES' if service.plan_available_ih else 'NO',
-                            'YES' if service.plan_available_lap else 'NO',
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
 
@@ -1056,52 +904,14 @@ def reports(request):
                 for service in services_overall:
                     writer.writerow(
                         [
-                            service.first_name, 
-                            service.last_name, 
-                            service.email,
-                            service.phone,
+                            service.created_by.first_name, 
+                            service.created_by.last_name, 
+                            service.created_by.email,
+                            service.created_by.phone,
                             service.created_at.date(),
-                            service.created_by.first_name + '' + service.created_by.last_name,
-                            service.get_loan_type_display(),
-                            service.get_purchase_type_display(),
-                            service.get_job_type_display(),
-                            service.job_location,
-                            'YES' if service.rental_income_job else 'NO',
-                            'YES' if service.rental_income_bus else 'NO',
-                            service.how_much_in_cash_job,
-                            service.how_much_in_cash_bus,
-                            service.how_much_in_account_job,
-                            service.how_much_in_account_bus,
-                            service.take_home_salary,
-                            service.get_duration_in_present_company_display(),
-                            service.existing_emi_amount_job,
-                            service.existing_emi_amount_bus,
-                            service.business_location,
-                            'YES' if service.declared_itr else 'NO',
-                            service.how_much_itr,
-                            service.how_much_in_account_itr,
-                            service.business_vintage,
-                            service.nature_of_business,
-                            'YES' if service.gst_registered else 'NO',
-                            service.khata,
-                            service.property_location,
-                            service.area_of_extent_ih,
-                            service.area_of_extent_sc,
-                            service.area_of_extent_plot,
-                            service.area_of_extent_flat,
-                            service.area_of_extent_lap,
-                            service.number_of_unites,
-                            service.number_of_floors,
-                            service.number_of_units_lap,
-                            service.number_of_floors_lap,
-                            service.get_building_age_ih_display(),
-                            service.get_building_age_lap_display(),
-                            service.project_name,
-                            service.oc_cc_received,
-                            'YES' if service.plan_available_sc else 'NO',
-                            service.get_plan_type_display(),
-                            'YES' if service.plan_available_ih else 'NO',
-                            'YES' if service.plan_available_lap else 'NO',
+                            service.service_type,
+                            service.service_sub_type,
+                            service.service_amount
                             ]
                             )
 
@@ -1129,9 +939,9 @@ def reports(request):
             print(users)
 
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="BC_Users_report.csv"'
+            response['Content-Disposition'] = 'attachment; filename="MatPit_Users_report.csv"'
             writer = csv.writer(response)
-            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','REFERRD BY','REFFERAL CODE','MANAGER NAME','ROLE','PROFESSIONAL OCCUPATION','HOUSING LOAN','MORTGAGE LOAN','VEHICAL LOAN','serviceS' ])
+            writer.writerow(['FIRST NAME','LAST NAME','EMAIL','PHONE','CREATED AT','REFERRD BY','REFFERAL CODE','MANAGER NAME','ROLE','PROFESSIONAL OCCUPATION','services' ])
             for user in users:
                 writer.writerow(
                     [
@@ -1144,12 +954,8 @@ def reports(request):
                         user.referral_code,
                         user.manager.first_name if not user.role == 'ADMIN' else '',
                         user.role,
-                        ','.join( str(occupation) for occupation in  user.professional_occupation.all()),
-                        user.housing_loan,
-                        user.mortgage_loan,
-                        user.vehical_loan,
-                        user.service_user.count(),
-
+                        user.professional_occupation,
+                        user.service_user.count
                         ]
                         )
             return response
@@ -1906,6 +1712,7 @@ def dashboard(request):
         services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by=ruser)| Q(created_by__manager__referred_by=ruser.referral_code))
         
         direct_services = Service.objects.filter(created_by=ruser).count()
+        direct_service_amount = sum([float(service.service_amount) if service.service_amount else 0 for service in Service.objects.filter(created_by=ruser)])
         direct_services_previous_month = Service.objects.filter(created_by=ruser,created_at__gte=start_date,created_at__lt=end_date).count()
         direct_services_current_month = Service.objects.filter(created_by=ruser,created_at__gte=previous_month_date,created_at__lt=today).count()
         direct_services_today = Service.objects.filter(created_by=ruser,created_at__gt=yesterday,created_at__lt=tomorrow).count()
@@ -1931,6 +1738,7 @@ def dashboard(request):
         direct_services_dec = Service.objects.filter(referred_by=ruser.referral_code,created_at__gte=dec,created_at__lt=next_year_month).count()
         
         indirect_services = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code)).count() 
+        indirect_service_amount = sum([float(service.service_amount) if service.service_amount else 0 for service in Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code))])
         indirect_services_previous_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=start_date,created_at__lt=end_date).count() 
         indirect_services_current_month = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gte=previous_month_date,created_at__lt=today).count() 
         indirect_services_today = Service.objects.filter(Q(referred_by=ruser.referral_code)| Q(created_by__manager__referred_by=ruser.referral_code),created_at__gt=yesterday,created_at__lt=tomorrow).count()
@@ -1955,6 +1763,7 @@ def dashboard(request):
 
 
         total_services = direct_services + indirect_services
+        total_service_amount = direct_service_amount + indirect_service_amount
         total_services_previous_month = direct_services_previous_month + indirect_services_previous_month
         total_services_current_month = direct_services_current_month + indirect_services_current_month
         total_services_today = direct_services_today + indirect_services_today
@@ -2009,6 +1818,7 @@ def dashboard(request):
             'total_referrals_percentage':int(total_referrals_percentage),
             'services':services,
             'direct_services':direct_services,
+            'direct_service_amount':direct_service_amount,
             'direct_services_today':direct_services_today,
             'direct_services_yesterday':direct_services_yesterday,
             'direct_services_custom':direct_services_custom,
@@ -2016,6 +1826,7 @@ def dashboard(request):
             'direct_services_current_month':direct_services_current_month,
             'direct_services_percentage':int(direct_services_percentage),
             'indirect_services':indirect_services,
+            'indirect_service_amount':indirect_service_amount,
             'indirect_services_today':indirect_services_today,
             'indirect_services_yesterday':indirect_services_yesterday,
             'indirect_services_previous_month':indirect_services_previous_month,
@@ -2023,6 +1834,7 @@ def dashboard(request):
             'indirect_services_custom':indirect_services_custom,
             'indirect_services_percentage':int(indirect_services_percentage),
             'total_services':total_services,
+            'total_service_amount':total_service_amount,
             'total_services_today':total_services_today,
             'total_services_yesterday':total_services_yesterday,
             'total_services_custom':total_services_custom,
@@ -2104,7 +1916,7 @@ def dashboard(request):
             
         }
 
-        return render(request,"user_html/dashboard_v2.html")
+        return render(request,"user_html/dashboard_v2.html",context)
 
 def test(request):
     return render(request,'service_html/test.html')

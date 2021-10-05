@@ -73,8 +73,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">2376 <i class="ti-angle-down fs-3 text-danger"></i></span>
-                                        <h6>Total Visits</h6></div>
+                                    <div class="col-8"><span class="display-6">{{direct_referrals}} <i class="ti-angle-down fs-3 text-danger"></i></span>
+                                        <h6>Direct Referrals</h6></div>
                                     <div class="col-4 align-self-center text-end  pl-0">
                                         <div id="total-visits"></div>
                                     </div>
@@ -88,8 +88,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">3670 <i class="ti-angle-up fs-3 text-success"></i></span>
-                                        <h6>Page Views</h6></div>
+                                    <div class="col-8"><span class="display-6"> {{indirect_referrals}} <i class="ti-angle-up fs-3 text-success"></i></span>
+                                        <h6>Indirect Referrals</h6></div>
                                     <div class="col-4 align-self-center text-end pl-0">
                                         <div id="page-views"></div>
                                     </div>
@@ -103,8 +103,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">1562 <i class="ti-angle-up fs-3 text-success"></i></span>
-                                        <h6>Unique Visits</h6></div>
+                                    <div class="col-8"><span class="display-6">{{direct_services}} <i class="ti-angle-up fs-3 text-success"></i></span>
+                                        <h6>Direct Services</h6></div>
                                     <div class="col-4 align-self-center text-end pl-0">
                                         <div id="unique-visits"></div>
                                     </div>
@@ -118,8 +118,8 @@
                             <div class="card-body">
                                 <!-- Row -->
                                 <div class="row">
-                                    <div class="col-8"><span class="display-6">35% <i class="ti-angle-down fs-3 text-danger"></i></span>
-                                        <h6>Bounce Rate</h6></div>
+                                    <div class="col-8"><span class="display-6">{{indirect_services}} <i class="ti-angle-down fs-3 text-danger"></i></span>
+                                        <h6>Indirect Services</h6></div>
                                     <div class="col-4 align-self-center text-end pl-0">
                                         <div id="bounce-rate"></div>
                                     </div>
@@ -151,6 +151,7 @@
                                         </ul>
                                     </div>
                                 </div>
+
                                 <div id="total-revenue"></div>
                             </div>
                         </div>
@@ -161,12 +162,12 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Sales Prediction</h4>
+                                        <h4 class="card-title">Total Services </h4>
                                         <div class="row">
                                             <div class="col-5 col-md-6 align-self-center">
-                                                <span class="display-6 text-primary text-truncate d-block">$3528</span>
-                                                <h6 class="text-muted text-truncate">10% Increased</h6>
-                                                <h5 class="text-truncate">(150-165 Sales)</h5>
+                                                <span class="display-6 text-primary text-truncate d-block">{{total_service_amount}}</span>
+                                                <h6 class="text-muted text-truncate">{{total_services_percentage}}% Increased</h6>
+                                                <h5 class="text-truncate">({{total_services}} Services)</h5>
                                             </div>
                                             <div class="col-7 col-md-6 d-flex justify-content-end">
                                                 <div id="sales-prediction"></div>
@@ -178,12 +179,11 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Sales Difference</h4>
+                                        <h4 class="card-title">Total Referrals</h4>
                                         <div class="row">
                                             <div class="col-5 col-md-6 align-self-center">
-                                                <span class="display-6 text-success text-truncate d-block">$4316</span>
-                                                <h6 class="text-muted text-truncate">10% Increased</h6>
-                                                <h5 class="text-truncate">(150-165 Sales)</h5>
+                                                <span class="display-6 text-success text-truncate d-block">{{total_referrals}}</span>
+                                                <h6 class="text-muted text-truncate">{{total_referrals_percentage}}% Increased</h6>
                                             </div>
                                             <div class="col-7 col-md-6 d-flex justify-content-end">
                                                 <div id="sales-difference"></div>

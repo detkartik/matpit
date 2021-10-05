@@ -79,134 +79,85 @@
                     <div class="table-responsive">
                         <table class="table customize-table mb-0 v-middle">
                             <thead class="table-light">
-                                <tr>
-                                    <th class="border-bottom border-top">Lead Name</th>
-                                    <th class="border-bottom border-top">Email</th>
-                                    <th class="border-bottom border-top">Phone</th>
-                                    <th class="border-bottom border-top">Loan Type</th>
-                                    <th class="border-bottom border-top">Job Type</th>
-                                    <th class="border-bottom border-top">Created On</th>
-                                    <th class="border-bottom border-top">Created By</th>
-                                    <th class="border-bottom border-top">View Details</th>
-                                    <th class="border-bottom border-top">Process</th>
-                                    <th class="border-bottom border-top">Status</th>
-                                    <th class="border-bottom border-top">Chat</th>
-                                  
+                                <tr>  
+                                  <th class="border-bottom border-top">Service Type</th>
+                                  <th class="border-bottom border-top">Service Sub Type</th>
+                                  <th class="border-bottom border-top">Service Amount</th>
+                                  <th class="border-bottom border-top">Created On</th>
+                                  <th class="border-bottom border-top">Created By</th>
+                                  <th class="border-bottom border-top">View Details</th>
+                                  <th class="border-bottom border-top">Process</th>
+
+                                  <th class="border-bottom border-top">Status</th>
+                                  <th class="border-bottom border-top">Chat</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for lead in leads %}
+                                {% for service in services %}
                                 <form action="" method="POST">
                                     {% csrf_token %}
-                                    <tr	>
-														
-                                        <td class="name">
-                                            {% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
-                                            <a>{{lead.applicant_first_name}}</a>
-                                            <a> {{lead.applicant_last_name}}</a>
-                                            {% endif %}
-                                            {% if lead.get_applicant_display == "Company"  %}
-                                            <a> {{lead.company_name}} </a>
-                                            {% endif %}
-                                            {% if lead.personal_loan_first_name or lead.personal_loan_last_name %}
-                                            <a>{{lead.personal_loan_first_name}}</a>
-                                            <a> {{lead.personal_loan_last_name}}</a>
-                                            {% endif %}
-                                            <a>{{delayed_login}}</a>
+                                    <tr>
+                                        <td class="service_type">
+                                            <span class="mb-1 badge text-dark">{{service.service_type|upper}}</span>
+                                        </td>
+                                       
+                                        <td class="service_sub_type">
+                                            <span class="mb-1 badge waves-effect waves-light btn-rounded btn-danger text-dark">{{service.service_sub_type|upper}}</span>
                                         </td>
 
-                                        <td class="email">
-                                            {% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
-                                            <a>{{lead.applicant_official_email}}</a>,
-                                            <br>
-                                            <a>{{lead.applicant_personal_email}}</a>
-                                            {% endif %}
-                                            {% if lead.get_applicant_display == "Company"  %}
-                                            <a> N/A </a>
-                                            {% endif %}
-                                            {% if lead.personal_loan_email %}
-                                            <a>{{lead.personal_loan_email}}</a>
-                                            {% endif %}
+                                        <td class="service_amount">
+                                            <span class="mb-1 badgetext-dark">{{service.service_amount}}</span>
                                         </td>
-                                        
-                                        <td class="phone">
-                                            {% if lead.get_applicant_display in "Individual,NRI" %}
-                                            <a>{{lead.applicant_phone}}</a>
-                                            {% endif %}
-                                            {% if lead.get_applicant_display == "Company"  %}
-                                            <a> {{lead.point_of_contact_phone}} </a>
-                                            {% endif %}
-                                            {{lead.personal_loan_phone}}
-                                            {% if lead.personal_loan_phone %}
-                                            <a> {{lead.personal_loan_phone}} </a>
-                                            {% endif %}
-                                        </td>
-                                        
-                                        <td class="loan_type">
-                                            <span class="mb-1 badge bg-warning text-dark bg-sm" style="color:white">{{lead.get_loan_type_display|upper}}</span>
-                                        </td>
-                                        
-                                        <td class="job_type">
-                                            {% if lead.get_applicant_display == "Individual" or  lead.get_applicant_display == "NRI"  %}
-                                            <span class="mb-1 badge rounded-pill font-weight-medium bg-light-primary text-primary" style="color:white">{{lead.get_applicant_job_type_display}}</span>
-                                            {% endif %}
-                                            {% if lead.get_applicant_display == "Company" %}
-                                            <span class="mb-1 badge rounded-pill font-weight-medium bg-light-primary text-primary" style="color:white">{{lead.nature_of_business}} </span>
-                                            {% endif %}
-                                            
-                                        </td>
-                                        
+
                                         <td class="created_at">
-                                            <a>{{lead.created_at|date}}</a>
-                                            <br>
-                                            <a>{{lead.created_at|time}}</a>
+                                            <span>{{service.created_at|date}}</span>   
                                         </td>
 
                                         <td class="created_by">
-                                            <a>{{lead.created_by.phone}}</a>
+                                            <span class= 'ms-3 fw-normal'>{{service.created_by.first_name}} {{service.created_by.last_name}}</span>
                                             <br>
-                                            <span class="badge bg-green">{{lead.created_by.role}}</span>
                                         </td>
                                         <!-- DETAILS -->
                                         <td class="view_details">
-                                            
                                             <button
                                                 type="submit"
                                                 class="btn waves-effect waves-light btn-rounded btn-outline-primary"
                                                 name="details"
-                                                value="{{lead.id}}"
+                                                value="{{service.id}}"
                                             >
                                                 Details
                                             </button>
                                         </td>
                                         <!-- Process -->
                                         <td class="process" style="width: 12%;">
-                                        {% if not lead.other_details_updated %}
-                                        <button type="submit" class="btn waves-effect waves-light btn-rounded btn-outline-success" name="other" id = "other" value= "{{lead.id}}" >Others</button>
+                                        {% if not service.other_details_updated %}
+                                        <button type="submit" class="btn waves-effect waves-light btn-rounded btn-outline-success" name="other" id = "other" value= "{{service.id}}" >Others</button>
                                         {% else %}
-                                        <button type="submit" class="btn waves-effect waves-light btn-rounded btn-light-success text-success"  name="completed" id = "completed" value= "{{lead.id}}" >Completed</button>			
+                                        <button type="submit" class="btn waves-effect waves-light btn-rounded btn-light-success text-success"  name="completed" id = "completed" value= "{{service.id}}" >Completed</button>			
                                         {% endif %}
                                         </td>
 
 
                                         <!-- Status -->
-                                        {% if lead.disbursement_process_completed_approved %}
+                                        
                                         <td class='status'>
-                                            {% if lead.verification_approved %}
+                                            {% if service.verification_approved %}
                                             <span class="mb-1 badge rounded-pill bg-info text-dark">Approved</span>
                                             {% endif %}
-                                            {% if lead.verification_rejected %}
+                                            {% if service.verification_rejected %}
                                             <span class="mb-1 badge rounded-pill bg-danger text-dark">Not Approved</span>
                                             {% endif %}
-                                            {% if lead.verification_pending %}
+                                            {% if service.verification_pending %}
                                             <span class="mb-1 badge rounded-pill bg-warning text-dark">Verification Pending</span>
                                             {% endif %}
+                                            {% if not service.verification_approved and service.verification_rejected and service.verification_pending %}
+                                            <td class="status">
+                                                <span class="badge badge-secondary">In Progress</span>
+                                            </td>
+                                            {% endif %}
                                         </td>
-                                        {% else %}
-                                        <td class="status">
-                                            <span class="badge badge-secondary">In Progress</span>
-                                        </td>
-                                        {% endif %}
+                                       
+                                        
                                         
                                         <td class="chat">
                                             <button
@@ -214,7 +165,7 @@
                                                 class="btn"
                                                 style="border: none; color: black;"
                                                 name="chat"
-                                                value="{{lead.id}}">
+                                                value="{{service.id}}">
                                             </button>
                                             <i data-feather="message-circle" class="feather-icon"></i>
                                         </td>

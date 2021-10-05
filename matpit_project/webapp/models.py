@@ -158,12 +158,16 @@ class Service(models.Model):
     service_amount = models.CharField(max_length=100,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True) 
     created_by = models.ForeignKey(CustomUser,related_name='service_user',null=True, blank=True,on_delete=models.CASCADE)
-
+    referral_code = models.CharField(max_length=32, blank=True, null=True ) 
+    referred_by = models.CharField(max_length=100,null=True,blank=True,unique=False) 
     ############################## service Updated ################################
     service_update = models.BooleanField(default=False)
 
     ########################## For the Account and MIS Report #######################################################
     payout = models.CharField(max_length=100,blank=True,null=True)
+    payout_updated = models.BooleanField(default=False)
+    payout_updated_at = models.DateTimeField(auto_now=True)
+    actual_disbursement = models.CharField(max_length=100,blank=True,null=True)
     payout_recieved_percentage = models.CharField(max_length=100,blank=True,null=True)
     payout_paid = models.CharField(max_length=100,blank=True,null=True)
     payout_recieved_date = models.DateTimeField(null=True,blank=True)
@@ -171,6 +175,7 @@ class Service(models.Model):
     incentives = models.CharField(max_length=100,blank=True,null=True)
     net_revenue = models.CharField(max_length=100,blank=True,null=True)
     incentives_percentage = models.CharField(max_length=100,blank=True,null=True)
+    other_details_updated = models.BooleanField(default=False)
     #######################  Verification Process #########################################################
     verification_pending = models.BooleanField(default=False)
     verification_approved = models.BooleanField(default=False)

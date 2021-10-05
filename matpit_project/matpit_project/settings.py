@@ -76,6 +76,15 @@ TEMPLATES = [
     },
 ]
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-primary',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+
 WSGI_APPLICATION = 'matpit_project.wsgi.application'
 
 AUTH_USER_MODEL = 'webapp.CustomUser'
